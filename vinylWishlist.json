@@ -1,5 +1,5 @@
 {
-	"vinyls": [
+	"wishlist": [
 		{
 			"albumName": "testAlbum",
 			"artistName": "Guinewok",
@@ -17,10 +17,76 @@
 				"track4": "You're on drugs"
 			},
 			"devData": {
-				"id": 1,
+				"id": "w-1",
 				"status": "TESTING",
 				"wishlistedDate": "03/07/2024"
 			}
+		},
+		{
+			"albumName": "Beerbongs & Bentleys",
+			"artistName": "Post Malone",
+			"color": "N/A",
+			"description": "N/A",
+			"price": "N/A",
+			"releaseDate": "04/27/2018",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lwKdXLFF5NrlYH1ety26REn4jD64mYCfU",
+			"tracklist": {
+				"track1": "Better Now"
+			},
+			"devData": {
+				"id": "w1",
+				"status": "wishlisted",
+				"wishlistedDate": "03/07/2024"
+			}
+		},
+		{
+			"albumName": "Replica",
+			"artistName": "Dayseeker",
+			"color": "Purple Galaxy",
+			"description": "N/A",
+			"price": "N/A",
+			"releaseDate": "04/18/2024",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_m2Bp7pefoUwbqT19vWt9e1n4mPyRx83Kw",
+			"tracklist": {
+				"track1": "Burial Plot (Acoustic) (feat. Caleb Schomo)",
+				"track2": "My Immortal (Acoustic)"
+			},
+			"devData": {
+				"id": "w2",
+				"status": "wishlisted",
+				"wishlistedDate": "03/07/2024"
+			}
 		}
+	],
+	"collection": [
+		{
+			"albumName": "colAlbum",
+			"artistName": "Guinewok",
+			"color": "A little bit of everything",
+			"description": "All I wanted was a Pepsi, just a Pepsi, and she wouldn't give it to me.",
+			"price": "0.00",
+			"releaseDate": "03/07/2024",
+			"shopurl": "https://wunder.world",
+			"imageurl": "thisImageDoesNotExist.png",
+			"musicurl": "https://youtube.com/greatestAlbumOfAllTime",
+			"tracklist": {
+				"track1": "All I wanted was",
+				"track2": "Just a Pepsi",
+				"track3": "She wouldn't give it me",
+				"track4": "You're on drugs"
+			},
+			"devData": {
+				"id": "c-1",
+				"status": "Owned",
+				"wishlistedDate": "03/07/2024"
+			}
+		}
+	],
+	"removed":[
+		
 	]
 }
