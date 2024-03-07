@@ -7,7 +7,13 @@
 			"artistName": "Guinewok",
 			"color": "Black",
 			"description": "All I wanted was a Pepsi, just a Pepsi, and she wouldn't give it to me.",
-			"url": "https://wunder.world"
+			"url": "https://wunder.world",
+			"tracklist": [
+				"track1": "All I wanted was",
+				"track2": "Just a Pepsi",
+				"track3": "She wouldn't give it me",
+				"track4": "You're on drugs"
+			]
 		}
 	]
 }
