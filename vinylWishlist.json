@@ -1,13 +1,12 @@
 {
 	"vinyls": [
 		{
-			"id": 1,
-			"status": "TESTING",
 			"albumName": "testAlbum",
 			"artistName": "Guinewok",
 			"color": "A little bit of everything",
 			"description": "All I wanted was a Pepsi, just a Pepsi, and she wouldn't give it to me.",
 			"price": "0.00",
+			"releaseDate": "03/07/2024",
 			"shopurl": "https://wunder.world",
 			"imageurl": "thisImageDoesNotExist.png",
 			"musicurl": "https://youtube.com/greatestAlbumOfAllTime",
@@ -16,6 +15,11 @@
 				"track2": "Just a Pepsi",
 				"track3": "She wouldn't give it me",
 				"track4": "You're on drugs"
+			},
+			"devData": {
+				"id": 1,
+				"status": "TESTING",
+				"wishlistedDate": "03/07/2024"
 			}
 		}
 	]
