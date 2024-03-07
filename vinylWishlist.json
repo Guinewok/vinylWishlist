@@ -1,0 +1,11 @@
+{
+  {
+    "id": 1,
+    "status": "TESTING",
+    "albumName": "testAlbum",
+    "artistName": "Guinewok",
+    "color": "Black",
+    "description": "All I wanted was a Pepsi, just a Pepsi, and she wouldn't give it to me.",
+    "url": "https://wunder.world"
+  }
+}
