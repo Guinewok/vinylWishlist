@@ -1,5 +1,8 @@
 <!--WIP LOG 
 TODO:
+  -When mapping the vinyls map the first value only, then use the buttons to increment the i value to map new vinyls as the buttons are pressed?
+    -Make sure the left button is disabled when the value is 0/1 (whatever the lowest value is in the context)
+    -Test this to ensure it isn't too slow of a load time, look into to preemptively loading the images in the background?
   -Research the url parameter structure for my common vinyl sites and auto populate it so that a manual is not required.
   -Look into potential ways of grabbing images from google that meet search criteria?
     -Really cool idea would be using api's that grab the album images and pasting them onto a template vinyl image
