@@ -60,6 +60,36 @@
 				"status": "wishlisted",
 				"wishlistedDate": "03/07/2024"
 			}
+		},
+		{
+			"albumName": "This Place Will Become Your Tomb",
+			"artistName": "Sleep Token",
+			"color": "N/A",
+			"description": "N/A",
+			"price": "N/A",
+			"releaseDate": "09/24/2021",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lqPi31NN91ZZvUGg_Pff1guA4yOIW7CmI",
+			"tracklist": {
+				"track1": "Atlantic",
+				"track2": "Hypnosis",
+				"track3": "Mine",
+				"track4": "Like That",
+				"track5": "The Love You Want",
+				"track6": "Fall For Me",
+				"track7": "Alkaline",
+				"track8": "Distraction",
+				"track9": "Descending",
+				"track10": "Telomeres",
+				"track11": "High Water",
+				"track12": "Missing Limbs"
+			},
+			"devData": {
+				"id": "w2",
+				"status": "wishlisted",
+				"wishlistedDate": "03/07/2024"
+			}
 		}
 	],
 	"collection": [
