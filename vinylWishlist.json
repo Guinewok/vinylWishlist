@@ -86,9 +86,40 @@
 				"track12": "Missing Limbs"
 			},
 			"devData": {
-				"id": "w2",
+				"id": "w3",
 				"status": "wishlisted",
-				"wishlistedDate": "03/07/2024"
+				"wishlistedDate": "03/20/2024"
+			}
+		},
+		{
+			"albumName": "Phobia",
+			"artistName": "Breaking Benjamin",
+			"color": "N/A",
+			"description": "N/A",
+			"price": "N/A",
+			"releaseDate": "08/08/2006",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_kXsvrgPZdApbM7fm_3IBap64LIANiUUwE",
+			"tracklist": {
+				"track1": "Intro",
+				"track2": "The Diary Of Jane (Single Version)",
+				"track3": "Breath",
+				"track4": "You",
+				"track5": "Evil Angel",
+				"track6": "Until The End",
+				"track7": "Dance With The Devil",
+				"track8": "Topless",
+				"track9": "Here We Are",
+				"track10": "Uknown Soldier",
+				"track11": "Had Enough",
+				"track12": "You Fight Me",
+				"track13": "Outro"
+			},
+			"devData": {
+				"id": "w4",
+				"status": "wishlisted",
+				"wishlistedDate": "03/21/2024"
 			}
 		}
 	],
