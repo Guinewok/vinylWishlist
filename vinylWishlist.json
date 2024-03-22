@@ -32,9 +32,11 @@
 			"shopurl": "N/A",
 			"imageurl": "N/A",
 			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lwKdXLFF5NrlYH1ety26REn4jD64mYCfU",
-			"tracklist": {
+			"tracklist": [
+				{
 				"track1": "Better Now"
-			},
+				}
+			],
 			"devData": {
 				"id": "w1",
 				"status": "wishlisted",
@@ -51,10 +53,12 @@
 			"shopurl": "N/A",
 			"imageurl": "N/A",
 			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_m2Bp7pefoUwbqT19vWt9e1n4mPyRx83Kw",
-			"tracklist": {
+			"tracklist": [
+				{
 				"track1": "Burial Plot (Acoustic) (feat. Caleb Schomo)",
 				"track2": "My Immortal (Acoustic)"
-			},
+				}
+			],
 			"devData": {
 				"id": "w2",
 				"status": "wishlisted",
@@ -71,7 +75,8 @@
 			"shopurl": "N/A",
 			"imageurl": "N/A",
 			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lqPi31NN91ZZvUGg_Pff1guA4yOIW7CmI",
-			"tracklist": {
+			"tracklist": [
+				{
 				"track1": "Atlantic",
 				"track2": "Hypnosis",
 				"track3": "Mine",
@@ -84,7 +89,8 @@
 				"track10": "Telomeres",
 				"track11": "High Water",
 				"track12": "Missing Limbs"
-			},
+				}
+			],
 			"devData": {
 				"id": "w3",
 				"status": "wishlisted",
@@ -101,7 +107,8 @@
 			"shopurl": "N/A",
 			"imageurl": "N/A",
 			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_kXsvrgPZdApbM7fm_3IBap64LIANiUUwE",
-			"tracklist": {
+			"tracklist": [
+				{
 				"track1": "Intro",
 				"track2": "The Diary Of Jane (Single Version)",
 				"track3": "Breath",
@@ -115,7 +122,8 @@
 				"track11": "Had Enough",
 				"track12": "You Fight Me",
 				"track13": "Outro"
-			},
+				}
+			],
 			"devData": {
 				"id": "w4",
 				"status": "wishlisted",
@@ -134,12 +142,14 @@
 			"shopurl": "https://wunder.world",
 			"imageurl": "thisImageDoesNotExist.png",
 			"musicurl": "https://youtube.com/greatestAlbumOfAllTime",
-			"tracklist": {
+			"tracklist": [
+				{
 				"track1": "All I wanted was",
 				"track2": "Just a Pepsi",
 				"track3": "She wouldn't give it me",
 				"track4": "You're on drugs"
-			},
+				}
+			],
 			"devData": {
 				"id": "c-1",
 				"status": "Owned",
