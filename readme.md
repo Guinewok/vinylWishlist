@@ -1,8 +1,5 @@
 <!--WIP LOG 
 TODO:
-  -When mapping the vinyls map the first value only, then use the buttons to increment the i value to map new vinyls as the buttons are pressed?
-    -Make sure the left button is disabled when the value is 0/1 (whatever the lowest value is in the context)
-    -Test this to ensure it isn't too slow of a load time, look into to preemptively loading the images in the background?
   -Research the url parameter structure for my common vinyl sites and auto populate it so that a manual is not required.
   -Look into potential ways of grabbing images from google that meet search criteria?
     -Really cool idea would be using api's that grab the album images and pasting them onto a template vinyl image
@@ -14,5 +11,8 @@ TODO:
 
 DONE:
   -Build the whole site/app as a pivot table so that you can toggle between the list and adding section.  Otherwise try adding a dialog or seperate section for adding new items to the list from the app.
-  -store the vinyl info in JSON or CSV.  JSON would be easier for the initial manual entry.
+-store the vinyl info in JSON or CSV.  JSON would be easier for the initial manual entry.
+-When mapping the vinyls map the first value only, then use the buttons to increment the i value to map new vinyls as the buttons are pressed?
+  -Make sure the left button is disabled when the value is 0/1 (whatever the lowest value is in the context)
+  -Test this to ensure it isn't too slow of a load time, look into to preemptively loading the images in the background?
 -->
