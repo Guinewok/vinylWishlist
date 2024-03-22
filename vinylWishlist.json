@@ -11,12 +11,10 @@
 			"imageurl": "thisImageDoesNotExist.png",
 			"musicurl": "https://youtube.com/greatestAlbumOfAllTime",
 			"tracklist": [
-				{
-				"track1": "All I wanted was",
-				"track2": "Just a Pepsi",
-				"track3": "She wouldn't give it me",
-				"track4": "You're on drugs"
-				}
+				{ "track1": "All I wanted was" },
+				{ "track2": "Just a Pepsi" },
+				{ "track3": "She wouldn't give it me" },
+				{ "track4": "You're on drugs" }
 			],
 			"devData": {
 				"id": "w-1",
@@ -35,9 +33,7 @@
 			"imageurl": "N/A",
 			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lwKdXLFF5NrlYH1ety26REn4jD64mYCfU",
 			"tracklist": [
-				{
-				"track1": "Better Now"
-				}
+				{ "track1": "Better Now" }
 			],
 			"devData": {
 				"id": "w1",
@@ -56,10 +52,8 @@
 			"imageurl": "N/A",
 			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_m2Bp7pefoUwbqT19vWt9e1n4mPyRx83Kw",
 			"tracklist": [
-				{
-				"track1": "Burial Plot (Acoustic) (feat. Caleb Schomo)",
-				"track2": "My Immortal (Acoustic)"
-				}
+				{ "track1": "Burial Plot (Acoustic) (feat. Caleb Schomo)" },
+				{ "track2": "My Immortal (Acoustic)" }
 			],
 			"devData": {
 				"id": "w2",
@@ -78,20 +72,18 @@
 			"imageurl": "N/A",
 			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lqPi31NN91ZZvUGg_Pff1guA4yOIW7CmI",
 			"tracklist": [
-				{
-				"track1": "Atlantic",
-				"track2": "Hypnosis",
-				"track3": "Mine",
-				"track4": "Like That",
-				"track5": "The Love You Want",
-				"track6": "Fall For Me",
-				"track7": "Alkaline",
-				"track8": "Distraction",
-				"track9": "Descending",
-				"track10": "Telomeres",
-				"track11": "High Water",
-				"track12": "Missing Limbs"
-				}
+				{ "track1": "Atlantic" },
+				{ "track2": "Hypnosis" },
+				{ "track3": "Mine" },
+				{ "track4": "Like That" },
+				{ "track5": "The Love You Want" },
+				{ "track6": "Fall For Me" },
+				{ "track7": "Alkaline" },
+				{ "track8": "Distraction" },
+				{ "track9": "Descending" },
+				{ "track10": "Telomeres" },
+				{ "track11": "High Water" },
+				{ "track12": "Missing Limbs" }
 			],
 			"devData": {
 				"id": "w3",
@@ -110,21 +102,19 @@
 			"imageurl": "N/A",
 			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_kXsvrgPZdApbM7fm_3IBap64LIANiUUwE",
 			"tracklist": [
-				{
-				"track1": "Intro",
-				"track2": "The Diary Of Jane (Single Version)",
-				"track3": "Breath",
-				"track4": "You",
-				"track5": "Evil Angel",
-				"track6": "Until The End",
-				"track7": "Dance With The Devil",
-				"track8": "Topless",
-				"track9": "Here We Are",
-				"track10": "Uknown Soldier",
-				"track11": "Had Enough",
-				"track12": "You Fight Me",
-				"track13": "Outro"
-				}
+				{ "track1": "Intro" },
+				{ "track2": "The Diary Of Jane (Single Version)" },
+				{ "track3": "Breath" },
+				{ "track4": "You" },
+				{ "track5": "Evil Angel" },
+				{ "track6": "Until The End" },
+				{ "track7": "Dance With The Devil" },
+				{ "track8": "Topless" },
+				{ "track9": "Here We Are" },
+				{ "track10": "Uknown Soldier" },
+				{ "track11": "Had Enough" },
+				{ "track12": "You Fight Me" },
+				{ "track13": "Outro" }
 			],
 			"devData": {
 				"id": "w4",
@@ -145,12 +135,10 @@
 			"imageurl": "thisImageDoesNotExist.png",
 			"musicurl": "https://youtube.com/greatestAlbumOfAllTime",
 			"tracklist": [
-				{
-				"track1": "All I wanted was",
-				"track2": "Just a Pepsi",
-				"track3": "She wouldn't give it me",
-				"track4": "You're on drugs"
-				}
+				{ "track1": "All I wanted was" },
+				{ "track2": "Just a Pepsi" },
+				{ "track3": "She wouldn't give it me" },
+				{ "track4": "You're on drugs" }
 			],
 			"devData": {
 				"id": "c-1",
