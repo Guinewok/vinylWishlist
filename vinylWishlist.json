@@ -11,10 +11,10 @@
 			"imageurl": "thisImageDoesNotExist.png",
 			"musicurl": "https://youtube.com/greatestAlbumOfAllTime",
 			"tracklist": [
-				{ "track1": "All I wanted was" },
-				{ "track2": "Just a Pepsi" },
-				{ "track3": "She wouldn't give it me" },
-				{ "track4": "You're on drugs" }
+				{ "trackName": "All I wanted was", "trackNum": 1 },
+				{ "trackName": "Just a Pepsi", "trackNum": 2 },
+				{ "trackName": "She wouldn't give it me", "trackNum": 3 },
+				{ "trackName": "You're on drugs", "trackNum": 4 }
 			],
 			"devData": {
 				"id": "w-1",
@@ -52,8 +52,8 @@
 			"imageurl": "N/A",
 			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_m2Bp7pefoUwbqT19vWt9e1n4mPyRx83Kw",
 			"tracklist": [
-				{ "track1": "Burial Plot (Acoustic) (feat. Caleb Schomo)" },
-				{ "track2": "My Immortal (Acoustic)" }
+				{ "trackName": "Burial Plot (Acoustic) (feat. Caleb Schomo)", "trackNum": 1 },
+				{ "trackName": "My Immortal (Acoustic)", "trackNum": 2 }
 			],
 			"devData": {
 				"id": "w2",
@@ -72,18 +72,18 @@
 			"imageurl": "N/A",
 			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lqPi31NN91ZZvUGg_Pff1guA4yOIW7CmI",
 			"tracklist": [
-				{ "track1": "Atlantic" },
-				{ "track2": "Hypnosis" },
-				{ "track3": "Mine" },
-				{ "track4": "Like That" },
-				{ "track5": "The Love You Want" },
-				{ "track6": "Fall For Me" },
-				{ "track7": "Alkaline" },
-				{ "track8": "Distraction" },
-				{ "track9": "Descending" },
-				{ "track10": "Telomeres" },
-				{ "track11": "High Water" },
-				{ "track12": "Missing Limbs" }
+				{ "trackName": "Atlantic", "trackNum": 1 },
+				{ "trackName": "Hypnosis", "trackNum": 2 },
+				{ "trackName": "Mine", "trackNum": 3 },
+				{ "trackName": "Like That", "trackNum": 4 },
+				{ "trackName": "The Love You Want", "trackNum": 5 },
+				{ "trackName": "Fall For Me", "trackNum": 6 },
+				{ "trackName": "Alkaline", "trackNum": 7 },
+				{ "trackName": "Distraction", "trackNum": 8 },
+				{ "trackName": "Descending", "trackNum": 9 },
+				{ "trackName": "Telomeres", "trackNum": 10 },
+				{ "trackName": "High Water", "trackNum": 11 },
+				{ "trackName": "Missing Limbs", "trackNum": 12 }
 			],
 			"devData": {
 				"id": "w3",
@@ -102,19 +102,19 @@
 			"imageurl": "N/A",
 			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_kXsvrgPZdApbM7fm_3IBap64LIANiUUwE",
 			"tracklist": [
-				{ "track1": "Intro" },
-				{ "track2": "The Diary Of Jane (Single Version)" },
-				{ "track3": "Breath" },
-				{ "track4": "You" },
-				{ "track5": "Evil Angel" },
-				{ "track6": "Until The End" },
-				{ "track7": "Dance With The Devil" },
-				{ "track8": "Topless" },
-				{ "track9": "Here We Are" },
-				{ "track10": "Uknown Soldier" },
-				{ "track11": "Had Enough" },
-				{ "track12": "You Fight Me" },
-				{ "track13": "Outro" }
+				{ "trackName": "Intro", "trackNum": 1 },
+				{ "trackName": "The Diary Of Jane (Single Version)", "trackNum": 2 },
+				{ "trackName": "Breath", "trackNum": 3 },
+				{ "trackName": "You", "trackNum": 4 },
+				{ "trackName": "Evil Angel", "trackNum": 5 },
+				{ "trackName": "Until The End", "trackNum": 6 },
+				{ "trackName": "Dance With The Devil", "trackNum": 7 },
+				{ "trackName": "Topless", "trackNum": 8 },
+				{ "trackName": "Here We Are", "trackNum": 9 },
+				{ "trackName": "Uknown Soldier", "trackNum": 10 },
+				{ "trackName": "Had Enough", "trackNum": 11 },
+				{ "trackName": "You Fight Me", "trackNum": 12 },
+				{ "trackName": "Outro", "trackNum": 13 }
 			],
 			"devData": {
 				"id": "w4",
@@ -135,10 +135,10 @@
 			"imageurl": "thisImageDoesNotExist.png",
 			"musicurl": "https://youtube.com/greatestAlbumOfAllTime",
 			"tracklist": [
-				{ "track1": "All I wanted was" },
-				{ "track2": "Just a Pepsi" },
-				{ "track3": "She wouldn't give it me" },
-				{ "track4": "You're on drugs" }
+				{ "trackName": "All I wanted was", "trackNum": 1 },
+				{ "trackName": "Just a Pepsi", "trackNum": 2 },
+				{ "trackName": "She wouldn't give it me", "trackNum": 3 },
+				{ "trackName": "You're on drugs", "trackNum": 4 }
 			],
 			"devData": {
 				"id": "c-1",
