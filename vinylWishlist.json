@@ -143,7 +143,67 @@
 			"devData": {
 				"id": "c-1",
 				"status": "Owned",
-				"wishlistedDate": "03/07/2024"
+				"wishlistedDate": "03/07/2024",
+				"collectedDate": ""
+			}
+		},
+		{
+			"albumName": "Never Had To Leave",
+			"artistName": "Matt Maeson",
+			"color": "Red",
+			"description": "N/A",
+			"price": "0.00",
+			"releaseDate": "08/26/2022",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lCRBIicXheroR_MKJNGCb2xvq7ajfpOHs",
+			"tracklist": [
+				{ "trackName": "Blood Runs Red", "trackNum": 1 },
+				{ "trackName": "Never Had To Leave", "trackNum": 2 },
+				{ "trackName": "Cut Deep", "trackNum": 3 },
+				{ "trackName": "Cry Baby", "trackNum": 4 },
+				{ "trackName": "Nelsonwood Lane", "trackNum": 5 },
+				{ "trackName": "Twisted Tongue", "trackNum": 6 },
+				{ "trackName": "Problems", "trackNum": 7 },
+				{ "trackName": "Waltz Right In", "trackNum": 8 },
+				{ "trackName": "Sanctified", "trackNum": 9 },
+				{ "trackName": "A Memory Away", "trackNum": 10 },
+				{ "trackName": "My Hand/Lawless Dream", "trackNum": 11 }
+			],
+			"devData": {
+				"id": "c-2",
+				"status": "Owned",
+				"wishlistedDate": "N/A",
+				"collectedDate": ""
+			}
+		},
+		{
+			"albumName": "Sleeptalk",
+			"artistName": "Dayseeker",
+			"color": "IDR",
+			"description": "N/A",
+			"price": "0.00",
+			"releaseDate": "09/27/2019",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lOwgg-4oKQh8aaF-YBXnvdc804MVwvpmk",
+			"tracklist": [
+				{ "trackName": "Drunk", "trackNum": 1 },
+				{ "trackName": "Crooked Soul", "trackNum": 2 },
+				{ "trackName": "Burial Plot", "trackNum": 3 },
+				{ "trackName": "Sleeptalk", "trackNum": 4 },
+				{ "trackName": "The Embers Glow", "trackNum": 5 },
+				{ "trackName": "The Color Black", "trackNum": 6 },
+				{ "trackName": "Already Numb", "trackNum": 7 },
+				{ "trackName": "Gates Of Ivory", "trackNum": 8 },
+				{ "trackName": "Starving To Be Empty", "trackNum": 9 },
+				{ "trackName": "Crash And Burn", "trackNum": 10 }
+			],
+			"devData": {
+				"id": "c-3",
+				"status": "Owned",
+				"wishlistedDate": "N/A",
+				"collectedDate": ""
 			}
 		}
 	],
