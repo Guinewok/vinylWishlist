@@ -33,7 +33,7 @@
 			"imageurl": "N/A",
 			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lwKdXLFF5NrlYH1ety26REn4jD64mYCfU",
 			"tracklist": [
-				{ "track1": "Better Now" }
+				{ "trackName": "Better Now", "trackNum": 1 }
 			],
 			"devData": {
 				"id": "w1",
