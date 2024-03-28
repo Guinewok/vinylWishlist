@@ -13,7 +13,7 @@
 			"tracklist": [
 				{ "trackName": "All I wanted was", "trackNum": 1 },
 				{ "trackName": "Just a Pepsi", "trackNum": 2 },
-				{ "trackName": "She wouldn't give it me", "trackNum": 3 },
+				{ "trackName": "She wouldn't give it to me", "trackNum": 3 },
 				{ "trackName": "You're on drugs", "trackNum": 4 }
 			],
 			"devData": {
@@ -121,6 +121,38 @@
 				"status": "wishlisted",
 				"wishlistedDate": "03/21/2024"
 			}
+		},
+		{
+			"albumName": "Fallen Embers",
+			"artistName": "Illenium",
+			"color": "N/A",
+			"description": "N/A",
+			"price": "N/A",
+			"releaseDate": "07/15/2021",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_n6Qujbgte88RlkjmO2KaKsVjWB5Zm4ZSQ",
+			"tracklist": [
+				{ "trackName": "Blame Myself", "trackNum": 1 },
+				{ "trackName": "Heavenly Side", "trackNum": 2 },
+				{ "trackName": "Fragments", "trackNum": 3 },
+				{ "trackName": "Sideways", "trackNum": 4 },
+				{ "trackName": "First Time", "trackNum": 5 },
+				{ "trackName": "U & Me", "trackNum": 6 },
+				{ "trackName": "Nightlight", "trackNum": 7 },
+				{ "trackName": "Hearts On Fire", "trackNum": 8 },
+				{ "trackName": "Lay It Down", "trackNum": 9 },
+				{ "trackName": "Losing Patience", "trackNum": 10 },
+				{ "trackName": "In My Mind", "trackNum": 11 },
+				{ "trackName": "Paper Thin", "trackNum": 12 },
+				{ "trackName": "Crazy Times", "trackNum": 13 },
+				{ "trackName": "Brave Soul", "trackNum": 14 }
+			],
+			"devData": {
+				"id": "w5",
+				"status": "wishlisted",
+				"wishlistedDate": "03/28/2024"
+			}
 		}
 	],
 	"collection": [
@@ -137,7 +169,7 @@
 			"tracklist": [
 				{ "trackName": "All I wanted was", "trackNum": 1 },
 				{ "trackName": "Just a Pepsi", "trackNum": 2 },
-				{ "trackName": "She wouldn't give it me", "trackNum": 3 },
+				{ "trackName": "She wouldn't give it to me", "trackNum": 3 },
 				{ "trackName": "You're on drugs", "trackNum": 4 }
 			],
 			"devData": {
