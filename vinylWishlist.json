@@ -153,6 +153,36 @@
 				"status": "wishlisted",
 				"wishlistedDate": "03/28/2024"
 			}
+		},
+		{
+			"albumName": "Change of Scenery II",
+			"artistName": "Quinn XCII",
+			"color": "N/A",
+			"description": "N/A",
+			"price": "N/A",
+			"releaseDate": "03/05/2021",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_nyB0W6arrPaOYxqKBNGSTq3HRZJj8G1VA",
+			"tracklist": [
+				{ "trackName": "We Made This Album In Newport", "trackNum": 1 },
+				{ "trackName": "Distracted Youth", "trackNum": 2 },
+				{ "trackName": "My Wife & 2 Dogs", "trackNum": 3 },
+				{ "trackName": "SOS", "trackNum": 4 },
+				{ "trackName": "Hey, Goodbye", "trackNum": 5 },
+				{ "trackName": "Doris Terrace", "trackNum": 6 },
+				{ "trackName": "Stay Next To Me", "trackNum": 7 },
+				{ "trackName": "Mexico City", "trackNum": 8 },
+				{ "trackName": "Monday Morning", "trackNum": 9 },
+				{ "trackName": "We Don't Talk Enough", "trackNum": 10 },
+				{ "trackName": "Feel Something", "trackNum": 11 },
+				{ "trackName": "Look How Far We've Come", "trackNum": 12 }
+			],
+			"devData": {
+				"id": "w6",
+				"status": "wishlisted",
+				"wishlistedDate": "04/08/2024"
+			}
 		}
 	],
 	"collection": [
