@@ -1,3 +1,1 @@
-{
-  "item": "This is a test"
-}
+{"name":"test.json","path":"test.json","sha":"08c9559a05a8a44a71067b9e3e21846975d271df","size":31,"url":"https://api.github.com/repos/Guinewok/vinylWishlist/contents/test.json?ref=main","html_url":"https://github.com/Guinewok/vinylWishlist/blob/main/test.json","git_url":"https://api.github.com/repos/Guinewok/vinylWishlist/git/blobs/08c9559a05a8a44a71067b9e3e21846975d271df","download_url":"https://raw.githubusercontent.com/Guinewok/vinylWishlist/main/test.json","type":"file","content":"ewogICJpdGVtIjogIlRoaXMgaXMgYSB0ZXN0Igp9Cg==\n","encoding":"base64","_links":{"self":"https://api.github.com/repos/Guinewok/vinylWishlist/contents/test.json?ref=main","git":"https://api.github.com/repos/Guinewok/vinylWishlist/git/blobs/08c9559a05a8a44a71067b9e3e21846975d271df","html":"https://github.com/Guinewok/vinylWishlist/blob/main/test.json"},"newProperty":"test succeeded"}
