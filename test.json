@@ -357,6 +357,11 @@
         "status": "wishlisted",
         "wishlistedDate": "04/08/2024"
       }
+    },
+    {
+      "id": 5,
+      "name": "New User",
+      "age": 22
     }
   ],
   "collection": [
