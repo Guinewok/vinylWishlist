@@ -71,22 +71,22 @@ function parseFormData() {
   const curDate = new Date();
  
   const newListItem = {
-			albumName: formDataObj.albumName,
-			artistName: formDataObj.artistName,
-			color: formDataObj.color,
-			description: formDataObj.description,
-			price: formDataObj.price,
-			releaseDate: formDataObj.releaseDate,
-			shopurl: formDataObj.shopurl,
-			imageurl: formDataObj.imageurl,
-			musicurl: formDataObj.musicurl,
-      tracklist: [],
-			devData: {
-				id: "w" + JSON.parse(localStorage.getItem("wishlist")).length,
-				status: "TESTING",
-				wishlistedDate: curDate
-			}
-		};
+    albumName: formDataObj.albumName,
+    artistName: formDataObj.artistName,
+    color: formDataObj.color,
+    description: formDataObj.description,
+    price: formDataObj.price,
+    releaseDate: formDataObj.releaseDate,
+    shopurl: formDataObj.shopurl,
+    imageurl: formDataObj.imageurl,
+    musicurl: formDataObj.musicurl,
+    tracklist: [],
+    devData: {
+      id: "w" + JSON.parse(localStorage.getItem("wishlist")).length,
+      status: "TESTING",
+      wishlistedDate: curDate
+    }
+	};
 
   for(var i = 0; i < trackCount; i++) {
     const curr = document.getElementById(`tracklist${i + 1}`).value;
