@@ -1,0 +1,168 @@
+/*TODO - Add variable theme colors*/
+/*TODO - Adjust the width to be wider for all pages*/
+:root{
+  --bg-color: #ffffff;
+  --fg-color: #ffffff;
+  --acc-color: #ffffff;
+  --pri-color: #ffffff;
+  --sec-color: #ffffff;
+  --pop-up-width: 400px;
+  --pop-up-height: 200px;
+}
+
+*{
+  border: 1px dotted green;
+  /*font-family: cursive;*/
+}
+
+header{
+  align-items: start;
+  display: flex;
+  margin-bottom: 40px;
+}
+
+h1{
+  display: inline;
+  width: 200px;
+  margin: 0;
+  padding: 0;
+  flex-grow: 0.05;
+}
+nav{
+  flex-grow: 1;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+}
+
+nav ul li{
+  display: inline-block;
+}
+
+img {
+  background-color: #c7c7c7;
+}
+
+img.vinylImage {
+  display: block;
+  height: 20vw;
+  width: 20vw;
+  margin: auto;
+}
+
+img.colVinylImage {
+  display: inline-block;
+  height: 5vw;
+  width: 5vw;
+  margin: auto;
+}
+
+#container{
+  margin: 0 auto;
+  width: 50vw;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#carousel{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.titleText{
+  margin-bottom: 10px;
+  font-size: 20px; --40px
+}
+
+.subTitleText{
+  margin-top: 0px;
+  padding-top: 0px;
+}
+
+#rBtn, #lBtn{
+  background-color: #c7c7c7;
+  width: 40px;
+  height: 50px;
+  flex-grow: 1;
+  text-align: center;
+  line-height: 50px;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+a#rBtn[disabled], a#lBtn[disabled] {
+  pointer-events: none;
+  background-color: red !important;
+}
+
+#display, #collection{
+  flex-grow: 10;
+  width: 100%;
+}
+
+footer{
+  margin-top: 40px;
+}
+
+.pivotHide {
+  display: none !important;
+}
+
+#addForm {
+  width: 400px;
+}
+
+input[type="text"], input[type="url"], input[list="colorsList"] {
+  display: inline-block;
+  width: 98%;
+  border: 1px solid black;
+  margin-bottom: 10px;
+}
+
+.formTrack {
+  margin-left: 40px;
+}
+
+input[type="text"].formTrack{
+  width: 88%;
+}
+
+.formBtns {
+  margin-top: 20px;
+  display: block;
+  text-align: center;
+}
+
+#popupCloseBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#addFormTokenBtnContainer {
+  width: 100%;
+  position: relative;
+}
+
+#addFormTokenBtnContainer a{
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-decoration: none;
+  color: grey;
+  font-size: 30px;
+}
+
+#addFormTokenBtnContainer p{
+  display: inline-block;
+}
