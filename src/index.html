@@ -5,6 +5,8 @@
         <script type="text/javascript" src="script.js" async></script>
     </head>
     <body onload="getData();renderWishlist();">
+        <!--TODO Add an "Edit" button to both the wishlist and collection pages for each vinyl.  Have it store the value in localstorage and then
+         use the nav function to open the addform page with fields pre populated.  Then update the record onSubmit-->
         <header>
             <h1 id="test">Site Title</h1>
             <nav>
@@ -50,9 +52,11 @@
                     <input type="text" name="artistName" id="artistName" required>
                     <label for="vinylColor">Vinyl Color:</label>
                     <input list="colorsList" name="color" id="vinylColor">
+                    <!--TODO Add a colorpicker input next to the colorslist to allow for precise shades to be selected-->
                     <datalist id="colorsList">
                         <option value="Black">
                         <option value="Red">
+                            <!--TODO Add eventListener when Other is selected change the input type to "text" to allow custom values to be entered-->
                         <option value="Other">
                     </datalist>
                     <label for="desc">Description:</label>
@@ -68,7 +72,7 @@
                     <label for="musicurl">Music URL:</label>
                     <input type="text" name="musicurl" id="musicurl"></input>
                     <span id="tracklistList">
-                        <label>WIP Tracklist:</label><br>
+                        <label>Tracklist:</label><br>
                         <hr>
                     </span>
                     <span class="formBtns">
@@ -84,8 +88,10 @@
             </div>
             <!--COLLECTION-->
             <div id="collection" class="pivotHide">
+                <!--TODO Once wishlist funcitonality is complete, finish the rendering of each item in collection-->
                 <!--TODO Add a mini menu at the top right of the collection to allow 
-                the selection of different displays modes. (List, Images (current),   Carousel)-->
+                the selection of different displays modes. (List, Images (current), Carousel)-->
+                <!--TODO Look into implementing the Cassette nagivation concept but with a crate or shelf and have each vinyl be selectable-->
                 <h2>Collection</h2>
                 <div id="collectionList">
                     <img class="colVinylImage" src="" alt="image">
