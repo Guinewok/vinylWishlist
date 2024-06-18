@@ -80,7 +80,7 @@ img.colVinylImage {
 
 .titleText{
   margin-bottom: 10px;
-  font-size: 20px; --40px
+  font-size: 20px; /*40px*/
 }
 
 .subTitleText{

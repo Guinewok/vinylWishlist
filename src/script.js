@@ -26,22 +26,6 @@ function pivotToggle(e, pivotNum) {
   }
 };
 
-/*const getData = async () => {
-  return fetch('https://raw.githubusercontent.com/Guinewok/vinylWishlist/main/vinylWishlist.json',{'Accept': 'application/vnd.github.v3.raw'}).then((response) => {
-    return response.json().then((data) => {
-      localStorage.setItem("wishlist", JSON.stringify(data.wishlist, null, 2));
-      localStorage.setItem("collection", JSON.stringify(data.collection, null, 2));
-      localStorage.setItem("removed", JSON.stringify(data.removed, null, 2));
-      console.log("Wishlist: ", JSON.parse(localStorage.getItem("wishlist")));
-      console.log("Collection: ", JSON.parse(localStorage.getItem("collection")));
-      console.log("Removed: ", JSON.parse(localStorage.getItem("removed")));
-      return data;
-    }).catch((err) => {
-      console.log(err);
-    }) 
-  })
-};*/
-
 async function getData() {
   const response = await fetch(`https://api.github.com/repos/${githubRepo}/contents/${fileName}`, {
     method: 'GET',
@@ -99,49 +83,6 @@ function parseFormData() {
   return newListItem;
 }
 
-/*async function addToWishlist(){
-  const commitMessage = 'Add new object to JSON file';
-  //TODO create a popup/dialog that prompts the user to enter the authToken and uses it for the call to avoid hardcoding the value and ensuring personal use only.
-  const authToken = '';
-  
-  const response = await fetch(`https://api.github.com/repos/${githubRepo}/contents/${fileName}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-      'Content-Type': 'application/json'
-    },
-  });
-  const existingData = await response.json();
-  await getData().then((data) => {
-    const newObject = {
-      id: 5,
-      name: 'New User',
-      age: 22,
-    };
-    data.wishlist.push(newObject);
-
-    const base64Content = btoa(JSON.stringify(data, null, 2)); 
-    const apiUrl = `https://api.github.com/repos/Guinewok/vinylWishlist/contents/test.json`;
-    const requestBody = {
-      message: commitMessage,
-      content: base64Content,
-      sha: existingData.sha,
-    };
-
-    fetch(apiUrl, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    });
-    console.log('File updated and changes pushed to GitHub.');
-  }).catch((error) => {
-    console.error('Error updating file:', error);
-  })
-};*/
-
 async function addToWishlist(){
   const apiUrl = `https://api.github.com/repos/Guinewok/vinylWishlist/contents/test.json`;
   const newObject = await parseFormData();
@@ -178,69 +119,6 @@ async function addToWishlist(){
     console.log('File updated and changes pushed to GitHub.');
   }
 };
-
-/*async function mapDevData() {
-  await getData().then((data) => {
-    const preElement = document.getElementById('preElement');
-    preElement.innerHTML = JSON.stringify(data);
-  }).catch((err) => {
-    const preElement = document.getElementById('preElement');
-    preElement.innerHTML = err;
-  })
-};*/
-
-/*async function renderWishlist(){
-  await getData().then((data) => {
-    if(incrementVar === 0){
-      lBtn = document.getElementById('lBtn');
-      lBtn.setAttribute('disabled', 'disabled');
-    }else{
-      lBtn = document.getElementById('lBtn');
-      lBtn.removeAttribute('disabled');
-    }
-    if(incrementVar + 1 === data.wishlist.length){
-      rBtn = document.getElementById('rBtn');
-      rBtn.setAttribute('disabled', 'disabled');
-    }else{
-      rBtn = document.getElementById('rBtn');
-      rBtn.removeAttribute('disabled');
-    }
-    const i = incrementVar;
-    const title = document.getElementById('wishTitle');
-    title.innerHTML = `Album Name: ${data.wishlist[i].albumName}`;
-
-    const subtitle = document.getElementById('wishArtist');
-    subtitle.innerHTML = `Artist: ${data.wishlist[i].artistName}`;
-
-    const image = document.getElementById('wishImg');
-    image.src = data.wishlist[i].imageurl;
-    image.alt = "test text for now";
-
-    const oldTrackList = document.getElementById('wishTracklist');
-    oldTrackList.remove();
-
-    const trackList = document.createElement('ul');
-    trackList.setAttribute('id', 'wishTracklist');
-
-    var currTrackList = data.wishlist[i].tracklist;
-
-    for(x = 0; x < currTrackList.length; x++){
-      const createLi = document.createElement('li');
-      createLi.innerHTML = currTrackList[x].trackName;
-      trackList.append(...[createLi]);
-    }
-
-    const desc = document.getElementById('wishDesc');
-    desc.innerHTML = data.wishlist[i].description;
-
-    const link = document.getElementById('wishShopLink');
-    link.href = data.wishlist[i].shopurl;
-    link.innerHTML = data.wishlist[i].shopurl;
-
-    const displayContainer = document.getElementById('display');
-    displayContainer.append(...[title, subtitle, image, trackList, desc, link]);
-    })
-  };*/
 
 function renderWishlist(e, increment){
     e = e || window.event;
@@ -306,24 +184,6 @@ function renderWishlist(e, increment){
     const displayContainer = document.getElementById('display');
     displayContainer.append(...[title, subtitle, image, trackList, desc, link]);
   };
-
-/*function renderCollection(){
-  getData().then((data) => {
-    const colDiv = document.getElementById('collectionList');
-    while (colDiv.hasChildNodes()) {
-      colDiv.removeChild(colDiv.firstChild);
-    }
-    
-    for(i = 0; i < data.collection.length; i++){
-      const colImg = document.createElement('img');
-      colImg.src = data.collection[i].imageurl;
-      //colImg.alt = data.collection[i].albumName;
-      colImg.classList.add('colVinylImage');
-      
-      colDiv.append(...[colImg]);
-    }
-  })
-};*/
 
 function renderCollection(){
   const collection = JSON.parse(localStorage.getItem("collection"));
