@@ -204,6 +204,7 @@ function renderCollection(){
 };
 
 function mapFormTracklist() {
+  document.getElementById('tracklistList').innerHTML = "";
   for(var i = 0; i < trackCount; i++) {
     var curr = i + 1;
     document.getElementById('tracklistList').innerHTML += 
