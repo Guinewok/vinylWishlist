@@ -233,7 +233,7 @@
 				{ "trackName": "My Hand/Lawless Dream", "trackNum": 11 }
 			],
 			"devData": {
-				"id": "c-2",
+				"id": "c2",
 				"status": "Owned",
 				"wishlistedDate": "N/A",
 				"collectedDate": ""
@@ -262,7 +262,7 @@
 				{ "trackName": "Crash And Burn", "trackNum": 10 }
 			],
 			"devData": {
-				"id": "c-3",
+				"id": "c3",
 				"status": "Owned",
 				"wishlistedDate": "N/A",
 				"collectedDate": ""
