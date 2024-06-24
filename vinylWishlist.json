@@ -17,7 +17,7 @@
 				{ "trackName": "You're on drugs", "trackNum": 4 }
 			],
 			"devData": {
-				"id": "w-1",
+				"id": "w0",
 				"status": "TESTING",
 				"wishlistedDate": "03/07/2024"
 			}
@@ -203,7 +203,7 @@
 				{ "trackName": "You're on drugs", "trackNum": 4 }
 			],
 			"devData": {
-				"id": "c-1",
+				"id": "c0",
 				"status": "Owned",
 				"wishlistedDate": "03/07/2024",
 				"collectedDate": ""
