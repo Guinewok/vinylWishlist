@@ -1,394 +1,275 @@
-[
-  {
-    "albumName": "testAlbum",
-    "artistName": "Guinewok",
-    "color": "A little bit of everything",
-    "description": "All I wanted was a Pepsi, just a Pepsi, and she wouldn't give it to me.",
-    "price": "0.00",
-    "releaseDate": "03/07/2024",
-    "shopurl": "https://wunder.world",
-    "imageurl": "thisImageDoesNotExist.png",
-    "musicurl": "https://youtube.com/greatestAlbumOfAllTime",
-    "tracklist": [
-      {
-        "trackName": "All I wanted was",
-        "trackNum": 1
-      },
-      {
-        "trackName": "Just a Pepsi",
-        "trackNum": 2
-      },
-      {
-        "trackName": "She wouldn't give it to me",
-        "trackNum": 3
-      },
-      {
-        "trackName": "You're on drugs",
-        "trackNum": 4
-      }
-    ],
-    "devData": {
-      "id": "w-1",
-      "status": "TESTING",
-      "wishlistedDate": "03/07/2024"
-    }
-  },
-  {
-    "albumName": "Beerbongs & Bentleys",
-    "artistName": "Post Malone",
-    "color": "N/A",
-    "description": "N/A",
-    "price": "N/A",
-    "releaseDate": "04/27/2018",
-    "shopurl": "N/A",
-    "imageurl": "N/A",
-    "musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lwKdXLFF5NrlYH1ety26REn4jD64mYCfU",
-    "tracklist": [
-      {
-        "trackName": "Better Now",
-        "trackNum": 1
-      }
-    ],
-    "devData": {
-      "id": "w1",
-      "status": "wishlisted",
-      "wishlistedDate": "03/07/2024"
-    }
-  },
-  {
-    "albumName": "Replica",
-    "artistName": "Dayseeker",
-    "color": "Purple Galaxy",
-    "description": "N/A",
-    "price": "N/A",
-    "releaseDate": "04/18/2024",
-    "shopurl": "N/A",
-    "imageurl": "N/A",
-    "musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_m2Bp7pefoUwbqT19vWt9e1n4mPyRx83Kw",
-    "tracklist": [
-      {
-        "trackName": "Burial Plot (Acoustic) (feat. Caleb Schomo)",
-        "trackNum": 1
-      },
-      {
-        "trackName": "My Immortal (Acoustic)",
-        "trackNum": 2
-      }
-    ],
-    "devData": {
-      "id": "w2",
-      "status": "wishlisted",
-      "wishlistedDate": "03/07/2024"
-    }
-  },
-  {
-    "albumName": "This Place Will Become Your Tomb",
-    "artistName": "Sleep Token",
-    "color": "N/A",
-    "description": "N/A",
-    "price": "N/A",
-    "releaseDate": "09/24/2021",
-    "shopurl": "N/A",
-    "imageurl": "N/A",
-    "musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lqPi31NN91ZZvUGg_Pff1guA4yOIW7CmI",
-    "tracklist": [
-      {
-        "trackName": "Atlantic",
-        "trackNum": 1
-      },
-      {
-        "trackName": "Hypnosis",
-        "trackNum": 2
-      },
-      {
-        "trackName": "Mine",
-        "trackNum": 3
-      },
-      {
-        "trackName": "Like That",
-        "trackNum": 4
-      },
-      {
-        "trackName": "The Love You Want",
-        "trackNum": 5
-      },
-      {
-        "trackName": "Fall For Me",
-        "trackNum": 6
-      },
-      {
-        "trackName": "Alkaline",
-        "trackNum": 7
-      },
-      {
-        "trackName": "Distraction",
-        "trackNum": 8
-      },
-      {
-        "trackName": "Descending",
-        "trackNum": 9
-      },
-      {
-        "trackName": "Telomeres",
-        "trackNum": 10
-      },
-      {
-        "trackName": "High Water",
-        "trackNum": 11
-      },
-      {
-        "trackName": "Missing Limbs",
-        "trackNum": 12
-      }
-    ],
-    "devData": {
-      "id": "w3",
-      "status": "wishlisted",
-      "wishlistedDate": "03/20/2024"
-    }
-  },
-  {
-    "albumName": "Phobia",
-    "artistName": "Breaking Benjamin",
-    "color": "N/A",
-    "description": "N/A",
-    "price": "N/A",
-    "releaseDate": "08/08/2006",
-    "shopurl": "N/A",
-    "imageurl": "N/A",
-    "musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_kXsvrgPZdApbM7fm_3IBap64LIANiUUwE",
-    "tracklist": [
-      {
-        "trackName": "Intro",
-        "trackNum": 1
-      },
-      {
-        "trackName": "The Diary Of Jane (Single Version)",
-        "trackNum": 2
-      },
-      {
-        "trackName": "Breath",
-        "trackNum": 3
-      },
-      {
-        "trackName": "You",
-        "trackNum": 4
-      },
-      {
-        "trackName": "Evil Angel",
-        "trackNum": 5
-      },
-      {
-        "trackName": "Until The End",
-        "trackNum": 6
-      },
-      {
-        "trackName": "Dance With The Devil",
-        "trackNum": 7
-      },
-      {
-        "trackName": "Topless",
-        "trackNum": 8
-      },
-      {
-        "trackName": "Here We Are",
-        "trackNum": 9
-      },
-      {
-        "trackName": "Uknown Soldier",
-        "trackNum": 10
-      },
-      {
-        "trackName": "Had Enough",
-        "trackNum": 11
-      },
-      {
-        "trackName": "You Fight Me",
-        "trackNum": 12
-      },
-      {
-        "trackName": "Outro",
-        "trackNum": 13
-      }
-    ],
-    "devData": {
-      "id": "w4",
-      "status": "wishlisted",
-      "wishlistedDate": "03/21/2024"
-    }
-  },
-  {
-    "albumName": "Fallen Embers",
-    "artistName": "Illenium",
-    "color": "N/A",
-    "description": "N/A",
-    "price": "N/A",
-    "releaseDate": "07/15/2021",
-    "shopurl": "N/A",
-    "imageurl": "N/A",
-    "musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_n6Qujbgte88RlkjmO2KaKsVjWB5Zm4ZSQ",
-    "tracklist": [
-      {
-        "trackName": "Blame Myself",
-        "trackNum": 1
-      },
-      {
-        "trackName": "Heavenly Side",
-        "trackNum": 2
-      },
-      {
-        "trackName": "Fragments",
-        "trackNum": 3
-      },
-      {
-        "trackName": "Sideways",
-        "trackNum": 4
-      },
-      {
-        "trackName": "First Time",
-        "trackNum": 5
-      },
-      {
-        "trackName": "U & Me",
-        "trackNum": 6
-      },
-      {
-        "trackName": "Nightlight",
-        "trackNum": 7
-      },
-      {
-        "trackName": "Hearts On Fire",
-        "trackNum": 8
-      },
-      {
-        "trackName": "Lay It Down",
-        "trackNum": 9
-      },
-      {
-        "trackName": "Losing Patience",
-        "trackNum": 10
-      },
-      {
-        "trackName": "In My Mind",
-        "trackNum": 11
-      },
-      {
-        "trackName": "Paper Thin",
-        "trackNum": 12
-      },
-      {
-        "trackName": "Crazy Times",
-        "trackNum": 13
-      },
-      {
-        "trackName": "Brave Soul",
-        "trackNum": 14
-      }
-    ],
-    "devData": {
-      "id": "w5",
-      "status": "wishlisted",
-      "wishlistedDate": "03/28/2024"
-    }
-  },
-  {
-    "albumName": "Change of Scenery II",
-    "artistName": "Quinn XCII",
-    "color": "N/A",
-    "description": "N/A",
-    "price": "N/A",
-    "releaseDate": "03/05/2021",
-    "shopurl": "N/A",
-    "imageurl": "N/A",
-    "musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_nyB0W6arrPaOYxqKBNGSTq3HRZJj8G1VA",
-    "tracklist": [
-      {
-        "trackName": "We Made This Album In Newport",
-        "trackNum": 1
-      },
-      {
-        "trackName": "Distracted Youth",
-        "trackNum": 2
-      },
-      {
-        "trackName": "My Wife & 2 Dogs",
-        "trackNum": 3
-      },
-      {
-        "trackName": "SOS",
-        "trackNum": 4
-      },
-      {
-        "trackName": "Hey, Goodbye",
-        "trackNum": 5
-      },
-      {
-        "trackName": "Doris Terrace",
-        "trackNum": 6
-      },
-      {
-        "trackName": "Stay Next To Me",
-        "trackNum": 7
-      },
-      {
-        "trackName": "Mexico City",
-        "trackNum": 8
-      },
-      {
-        "trackName": "Monday Morning",
-        "trackNum": 9
-      },
-      {
-        "trackName": "We Don't Talk Enough",
-        "trackNum": 10
-      },
-      {
-        "trackName": "Feel Something",
-        "trackNum": 11
-      },
-      {
-        "trackName": "Look How Far We've Come",
-        "trackNum": 12
-      }
-    ],
-    "devData": {
-      "id": "w6",
-      "status": "wishlisted",
-      "wishlistedDate": "04/08/2024"
-    }
-  },
-  {
-    "albumName": "None",
-    "artistName": "None",
-    "description": "None",
-    "design": {
-      "color": "None",
-      "colorSec": "None",
-      "style": "None"
-    },
-    "price": "None",
-    "releaseDate": "None",
-    "shopurl": "None",
-    "imageurl": "None",
-    "musicurl": "None",
-    "tracklist": [
-      {
-        "trackName": "",
-        "trackNum": 1
-      },
-      {
-        "trackName": "",
-        "trackNum": 2
-      },
-      {
-        "trackName": "",
-        "trackNum": 3
-      }
-    ],
-    "devData": {
-      "id": "w8",
-      "status": "TESTING",
-      "wishlistedDate": "2024-06-25T15:32:52.825Z"
-    }
-  }
-]
+{
+	"wishlist": [
+		{
+			"albumName": "testAlbum",
+			"artistName": "Guinewok",
+			"color": "A little bit of everything",
+			"description": "All I wanted was a Pepsi, just a Pepsi, and she wouldn't give it to me.",
+			"price": "0.00",
+			"releaseDate": "03/07/2024",
+			"shopurl": "https://wunder.world",
+			"imageurl": "thisImageDoesNotExist.png",
+			"musicurl": "https://youtube.com/greatestAlbumOfAllTime",
+			"tracklist": [
+				{ "trackName": "All I wanted was", "trackNum": 1 },
+				{ "trackName": "Just a Pepsi", "trackNum": 2 },
+				{ "trackName": "She wouldn't give it to me", "trackNum": 3 },
+				{ "trackName": "You're on drugs", "trackNum": 4 }
+			],
+			"devData": {
+				"id": "w0",
+				"status": "TESTING",
+				"wishlistedDate": "03/07/2024"
+			}
+		},
+		{
+			"albumName": "Beerbongs & Bentleys",
+			"artistName": "Post Malone",
+			"color": "N/A",
+			"description": "N/A",
+			"price": "N/A",
+			"releaseDate": "04/27/2018",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lwKdXLFF5NrlYH1ety26REn4jD64mYCfU",
+			"tracklist": [
+				{ "trackName": "Better Now", "trackNum": 1 }
+			],
+			"devData": {
+				"id": "w1",
+				"status": "wishlisted",
+				"wishlistedDate": "03/07/2024"
+			}
+		},
+		{
+			"albumName": "Replica",
+			"artistName": "Dayseeker",
+			"color": "Purple Galaxy",
+			"description": "N/A",
+			"price": "N/A",
+			"releaseDate": "04/18/2024",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_m2Bp7pefoUwbqT19vWt9e1n4mPyRx83Kw",
+			"tracklist": [
+				{ "trackName": "Burial Plot (Acoustic) (feat. Caleb Schomo)", "trackNum": 1 },
+				{ "trackName": "My Immortal (Acoustic)", "trackNum": 2 }
+			],
+			"devData": {
+				"id": "w2",
+				"status": "wishlisted",
+				"wishlistedDate": "03/07/2024"
+			}
+		},
+		{
+			"albumName": "This Place Will Become Your Tomb",
+			"artistName": "Sleep Token",
+			"color": "N/A",
+			"description": "N/A",
+			"price": "N/A",
+			"releaseDate": "09/24/2021",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lqPi31NN91ZZvUGg_Pff1guA4yOIW7CmI",
+			"tracklist": [
+				{ "trackName": "Atlantic", "trackNum": 1 },
+				{ "trackName": "Hypnosis", "trackNum": 2 },
+				{ "trackName": "Mine", "trackNum": 3 },
+				{ "trackName": "Like That", "trackNum": 4 },
+				{ "trackName": "The Love You Want", "trackNum": 5 },
+				{ "trackName": "Fall For Me", "trackNum": 6 },
+				{ "trackName": "Alkaline", "trackNum": 7 },
+				{ "trackName": "Distraction", "trackNum": 8 },
+				{ "trackName": "Descending", "trackNum": 9 },
+				{ "trackName": "Telomeres", "trackNum": 10 },
+				{ "trackName": "High Water", "trackNum": 11 },
+				{ "trackName": "Missing Limbs", "trackNum": 12 }
+			],
+			"devData": {
+				"id": "w3",
+				"status": "wishlisted",
+				"wishlistedDate": "03/20/2024"
+			}
+		},
+		{
+			"albumName": "Phobia",
+			"artistName": "Breaking Benjamin",
+			"color": "N/A",
+			"description": "N/A",
+			"price": "N/A",
+			"releaseDate": "08/08/2006",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_kXsvrgPZdApbM7fm_3IBap64LIANiUUwE",
+			"tracklist": [
+				{ "trackName": "Intro", "trackNum": 1 },
+				{ "trackName": "The Diary Of Jane (Single Version)", "trackNum": 2 },
+				{ "trackName": "Breath", "trackNum": 3 },
+				{ "trackName": "You", "trackNum": 4 },
+				{ "trackName": "Evil Angel", "trackNum": 5 },
+				{ "trackName": "Until The End", "trackNum": 6 },
+				{ "trackName": "Dance With The Devil", "trackNum": 7 },
+				{ "trackName": "Topless", "trackNum": 8 },
+				{ "trackName": "Here We Are", "trackNum": 9 },
+				{ "trackName": "Uknown Soldier", "trackNum": 10 },
+				{ "trackName": "Had Enough", "trackNum": 11 },
+				{ "trackName": "You Fight Me", "trackNum": 12 },
+				{ "trackName": "Outro", "trackNum": 13 }
+			],
+			"devData": {
+				"id": "w4",
+				"status": "wishlisted",
+				"wishlistedDate": "03/21/2024"
+			}
+		},
+		{
+			"albumName": "Fallen Embers",
+			"artistName": "Illenium",
+			"color": "N/A",
+			"description": "N/A",
+			"price": "N/A",
+			"releaseDate": "07/15/2021",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_n6Qujbgte88RlkjmO2KaKsVjWB5Zm4ZSQ",
+			"tracklist": [
+				{ "trackName": "Blame Myself", "trackNum": 1 },
+				{ "trackName": "Heavenly Side", "trackNum": 2 },
+				{ "trackName": "Fragments", "trackNum": 3 },
+				{ "trackName": "Sideways", "trackNum": 4 },
+				{ "trackName": "First Time", "trackNum": 5 },
+				{ "trackName": "U & Me", "trackNum": 6 },
+				{ "trackName": "Nightlight", "trackNum": 7 },
+				{ "trackName": "Hearts On Fire", "trackNum": 8 },
+				{ "trackName": "Lay It Down", "trackNum": 9 },
+				{ "trackName": "Losing Patience", "trackNum": 10 },
+				{ "trackName": "In My Mind", "trackNum": 11 },
+				{ "trackName": "Paper Thin", "trackNum": 12 },
+				{ "trackName": "Crazy Times", "trackNum": 13 },
+				{ "trackName": "Brave Soul", "trackNum": 14 }
+			],
+			"devData": {
+				"id": "w5",
+				"status": "wishlisted",
+				"wishlistedDate": "03/28/2024"
+			}
+		},
+		{
+			"albumName": "Change of Scenery II",
+			"artistName": "Quinn XCII",
+			"color": "N/A",
+			"description": "N/A",
+			"price": "N/A",
+			"releaseDate": "03/05/2021",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_nyB0W6arrPaOYxqKBNGSTq3HRZJj8G1VA",
+			"tracklist": [
+				{ "trackName": "We Made This Album In Newport", "trackNum": 1 },
+				{ "trackName": "Distracted Youth", "trackNum": 2 },
+				{ "trackName": "My Wife & 2 Dogs", "trackNum": 3 },
+				{ "trackName": "SOS", "trackNum": 4 },
+				{ "trackName": "Hey, Goodbye", "trackNum": 5 },
+				{ "trackName": "Doris Terrace", "trackNum": 6 },
+				{ "trackName": "Stay Next To Me", "trackNum": 7 },
+				{ "trackName": "Mexico City", "trackNum": 8 },
+				{ "trackName": "Monday Morning", "trackNum": 9 },
+				{ "trackName": "We Don't Talk Enough", "trackNum": 10 },
+				{ "trackName": "Feel Something", "trackNum": 11 },
+				{ "trackName": "Look How Far We've Come", "trackNum": 12 }
+			],
+			"devData": {
+				"id": "w6",
+				"status": "wishlisted",
+				"wishlistedDate": "04/08/2024"
+			}
+		}
+	],
+	"collection": [
+		{
+			"albumName": "colAlbum",
+			"artistName": "Guinewok",
+			"color": "A little bit of everything",
+			"description": "All I wanted was a Pepsi, just a Pepsi, and she wouldn't give it to me.",
+			"price": "0.00",
+			"releaseDate": "03/07/2024",
+			"shopurl": "https://wunder.world",
+			"imageurl": "thisImageDoesNotExist.png",
+			"musicurl": "https://youtube.com/greatestAlbumOfAllTime",
+			"tracklist": [
+				{ "trackName": "All I wanted was", "trackNum": 1 },
+				{ "trackName": "Just a Pepsi", "trackNum": 2 },
+				{ "trackName": "She wouldn't give it to me", "trackNum": 3 },
+				{ "trackName": "You're on drugs", "trackNum": 4 }
+			],
+			"devData": {
+				"id": "c0",
+				"status": "Owned",
+				"wishlistedDate": "03/07/2024",
+				"collectedDate": ""
+			}
+		},
+		{
+			"albumName": "Never Had To Leave",
+			"artistName": "Matt Maeson",
+			"color": "Red",
+			"description": "N/A",
+			"price": "0.00",
+			"releaseDate": "08/26/2022",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lCRBIicXheroR_MKJNGCb2xvq7ajfpOHs",
+			"tracklist": [
+				{ "trackName": "Blood Runs Red", "trackNum": 1 },
+				{ "trackName": "Never Had To Leave", "trackNum": 2 },
+				{ "trackName": "Cut Deep", "trackNum": 3 },
+				{ "trackName": "Cry Baby", "trackNum": 4 },
+				{ "trackName": "Nelsonwood Lane", "trackNum": 5 },
+				{ "trackName": "Twisted Tongue", "trackNum": 6 },
+				{ "trackName": "Problems", "trackNum": 7 },
+				{ "trackName": "Waltz Right In", "trackNum": 8 },
+				{ "trackName": "Sanctified", "trackNum": 9 },
+				{ "trackName": "A Memory Away", "trackNum": 10 },
+				{ "trackName": "My Hand/Lawless Dream", "trackNum": 11 }
+			],
+			"devData": {
+				"id": "c1",
+				"status": "Owned",
+				"wishlistedDate": "N/A",
+				"collectedDate": ""
+			}
+		},
+		{
+			"albumName": "Sleeptalk",
+			"artistName": "Dayseeker",
+			"color": "IDR",
+			"description": "N/A",
+			"price": "0.00",
+			"releaseDate": "09/27/2019",
+			"shopurl": "N/A",
+			"imageurl": "N/A",
+			"musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lOwgg-4oKQh8aaF-YBXnvdc804MVwvpmk",
+			"tracklist": [
+				{ "trackName": "Drunk", "trackNum": 1 },
+				{ "trackName": "Crooked Soul", "trackNum": 2 },
+				{ "trackName": "Burial Plot", "trackNum": 3 },
+				{ "trackName": "Sleeptalk", "trackNum": 4 },
+				{ "trackName": "The Embers Glow", "trackNum": 5 },
+				{ "trackName": "The Color Black", "trackNum": 6 },
+				{ "trackName": "Already Numb", "trackNum": 7 },
+				{ "trackName": "Gates Of Ivory", "trackNum": 8 },
+				{ "trackName": "Starving To Be Empty", "trackNum": 9 },
+				{ "trackName": "Crash And Burn", "trackNum": 10 }
+			],
+			"devData": {
+				"id": "c2",
+				"status": "Owned",
+				"wishlistedDate": "N/A",
+				"collectedDate": ""
+			}
+		}
+	],
+	"removed":[
+		
+	]
+}
