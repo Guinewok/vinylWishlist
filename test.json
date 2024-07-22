@@ -37,23 +37,31 @@
     {
       "albumName": "Beerbongs & Bentleys",
       "artistName": "Post Malone",
-      "color": "N/A",
       "description": "N/A",
+      "design": {
+        "color": "Black",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
       "price": "N/A",
       "releaseDate": "04/27/2018",
-      "shopurl": "N/A",
+      "shopurl": "https://google.com",
       "imageurl": "N/A",
       "musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lwKdXLFF5NrlYH1ety26REn4jD64mYCfU",
       "tracklist": [
         {
           "trackName": "Better Now",
           "trackNum": 1
+        },
+        {
+          "trackName": "Paranoid",
+          "trackNum": 2
         }
       ],
       "devData": {
-        "id": "w1",
-        "status": "wishlisted",
-        "wishlistedDate": "03/07/2024"
+        "id": "w8",
+        "status": "TESTING",
+        "wishlistedDate": "2024-07-22T20:19:26.909Z"
       }
     },
     {
