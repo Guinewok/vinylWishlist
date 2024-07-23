@@ -50,16 +50,76 @@
       "musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lwKdXLFF5NrlYH1ety26REn4jD64mYCfU",
       "tracklist": [
         {
-          "trackName": "Better Now",
+          "trackName": "Paranoid",
           "trackNum": 1
         },
         {
-          "trackName": "Paranoid",
+          "trackName": "Spoil my Night (feat. Swae Lee)",
           "trackNum": 2
         },
         {
-          "trackName": "Sugar Wraith",
+          "trackName": "Rich & Sad",
           "trackNum": 3
+        },
+        {
+          "trackName": "Zack and Codeine",
+          "trackNum": 4
+        },
+        {
+          "trackName": "Takin' Shots",
+          "trackNum": 5
+        },
+        {
+          "trackName": "rockstar (feat. 21 Savage)",
+          "trackNum": 6
+        },
+        {
+          "trackName": "Over Now",
+          "trackNum": 7
+        },
+        {
+          "trackName": "Pyscho (feat. Ty Dolla $ign)",
+          "trackNum": 8
+        },
+        {
+          "trackName": "Better Now",
+          "trackNum": 9
+        },
+        {
+          "trackName": "Ball for Me (feat. Nicki Minaj)",
+          "trackNum": 10
+        },
+        {
+          "trackName": "Otherside",
+          "trackNum": 11
+        },
+        {
+          "trackName": "Stay",
+          "trackNum": 12
+        },
+        {
+          "trackName": "Blame it on Me",
+          "trackNum": 13
+        },
+        {
+          "trackName": "Same Bitches (feat. G-Eazy & YG)",
+          "trackNum": 14
+        },
+        {
+          "trackName": "Jonestown (Interlude)",
+          "trackNum": 15
+        },
+        {
+          "trackName": "92 Explorer",
+          "trackNum": 16
+        },
+        {
+          "trackName": "Candy Paint",
+          "trackNum": 17
+        },
+        {
+          "trackName": "Sugar Wraith",
+          "trackNum": 18
         }
       ],
       "devData": {
