@@ -423,6 +423,72 @@
         "status": "wishlisted",
         "wishlistedDate": "2024-07-30T15:54:23.276Z"
       }
+    },
+    {
+      "albumName": "Serotonin Dreams",
+      "artistName": "BoyWithUke",
+      "description": "N/A",
+      "design": {
+        "color": "Black",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
+      "price": "0.00",
+      "releaseDate": "05/06/2022",
+      "shopurl": "https://google.com",
+      "imageurl": "N/A",
+      "musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_lvGJQo9F1EguHA2mKOQ2CjCEe-XT5gUoA",
+      "tracklist": [
+        {
+          "trackName": "Far Away",
+          "trackNum": 1
+        },
+        {
+          "trackName": "Long Drives",
+          "trackNum": 2
+        },
+        {
+          "trackName": "Let Me Down",
+          "trackNum": 3
+        },
+        {
+          "trackName": "Prairies (feat. mxmtoon)",
+          "trackNum": 4
+        },
+        {
+          "trackName": "She Said No",
+          "trackNum": 5
+        },
+        {
+          "trackName": "Heart of Ice",
+          "trackNum": 6
+        },
+        {
+          "trackName": "IDGAF (feat. blackbear)",
+          "trackNum": 7
+        },
+        {
+          "trackName": "Contigo (feat. Powfu)",
+          "trackNum": 8
+        },
+        {
+          "trackName": "Understand",
+          "trackNum": 9
+        },
+        {
+          "trackName": "Scared of the Dark",
+          "trackNum": 10
+        },
+        {
+          "trackName": "Toxic",
+          "trackNum": 11
+        }
+      ],
+      "devData": {
+        "id": "w8",
+        "status": "wishlisted",
+        "wishlistedDate": "2024-07-30T16:15:57.510Z"
+      }
     }
   ],
   "collection": [
