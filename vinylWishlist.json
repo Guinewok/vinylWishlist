@@ -489,6 +489,88 @@
         "status": "wishlisted",
         "wishlistedDate": "2024-07-30T16:15:57.510Z"
       }
+    },
+    {
+      "albumName": "Happiness in Self Destruction",
+      "artistName": "The Plot In You",
+      "description": "N/A",
+      "design": {
+        "color": "Black",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
+      "price": "0.00",
+      "releaseDate": "10/16/2015",
+      "shopurl": "https://google.com",
+      "imageurl": "N/A",
+      "musicurl": "N/A",
+      "tracklist": [
+        {
+          "trackName": "Hole in the Wall",
+          "trackNum": 1
+        },
+        {
+          "trackName": "Dear Old Friend",
+          "trackNum": 2
+        },
+        {
+          "trackName": "Take Me Away",
+          "trackNum": 3
+        },
+        {
+          "trackName": "Runaway",
+          "trackNum": 4
+        },
+        {
+          "trackName": "Pillhead",
+          "trackNum": 5
+        },
+        {
+          "trackName": "Better Vibes",
+          "trackNum": 6
+        },
+        {
+          "trackName": "My Old Ways",
+          "trackNum": 7
+        },
+        {
+          "trackName": "Die Like Your Brothers",
+          "trackNum": 8
+        },
+        {
+          "trackName": "Mind Controlled",
+          "trackNum": 9
+        },
+        {
+          "trackName": "Time Changes Everything",
+          "trackNum": 10
+        },
+        {
+          "trackName": "Living Your Dream",
+          "trackNum": 11
+        },
+        {
+          "trackName": "A Song About Myself",
+          "trackNum": 12
+        },
+        {
+          "trackName": "Forgive Me",
+          "trackNum": 13
+        },
+        {
+          "trackName": "Washed Up",
+          "trackNum": 14
+        },
+        {
+          "trackName": "Happiness in Self Destruction",
+          "trackNum": 15
+        }
+      ],
+      "devData": {
+        "id": "w9",
+        "status": "wishlisted",
+        "wishlistedDate": "2024-08-08T20:14:30.606Z"
+      }
     }
   ],
   "collection": [
