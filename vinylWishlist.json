@@ -1135,7 +1135,61 @@
         "status": "wishlisted",
         "wishlistedDate": "2024-08-08T21:02:34.644Z"
       }
+    },
+    {
+    "albumName": "Cavetown",
+    "artistName": "Cavetown",
+    "description": "N/A",
+    "design": {
+        "color": "Black",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+    },
+    "price": "0.00",
+    "releaseDate": "11/09/2015",
+    "shopurl": "https://google.com",
+    "imageurl": "N/a",
+    "musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_n4nujd5eu4VcN9DSBFto5LmcztMUk9hPk",
+    "tracklist": [
+        {
+            "trackName": "Meteor Shower",
+            "trackNum": 1
+        },
+        {
+            "trackName": "Everything Is Temporary (Sticks and Stones)",
+            "trackNum": 2
+        },
+        {
+            "trackName": "We’re Alive",
+            "trackNum": 3
+        },
+        {
+            "trackName": "Hazel",
+            "trackNum": 4
+        },
+        {
+            "trackName": "Untitled V.2",
+            "trackNum": 5
+        },
+        {
+            "trackName": "Intermission",
+            "trackNum": 6
+        },
+        {
+            "trackName": "Banana Bread",
+            "trackNum": 7
+        },
+        {
+            "trackName": "Devil Town",
+            "trackNum": 8
+        }
+    ],
+    "devData": {
+        "id": "w18",
+        "status": "wishlisted",
+        "wishlistedDate": "2024-08-08T21:14:45.037Z"
     }
+}
   ],
   "collection": [
     {
