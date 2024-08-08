@@ -633,6 +633,68 @@
         "status": "wishlisted",
         "wishlistedDate": "2024-08-08T20:16:49.784Z"
       }
+    },
+    {
+      "albumName": "Swan Song",
+      "artistName": "The Plot In You",
+      "description": "N/A",
+      "design": {
+        "color": "Black",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
+      "price": "0.00",
+      "releaseDate": "09/17/2021",
+      "shopurl": "https:/google.com",
+      "imageurl": "N/A",
+      "musicurl": "N/A",
+      "tracklist": [
+        {
+          "trackName": "Letters To A Dead Friend",
+          "trackNum": 1
+        },
+        {
+          "trackName": "Fall Again",
+          "trackNum": 2
+        },
+        {
+          "trackName": "Face Me",
+          "trackNum": 3
+        },
+        {
+          "trackName": "Too Far Gone",
+          "trackNum": 4
+        },
+        {
+          "trackName": "Paradigm",
+          "trackNum": 5
+        },
+        {
+          "trackName": "Both To Blame",
+          "trackNum": 6
+        },
+        {
+          "trackName": "Too Heavy",
+          "trackNum": 7
+        },
+        {
+          "trackName": "Enemy",
+          "trackNum": 8
+        },
+        {
+          "trackName": "Whole Without Me",
+          "trackNum": 9
+        },
+        {
+          "trackName": "Freed",
+          "trackNum": 10
+        }
+      ],
+      "devData": {
+        "id": "w11",
+        "status": "wishlisted",
+        "wishlistedDate": "2024-08-08T20:19:11.509Z"
+      }
     }
   ],
   "collection": [
