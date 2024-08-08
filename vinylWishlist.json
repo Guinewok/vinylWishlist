@@ -695,6 +695,64 @@
         "status": "wishlisted",
         "wishlistedDate": "2024-08-08T20:19:11.509Z"
       }
+    },
+    {
+      "albumName": "Could You Watch Your Children Burn",
+      "artistName": "The Plot In You",
+      "description": "N/A",
+      "design": {
+        "color": "Black",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
+      "price": "0.00",
+      "releaseDate": "01/01/2013",
+      "shopurl": "https:/google.com",
+      "imageurl": "N/A",
+      "musicurl": "N/A",
+      "tracklist": [
+        {
+          "trackName": "Premeditated",
+          "trackNum": 1
+        },
+        {
+          "trackName": "Fiction Religion",
+          "trackNum": 2
+        },
+        {
+          "trackName": "Digging Your Grave",
+          "trackNum": 3
+        },
+        {
+          "trackName": "Population Control",
+          "trackNum": 4
+        },
+        {
+          "trackName": "Troll",
+          "trackNum": 5
+        },
+        {
+          "trackName": "The Devil's Contract",
+          "trackNum": 6
+        },
+        {
+          "trackName": "Sober and Soulless",
+          "trackNum": 7
+        },
+        {
+          "trackName": "Bible Butcher",
+          "trackNum": 8
+        },
+        {
+          "trackName": "Glad You're Gone",
+          "trackNum": 9
+        }
+      ],
+      "devData": {
+        "id": "w12",
+        "status": "wishlisted",
+        "wishlistedDate": "2024-08-08T20:21:49.366Z"
+      }
     }
   ],
   "collection": [
