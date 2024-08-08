@@ -859,6 +859,92 @@
         "status": "wishlisted",
         "wishlistedDate": "2024-08-08T20:26:18.959Z"
       }
+    },
+    {
+      "albumName": "POST HUMAN: NeX GEn",
+      "artistName": "Bring Me The Horizon",
+      "description": "N/A",
+      "design": {
+        "color": "Black",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
+      "price": "0.00",
+      "releaseDate": "05/24/2024",
+      "shopurl": "https://google.com",
+      "imageurl": "N/A",
+      "musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_k4UQPx_0wGQL0p0cL-weTcUM1yUlEH2zc",
+      "tracklist": [
+        {
+          "trackName": "[ost] dreamseeker",
+          "trackNum": 1
+        },
+        {
+          "trackName": "YOUtopia",
+          "trackNum": 2
+        },
+        {
+          "trackName": "Kool-Aid",
+          "trackNum": 3
+        },
+        {
+          "trackName": "Top 10 staTues tHat CriEd bloOd",
+          "trackNum": 4
+        },
+        {
+          "trackName": "liMOusIne (feat. AURORA)",
+          "trackNum": 5
+        },
+        {
+          "trackName": "DArkSide",
+          "trackNum": 6
+        },
+        {
+          "trackName": "a bulleT w/ my namE On (feat. Underoath)",
+          "trackNum": 7
+        },
+        {
+          "trackName": "[ost] (spi)ritual",
+          "trackNum": 8
+        },
+        {
+          "trackName": "n/A",
+          "trackNum": 9
+        },
+        {
+          "trackName": "LosT",
+          "trackNum": 10
+        },
+        {
+          "trackName": "sTraNgeRs",
+          "trackNum": 11
+        },
+        {
+          "trackName": "R.i.p. (duskCOre RemIx)",
+          "trackNum": 12
+        },
+        {
+          "trackName": "AmEN! (feat. Lil Uzi Vert, Daryl Palumbo & Glassjaw)",
+          "trackNum": 13
+        },
+        {
+          "trackName": "[ost] p.u.s.s.-e",
+          "trackNum": 14
+        },
+        {
+          "trackName": "DiE4u",
+          "trackNum": 15
+        },
+        {
+          "trackName": "DIg It",
+          "trackNum": 16
+        }
+      ],
+      "devData": {
+        "id": "w14",
+        "status": "wishlisted",
+        "wishlistedDate": "2024-08-08T20:46:58.343Z"
+      }
     }
   ],
   "collection": [
