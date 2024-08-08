@@ -1065,6 +1065,76 @@
         "status": "wishlisted",
         "wishlistedDate": "2024-08-08T20:54:26.592Z"
       }
+    },
+    {
+      "albumName": "RAT WARS",
+      "artistName": "HEALTH",
+      "description": "N/A",
+      "design": {
+        "color": "Black",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
+      "price": "0.00",
+      "releaseDate": "11/23/2023",
+      "shopurl": "https://google.com",
+      "imageurl": "N/A",
+      "musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_ms-du7tB4I6KVViq9_PbjyqD8KezlDNNg",
+      "tracklist": [
+        {
+          "trackName": "DEMIGODS",
+          "trackNum": 1
+        },
+        {
+          "trackName": "FUTURE OF HELL",
+          "trackNum": 2
+        },
+        {
+          "trackName": "HATEFUL (feat. SIERRA)",
+          "trackNum": 3
+        },
+        {
+          "trackName": "(OF ALL ELSE)",
+          "trackNum": 4
+        },
+        {
+          "trackName": "CRACK METAL",
+          "trackNum": 5
+        },
+        {
+          "trackName": "UNLOVED",
+          "trackNum": 6
+        },
+        {
+          "trackName": "CHILDREN OF SORROW",
+          "trackNum": 7
+        },
+        {
+          "trackName": "SICKO (feat. Godflesh)",
+          "trackNum": 8
+        },
+        {
+          "trackName": "ASHAMED",
+          "trackNum": 9
+        },
+        {
+          "trackName": "(OF BEING BORN)",
+          "trackNum": 10
+        },
+        {
+          "trackName": "DSM-V",
+          "trackNum": 11
+        },
+        {
+          "trackName": "DON'T TRY",
+          "trackNum": 12
+        }
+      ],
+      "devData": {
+        "id": "w17",
+        "status": "wishlisted",
+        "wishlistedDate": "2024-08-08T21:02:34.644Z"
+      }
     }
   ],
   "collection": [
