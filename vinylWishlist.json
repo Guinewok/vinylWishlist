@@ -995,6 +995,76 @@
         "status": "wishlisted",
         "wishlistedDate": "2024-08-08T20:51:35.896Z"
       }
+    },
+    {
+      "albumName": "Mayday Parade",
+      "artistName": "Mayday Parade",
+      "description": "N/A",
+      "design": {
+        "color": "Black",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
+      "price": "0.00",
+      "releaseDate": "10/04/2011",
+      "shopurl": "https://google.com",
+      "imageurl": "N/A",
+      "musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_mVhHsI2mXv7VXYEWOh3El10joXA3lxQ2A",
+      "tracklist": [
+        {
+          "trackName": "Oh Well, Oh Well",
+          "trackNum": 1
+        },
+        {
+          "trackName": "No Heroes Allowed",
+          "trackNum": 2
+        },
+        {
+          "trackName": "When You See My Friends",
+          "trackNum": 3
+        },
+        {
+          "trackName": "You're Dead Wrong",
+          "trackNum": 4
+        },
+        {
+          "trackName": "Priceless",
+          "trackNum": 5
+        },
+        {
+          "trackName": "Stay",
+          "trackNum": 6
+        },
+        {
+          "trackName": "Call Me Hopeless, Not Romantic",
+          "trackNum": 7
+        },
+        {
+          "trackName": "A Shot Across the Bow",
+          "trackNum": 8
+        },
+        {
+          "trackName": "Everything's an Illusion",
+          "trackNum": 9
+        },
+        {
+          "trackName": "I'd Rather Make Mistakes Than Nothing at All",
+          "trackNum": 10
+        },
+        {
+          "trackName": "Without the Bitter the Sweet Isn't as Sweet",
+          "trackNum": 11
+        },
+        {
+          "trackName": "Happy Endings Are Stories That Haven't Ended Yet",
+          "trackNum": 12
+        }
+      ],
+      "devData": {
+        "id": "w16",
+        "status": "wishlisted",
+        "wishlistedDate": "2024-08-08T20:54:26.592Z"
+      }
     }
   ],
   "collection": [
