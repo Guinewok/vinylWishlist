@@ -1235,6 +1235,52 @@
         "status": "wishlisted",
         "wishlistedDate": "2024-08-08T21:20:49.040Z"
       }
+    },
+    {
+      "albumName": "Who Killed Matt Maeson",
+      "artistName": "Matt Maeson",
+      "description": "N/A",
+      "design": {
+        "color": "Black",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
+      "price": "0.00",
+      "releaseDate": "03/31/2017",
+      "shopurl": "https://google.com",
+      "imageurl": "N/A",
+      "musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_kYHpobKPAVSaO0hC_GQ37V-iB0h4mWrA0",
+      "tracklist": [
+        {
+          "trackName": "Grave Digger",
+          "trackNum": 1
+        },
+        {
+          "trackName": "Cringe",
+          "trackNum": 2
+        },
+        {
+          "trackName": "Me and My Friends Are Lonely",
+          "trackNum": 3
+        },
+        {
+          "trackName": "Straight Razor",
+          "trackNum": 4
+        },
+        {
+          "trackName": "Tribulation",
+          "trackNum": 5
+        },
+        {
+          "trackName": "Twenty Twelve",
+          "trackNum": 6
+        }
+      ],
+      "devData": {
+        "id": "w20",
+        "status": "wishlisted",
+        "wishlistedDate": "2024-08-08T21:23:59.599Z"
+      }
     }
   ],
   "collection": [
