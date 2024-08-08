@@ -571,6 +571,68 @@
         "status": "wishlisted",
         "wishlistedDate": "2024-08-08T20:14:30.606Z"
       }
+    },
+    {
+      "albumName": "DISPOSE",
+      "artistName": "The Plot In You",
+      "description": "N/A",
+      "design": {
+        "color": "Black",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
+      "price": "0.00",
+      "releaseDate": "02/16/2018",
+      "shopurl": "https:/google.com",
+      "imageurl": "N/A",
+      "musicurl": "N/A",
+      "tracklist": [
+        {
+          "trackName": "RIGGED",
+          "trackNum": 1
+        },
+        {
+          "trackName": "NOT JUST BREATHING",
+          "trackNum": 2
+        },
+        {
+          "trackName": "ONE LAST TIME",
+          "trackNum": 3
+        },
+        {
+          "trackName": "I ALWAYS WANTED TO LEAVE",
+          "trackNum": 4
+        },
+        {
+          "trackName": "FEEL NOTHING",
+          "trackNum": 5
+        },
+        {
+          "trackName": "HAPPY",
+          "trackNum": 6
+        },
+        {
+          "trackName": "THE ONE YOU LOVED",
+          "trackNum": 7
+        },
+        {
+          "trackName": "PAYED IN FULL",
+          "trackNum": 8
+        },
+        {
+          "trackName": "THE SOUND",
+          "trackNum": 9
+        },
+        {
+          "trackName": "DISPOSABLE FIX",
+          "trackNum": 10
+        }
+      ],
+      "devData": {
+        "id": "w10",
+        "status": "wishlisted",
+        "wishlistedDate": "2024-08-08T20:16:49.784Z"
+      }
     }
   ],
   "collection": [
