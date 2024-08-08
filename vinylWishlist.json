@@ -753,6 +753,112 @@
         "status": "wishlisted",
         "wishlistedDate": "2024-08-08T20:21:49.366Z"
       }
+    },
+    {
+      "albumName": "Bitter Sweet Love (Deluxe)",
+      "artistName": "James Arthur",
+      "description": "N/A",
+      "design": {
+        "color": "Black",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
+      "price": "0.00",
+      "releaseDate": "06/28/2024",
+      "shopurl": "https:/google.com",
+      "imageurl": "N/A",
+      "musicurl": "https://music.youtube.com/playlist?list=OLAK5uy_nfZoIyyQRhvtkE1hKM-cTB8b0q3axBewY",
+      "tracklist": [
+        {
+          "trackName": "Bitter Sweet Love",
+          "trackNum": 1
+        },
+        {
+          "trackName": "Free Falling",
+          "trackNum": 2
+        },
+        {
+          "trackName": "Sleepwalking",
+          "trackNum": 3
+        },
+        {
+          "trackName": "Blindside",
+          "trackNum": 4
+        },
+        {
+          "trackName": "Just Us",
+          "trackNum": 5
+        },
+        {
+          "trackName": "Comeback Kid",
+          "trackNum": 6
+        },
+        {
+          "trackName": "From The Jump",
+          "trackNum": 7
+        },
+        {
+          "trackName": "A Year Ago",
+          "trackNum": 8
+        },
+        {
+          "trackName": "Ruthless",
+          "trackNum": 9
+        },
+        {
+          "trackName": "New Generation",
+          "trackNum": 10
+        },
+        {
+          "trackName": "My Favourite Pill",
+          "trackNum": 11
+        },
+        {
+          "trackName": "Is It Alright?",
+          "trackNum": 12
+        },
+        {
+          "trackName": "Homecoming",
+          "trackNum": 13
+        },
+        {
+          "trackName": "A Thousand Years",
+          "trackNum": 14
+        },
+        {
+          "trackName": "From The Jump (Duet Version)",
+          "trackNum": 15
+        },
+        {
+          "trackName": "You're Still The One",
+          "trackNum": 16
+        },
+        {
+          "trackName": "Sinners",
+          "trackNum": 17
+        },
+        {
+          "trackName": "Brave",
+          "trackNum": 18
+        },
+        {
+          "trackName": "Heartbeat",
+          "trackNum": 19
+        },
+        {
+          "trackName": "Blindside (Orchestral Version live from Channel Aid)",
+          "trackNum": 20
+        },
+        {
+          "trackName": "Bitter Sweet Love (Orchestral Version live from Channel Aid)",
+          "trackNum": 21
+        }
+      ],
+      "devData": {
+        "id": "w13",
+        "status": "wishlisted",
+        "wishlistedDate": "2024-08-08T20:26:18.959Z"
+      }
     }
   ],
   "collection": [
