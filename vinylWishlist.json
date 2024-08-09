@@ -1,40 +1,6 @@
 {
   "wishlist": [
     {
-      "albumName": "testAlbum",
-      "artistName": "Guinewok",
-      "color": "A little bit of everything",
-      "description": "All I wanted was a Pepsi, just a Pepsi, and she wouldn't give it to me.",
-      "price": "0.00",
-      "releaseDate": "03/07/2024",
-      "shopurl": "https://wunder.world",
-      "imageurl": "thisImageDoesNotExist.png",
-      "musicurl": "https://youtube.com/greatestAlbumOfAllTime",
-      "tracklist": [
-        {
-          "trackName": "All I wanted was",
-          "trackNum": 1
-        },
-        {
-          "trackName": "Just a Pepsi",
-          "trackNum": 2
-        },
-        {
-          "trackName": "She wouldn't give it to me",
-          "trackNum": 3
-        },
-        {
-          "trackName": "You're on drugs",
-          "trackNum": 4
-        }
-      ],
-      "devData": {
-        "id": "w0",
-        "status": "TESTING",
-        "wishlistedDate": "03/07/2024"
-      }
-    },
-    {
       "albumName": "Beerbongs & Bentleys",
       "artistName": "Post Malone",
       "color": "N/A",
@@ -1284,41 +1250,6 @@
     }
   ],
   "collection": [
-    {
-      "albumName": "colAlbum",
-      "artistName": "Guinewok",
-      "color": "A little bit of everything",
-      "description": "All I wanted was a Pepsi, just a Pepsi, and she wouldn't give it to me.",
-      "price": "0.00",
-      "releaseDate": "03/07/2024",
-      "shopurl": "https://wunder.world",
-      "imageurl": "thisImageDoesNotExist.png",
-      "musicurl": "https://youtube.com/greatestAlbumOfAllTime",
-      "tracklist": [
-        {
-          "trackName": "All I wanted was",
-          "trackNum": 1
-        },
-        {
-          "trackName": "Just a Pepsi",
-          "trackNum": 2
-        },
-        {
-          "trackName": "She wouldn't give it to me",
-          "trackNum": 3
-        },
-        {
-          "trackName": "You're on drugs",
-          "trackNum": 4
-        }
-      ],
-      "devData": {
-        "id": "c0",
-        "status": "Owned",
-        "wishlistedDate": "03/07/2024",
-        "collectedDate": ""
-      }
-    },
     {
       "albumName": "Never Had To Leave",
       "artistName": "Matt Maeson",
