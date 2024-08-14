@@ -13,6 +13,7 @@
 *{
   border: 1px dotted green;
   /*font-family: cursive;*/
+  font-family: "system-ui";
 }
 
 header{
@@ -47,6 +48,12 @@ img {
   background-color: #c7c7c7;
 }
 
+footer{
+  margin-top: 40px;
+}
+
+/*PAGE: WISHLIST*/
+
 img.vinylImage {
   display: block;
   height: 20vw;
@@ -54,11 +61,13 @@ img.vinylImage {
   margin: auto;
 }
 
-img.colVinylImage {
-  display: inline-block;
-  height: 5vw;
-  width: 5vw;
-  margin: auto;
+#display{
+  position: relative;
+}
+
+#wishlistButtonMenu {
+  position: absolute;
+  right: 0;
 }
 
 #container{
@@ -80,12 +89,19 @@ img.colVinylImage {
 
 .titleText{
   margin-bottom: 10px;
-  font-size: 20px; /*40px*/
+  font-size: 20px;
 }
 
 .subTitleText{
   margin-top: 0px;
   padding-top: 0px;
+  margin-bottom: 5px;
+}
+
+.releaseText {
+  margin-top: 0;
+  font-size: 12px;
+  color: grey;
 }
 
 #rBtn, #lBtn{
@@ -102,32 +118,69 @@ img.colVinylImage {
 
 a#rBtn[disabled], a#lBtn[disabled] {
   pointer-events: none;
-  background-color: red !important;
+  background-color: dimgray !important;
 }
 
-#display, #collection{
-  flex-grow: 10;
-  width: 100%;
+.wishLinks {
+  display: block;
+  margin-bottom: 20px;
 }
 
-footer{
-  margin-top: 40px;
+.linkLbls {
+  margin-bottom: 0;
+  font-weight: bold;
 }
 
-.pivotHide {
-  display: none !important;
+.wishLinkLbl {
+  margin-bottom: 0;
+  font-weight: bold;
 }
+
+
+
+
+
+/*PAGE: ADD FORM*/
 
 #addForm {
-  width: 400px;
+  width: 600px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-input[type="text"], input[type="url"], input[list="colorsList"] {
-  display: inline-block;
-  width: 98%;
+input[type="submit"], input[type="reset"], input[type="button"], button {
+  cursor: pointer;
+}
+
+#addForm input{
+  box-sizing: border-box;
+}
+
+#addForm *:not([type="color"], #colorSec, #color, #colorList, #colorSecLis){
+  flex: 0 0 100%;
+}
+
+#colorSec, #color, #colorList, #colorSecList{
+  flex: 8;
+}
+
+#colorHex, #colorSecHex{
+  flex: 1;
+}
+
+input[type="text"], input[type="url"], input[list="colorsList"], input[list="colorsSecList"], input[list="vinylStyleList"] {
+  
+  /*width: 98%;*/
   border: 1px solid black;
   margin-bottom: 10px;
 }
+
+/*input[required]::after{
+  content: "(Optional)";
+  font-weight: 100;
+  font-size: 70%;
+  margin-left: 10px;
+}*/
 
 .formTrack {
   margin-left: 40px;
@@ -137,13 +190,13 @@ input[type="text"].formTrack{
   width: 88%;
 }
 
-.formBtns {
+#formBtns, .trackBtns {
   margin-top: 20px;
   display: block;
   text-align: center;
 }
 
-#popupCloseBtn {
+.popupCloseBtn {
   position: absolute;
   top: 0;
   right: 0;
@@ -165,4 +218,80 @@ input[type="text"].formTrack{
 
 #addFormTokenBtnContainer p{
   display: inline-block;
+}
+
+.formColorSection{
+  display: inline-block;
+}
+
+
+
+
+/*PAGE: COLLECTION*/
+
+#display, #collection{
+  flex-grow: 10;
+  min-width: 50vw;
+  width: 100%;
+}
+
+#colHeader{
+  display: flex;
+  align-items: center;
+}
+
+#colDisMenu {
+  margin-left: auto;
+  overflow: hidden;
+}
+
+#colDisMenu *{
+  display: inline-block;
+}
+
+#colDisMenu a:hover{
+  color: transparent;  
+  text-shadow: 0 0 0 blue;
+}
+
+img.colVinylImage {
+  display: inline-block;
+  height: 10vw;
+  width: 10vw;
+  margin: auto;
+}
+
+.colItem{
+  display: inline-block;
+  position: relative;
+}
+
+.colItem p {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  margin: 0 0 5px 0;
+}
+
+.colEditBtn{
+  position: absolute;
+  right: 0;
+}
+
+.pivotHide {
+  display: none !important;
+}
+
+
+/* FOOTER */
+footer{
+  position: relative;
+}
+
+#cpyrt {
+ position: absolute;
+ right: 0;
+ top: 0;
+  margin: 0;
 }

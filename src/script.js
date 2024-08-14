@@ -1,25 +1,30 @@
-//Set 0 for Dev Data
 var incrementVar = 0;
+//TODO implement a way to exclude devData with this value.  Currently only works with the collection
+var devData = 1;
 var trackCount = 3;
 var dialogHidden = true;
 const githubRepo = 'Guinewok/vinylWishlist';
+//const fileName = 'vinylWishlist.json';
+//const status = 'wishlisted';
 const fileName = 'test.json';
+const status = 'TESTING';
 
-function pivotToggle(e, pivotNum) {
-  var pivotArray = ["carousel","addForm","collection","na"];
-  e.preventDefault();
+function pivotToggle(pivotNum) {
+  var pivotArray = ["carousel","addFormPage","collection","na"];
+
   for(i = 0; i < pivotArray.length; i++){
     if(i === Number(pivotNum)){
-      var div = document.getElementById(pivotArray[pivotNum])
+      var div = document.getElementById(pivotArray[pivotNum]);
       div.classList.add('pivotHide');
       div.classList.remove('pivotHide');
     }else{
-      var div = document.getElementById(pivotArray[i])
+      var div = document.getElementById(pivotArray[i]);
       div.classList.add('pivotHide');
     }
   }
   if(pivotNum === 1) {
-    mapFormTracklist();
+    document.forms[0].reset();
+    mapFormTracklist(trackCount);
   }
   if(pivotNum === 2) {
     renderCollection();
@@ -34,6 +39,7 @@ async function getData() {
   const data = await response.json();
   //TODO test if the first JSON.parse can be removed
   const dataParsed = JSON.parse(atob(data.content));
+  localStorage.setItem("fullList", JSON.stringify(dataParsed, null, 2));
   localStorage.setItem("wishlist", JSON.stringify(dataParsed.wishlist, null, 2));
   localStorage.setItem("collection", JSON.stringify(dataParsed.collection, null, 2));
   localStorage.setItem("removed", JSON.stringify(dataParsed.removed, null, 2));
@@ -50,56 +56,66 @@ function parseFormData() {
   var myFormData = new FormData(form);
   const formDataObj = {};
   myFormData.forEach((value, key) => (formDataObj[key] = value));
-  console.log(formDataObj);
+  console.log("Form Values: ", formDataObj);
   
+  for(var i in formDataObj){
+    if(formDataObj[i].length < 1){
+      formDataObj[i] = "None";
+    }
+  }
+  console.log("Form Values: ", formDataObj);
   const curDate = new Date();
  
   const newListItem = {
-    albumName: formDataObj.albumName,
-    artistName: formDataObj.artistName,
-    color: formDataObj.color,
-    description: formDataObj.description,
-    price: formDataObj.price,
-    releaseDate: formDataObj.releaseDate,
-    shopurl: formDataObj.shopurl,
-    imageurl: formDataObj.imageurl,
-    musicurl: formDataObj.musicurl,
-    tracklist: [],
-    devData: {
-      id: "w" + JSON.parse(localStorage.getItem("wishlist")).length,
-      status: "TESTING",
-      wishlistedDate: curDate
-    }
-	};
-
+			albumName: formDataObj.albumName,
+			artistName: formDataObj.artistName,
+      description: formDataObj.description,
+			design: {
+        color: formDataObj.color,
+        colorSec: formDataObj.colorSec,
+        vinylStyle: formDataObj.vinylStyle
+      },
+			price: formDataObj.price,
+			releaseDate: formDataObj.releaseDate,
+			shopurl: formDataObj.shopurl,
+			imageurl: formDataObj.imageurl,
+			musicurl: formDataObj.musicurl,
+      tracklist: [],
+			devData: {
+				id: "w" + JSON.parse(localStorage.getItem("wishlist")).length,
+				status: status,
+				wishlistedDate: curDate
+			}
+		};
+//TODO Add error catching
   for(var i = 0; i < trackCount; i++) {
-    const curr = document.getElementById(`tracklist${i + 1}`).value;
+    const curr = document.getElementById(`tracknum${i + 1}`).value;
     newListItem.tracklist.push({
       trackName: curr,
       trackNum: i + 1,
     })
   }
-  console.log(newListItem);
+  console.log("Form Converted to JSON Object: ", newListItem);
   return newListItem;
 }
 
 async function addToWishlist(){
-  const apiUrl = `https://api.github.com/repos/Guinewok/vinylWishlist/contents/test.json`;
+  const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/${fileName}`;
   const newObject = await parseFormData();
   const authToken = localStorage.getItem("authToken");
-  
   //Check for Auth Token
-  if(authToken === "") {
-    showDialog();
+  if(!authToken) {
+    showAuthDialog();
     console.log("Invalid Token");
   }else{
-    const newArray = JSON.parse(localStorage.getItem("wishlist"));
-    newArray.push(newObject);
-    
+    const wishlist = JSON.parse(localStorage.getItem("wishlist"));
+    wishlist[wishlist.length] = newObject;
+    const fullObj = JSON.parse(localStorage.getItem("fullList"));
+    fullObj.wishlist = wishlist;
+    console.log("Updated Object: ", fullObj);
+   
     const commitMessage = `Add ${newObject.albumName} by ${newObject.artistName} to the vinyl wishlist`;
-    
-    console.log("newArray: ", newArray);
-    const base64Content = btoa(JSON.stringify(newArray, null, 2)); 
+    const base64Content = btoa(JSON.stringify(fullObj, null, 2)); 
 
     const requestBody = {
       message: commitMessage,
@@ -115,9 +131,14 @@ async function addToWishlist(){
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(requestBody),
+    }).then((response) => {
+      if(response.ok) {
+        showSubmitDialog("Success <br> File updated and changes pushed to GitHub.");
+      }
+      showSubmitDialog(`Failed to add album "${newObject.albumName} by ${newObject.artistName}": ${response.status}`);
     });
-    console.log('File updated and changes pushed to GitHub.');
-  }
+    pivotToggle(0);
+    };
 };
 
 function renderWishlist(e, increment){
@@ -151,10 +172,17 @@ function renderWishlist(e, increment){
     }
 
     const title = document.getElementById('wishTitle');
-    title.innerHTML = `Album Name: ${wishlist[i].albumName}`;
+    title.innerHTML = `${wishlist[i].albumName}`;
+  
+    const editBtn = document.getElementById('wishlistEditBtn');
+    editBtn.setAttribute('onclick', `editItem(event, '${wishlist[i].devData.id}')`);
 
     const subtitle = document.getElementById('wishArtist');
-    subtitle.innerHTML = `Artist: ${wishlist[i].artistName}`;
+    subtitle.innerHTML = `${wishlist[i].artistName}`;
+  
+    const releaseDate = document.getElementById('releaseDate');
+    releaseDate.innerHTML = `${wishlist[i].releaseDate.slice(-4)}`;
+    releaseDate.title = `${wishlist[i].releaseDate}`;
 
     const image = document.getElementById('wishImg');
     image.src = wishlist[i].imageurl;
@@ -176,13 +204,25 @@ function renderWishlist(e, increment){
 
     const desc = document.getElementById('wishDesc');
     desc.innerHTML = wishlist[i].description;
-
-    const link = document.getElementById('wishShopLink');
-    link.href = wishlist[i].shopurl;
-    link.innerHTML = wishlist[i].shopurl;
+  
+    const shopLinkLbl = document.getElementById('shopLinkLbl');
+    shopLinkLbl.innerHTML = "Buy Here:";
+  
+    const shopLink = document.getElementById('wishShopLink');
+    shopLink.href = wishlist[i].shopurl;
+    shopLink.innerHTML = wishlist[i].shopurl;
+  
+    const musicLinkLbl = document.getElementById('musicLinkLbl');
+    musicLinkLbl.innerHTML = "Listen Here:";
+  
+    const musicLink = document.getElementById('wishMusicLink');
+    musicLink.href = wishlist[i].musicurl;
+    musicLink.innerHTML = wishlist[i].musicurl;
+  
+    
 
     const displayContainer = document.getElementById('display');
-    displayContainer.append(...[title, subtitle, image, trackList, desc, link]);
+    displayContainer.append(...[title, subtitle, releaseDate, image, trackList, desc, shopLinkLbl, shopLink, musicLinkLbl, musicLink]);
   };
 
 function renderCollection(){
@@ -193,41 +233,48 @@ function renderCollection(){
     colDiv.removeChild(colDiv.firstChild);
   }
 
-  for(i = 0; i < collection.length; i++){
+  for(i = devData; i < collection.length; i++){
+    const colItem = document.createElement('div');
+    colItem.classList.add('colItem');
+    colItem.innerHTML = `<a href="#" class="colEditBtn" onclick="editItem(event, '${collection[i].devData.id}');">edit</a><p>${collection[i].albumName}</p>`;
     const colImg = document.createElement('img');
     colImg.src = collection[i].imageurl;
     //colImg.alt = data.collection[i].albumName;
     colImg.classList.add('colVinylImage');
-
-    colDiv.append(...[colImg]);
+    colItem.append(...[colImg]);
+    colDiv.append(...[colItem]);
   }
 };
 
-function mapFormTracklist() {
-  document.getElementById('tracklistList').innerHTML = "";
-  for(var i = 0; i < trackCount; i++) {
+function mapFormTracklist(totalCount) {
+  document.getElementById('tracklistList').innerHTML = "<label>Tracklist:</label><br>";
+  trackCount = totalCount;
+  for(var i = 0; i < totalCount; i++) {
     var curr = i + 1;
     document.getElementById('tracklistList').innerHTML += 
-    `<label for="tracklist${curr}" id="tracklist${curr}Lbl" class="formTrack">Track ${curr}:</label>
-    <input type="text" name="tracklist${curr}" id="tracklist${curr}" class="formTrack"></input>`;
+    `<label for="tracknum${curr}" id="tracknum${curr}Lbl" class="formTrack">Track ${curr}:</label>
+    <input type="text" name="tracknum${curr}" id="tracknum${curr}" class="formTrack"></input>`;
   }
 }
 
-//TODO adjust this approach, when selecting add the other fields are cleared.
-  //IDEA: Add another function that quickly saves each input field to an array or localStorage and run the function at the beginning of both addTrack and removeTrack
-function addTrack(event) {
-  event.preventDefault()
+function addTrack(e) {
+  e = e || window.event;
+  e.preventDefault();
   trackCount += 1;
-  document.getElementById('tracklistList').innerHTML += 
-    `<label for="tracklist${trackCount}" id="tracklist${trackCount}Lbl" class="formTrack">Track ${trackCount}:</label>
-    <input type="text" name="tracklist${trackCount}" id="tracklist${trackCount}" class="formTrack"></input>`;
+  console.log(trackCount);
+  /*document.getElementById('tracklistList').innerHTML += 
+    `<label for="tracknum${trackCount}" id="tracklist${trackCount}Lbl" class="formTrack">Track ${trackCount}:</label>
+    <input type="text" name="tracknum${trackCount}" id="tracknum${trackCount}" class="formTrack"></input>`;*/
+  document.getElementById('tracklistList').insertAdjacentHTML('beforeend',
+    `<label for="tracknum${trackCount}" id="tracknum${trackCount}Lbl" class="formTrack">Track ${trackCount}:</label>
+    <input type="text" name="tracknum${trackCount}" id="tracknum${trackCount}" class="formTrack"></input>`);
 }
 
 function removeTrack(event) {
   event.preventDefault();
   if (trackCount > 0) {
-document.getElementById(`tracklist${trackCount}Lbl`).remove();
-   document.getElementById(`tracklist${trackCount}`).remove();
+document.getElementById(`tracknum${trackCount}Lbl`).remove();
+   document.getElementById(`tracknum${trackCount}`).remove();
   trackCount -= 1;
   }else{
     //TODO add a css effect to the button to indicate it isn't usable.
@@ -235,33 +282,185 @@ document.getElementById(`tracklist${trackCount}Lbl`).remove();
   }
 }
 
-function showDialog(e) {
-  e.preventDefault();
+function showAuthDialog() {
   const authTokenVal = document.getElementById("authToken");
   authTokenVal.value = localStorage.getItem("authToken");
   const dialog = document.getElementById('authDialog');
   dialog.showModal();
 };
 
-function hideDialog() {
+function hideAuthDialog() {
   const dialog = document.getElementById('authDialog');
   dialog.close();
 };
 
+function showAddToColDialog(e) {
+  e = e || window.event;
+  e.preventDefault();
+  const dialog = document.getElementById('addToColDialog');
+  dialog.showModal();
+};
+
+function hideAddToColDialog() {
+  const dialog = document.getElementById('submitDialog');
+  dialog.close();
+};
+
+function showSubmitDialog(status) {
+  const dialogText = document.getElementById('submissionStatus');
+  dialogText.innerHTML = status;
+  const dialog = document.getElementById('submitDialog');
+  dialog.showModal();
+};
+
+function hideSubmitDialog() {
+  const dialog = document.getElementById('submitDialog');
+  dialog.close();
+};
+
 function getAuthToken(e) {
+  e = e || window.event;
   e.preventDefault();
   const authTokenVal = document.getElementById("authToken").value;
   if (authTokenVal.length > 0) {
     localStorage.setItem("authToken", authTokenVal);
-    console.log(authTokenVal);
-    hideDialog();
+    console.log("Auth Token: ", authTokenVal);
+    hideAuthDialog();
   }else{
     //Handle errors here, display error message
     console.log("Invalid Auth Token entered");
   }
 };
 
-//DEV FUNCTION TO REPLACE PAGE TITLE WITH CURRENT WISHLIST PAGE COUNT
+function getItem (currVal) {
+  var firstChar = currVal.charAt(0);
+  switch(firstChar) {
+    case 'w':
+      var list = localStorage.getItem("wishlist");
+      break;
+    case 'c':
+      var list = localStorage.getItem("collection");
+      break;
+    case 'r':
+      var list = localStorage.getItem("removed");
+      break;
+  }
+  const array = JSON.parse(list);
+  var index = currVal.replace(firstChar, "");
+  var item = array[index];
+  return item;
+}
+
+function mapExistingToForm(item) {
+  let form = document.querySelector('form');
+  var myFormData = new FormData(form);
+  for(var i in item){
+    if(i === "devData"){
+      break;
+    }else{
+      if(i === "design"){
+        for(var d in item[i]){
+          var field = document.getElementById(d);
+          field.value = item[i][d];
+        }
+      }else{
+        if(i === "tracklist"){
+          for(let x = 0; x < item[i].length; x++){
+            var trackField = document.getElementById(`tracknum${x + 1}`);
+            trackField.value = item[i][x].trackName;
+          }
+        }else{
+          console.log(item[i]);
+          var field = document.getElementById(i);
+          field.value = item[i];
+        }
+      }
+    }
+  }
+  const trackList = item.tracklist;
+  for(var i = 0; i < trackList.length; i++){
+      var trackField = document.getElementById(`tracknum${i+1}`);
+      trackField.value = trackList[i].trackName;
+  }
+}
+
+function loadEditForm(item) {
+  document.getElementById('formTitle').innerHTML = `Update ${item.albumName} by ${item.artistName}`;
+  document.getElementById('formBtns').innerHTML = "";
+  document.getElementById('formBtns').innerHTML = 
+    `<input type="submit" id="update" onclick="updateList(${item.devData.id.substring(1)});" target="#" value="Update">
+    <input type="button" id="remove" value="Remove">
+    <input type="button" id="cancel" value="Cancel">`;
+}
+
+function editItem(e, currVal) {
+  e = e || window.event;
+  e.preventDefault();
+  const item = getItem(currVal);
+  loadEditForm(item);
+  pivotToggle(e, 1);
+  mapFormTracklist(item.tracklist.length);
+  mapExistingToForm(item);
+}
+
+//TODO test and ensure the correct item is the one being modified, avoid duplicates
+async function updateList(index){
+  const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/${fileName}`;
+  const updateObject = await parseFormData();
+  const authToken = localStorage.getItem("authToken");
+  console.log(authToken);
+  if(!authToken) {
+    showAuthDialog();
+    console.log("Invalid Token");
+  }else{
+    const wishlist = JSON.parse(localStorage.getItem("wishlist"));
+    console.log("Original Item: ", wishlist[index]);
+    //This is a bandaid, the approach must be reworked as parseFormData() automatically generates the date value as it wasn't engineered to be used like this.  Current approach grabs the unedited version of devData and manually overwrites it evertime.
+    const ogDevData = wishlist[index].devData;
+    wishlist[index] = updateObject;
+    wishlist[index].devData = ogDevData;
+    const fullObj = JSON.parse(localStorage.getItem("fullList"));
+    fullObj.wishlist = wishlist;
+    console.log("Updated Object: ", fullObj);
+   
+    const commitMessage = `Update details for ${updateObject.albumName} by ${updateObject.artistName} in the vinyl wishlist`;
+    const base64Content = btoa(JSON.stringify(fullObj, null, 2)); 
+
+    const requestBody = {
+      message: commitMessage,
+      content: base64Content,
+      sha: localStorage.getItem("sha"),
+    };
+    console.log(requestBody);
+
+    fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody)
+    });
+    console.log('File updated and changes pushed to GitHub.');
+    pivotToggle(event, 0);
+  }
+};
+
+function updateColorHex(currElement) {
+  const inputField = document.getElementById(`${currElement}`);
+  const fieldId = currElement + "Hex";
+  const colorField = document.getElementById(`${fieldId}`);
+  inputField.value = colorField.value;
+};
+
+function refreshWishlist(e){
+    e = e || window.event;
+    e.preventDefault();
+    getData();
+    renderWishlist();
+}
+
+//DEV FUNCTIONS
 async function updateCount(){
   const test = document.getElementById('test');
   test.innerHTML = `value: ${incrementVar}`;
