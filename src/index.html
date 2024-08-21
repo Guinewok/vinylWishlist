@@ -1,161 +1,159 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <link rel="stylesheet" href="style.css">
-        <script type="text/javascript" src="script.js" async></script>
-    </head>
-    <body onload="getData();renderWishlist();">
-        <header>
-          <h1 id="test">Site Title</h1>
-          <nav>
-            <ul>
-              <li><a href="#" onclick="pivotToggle(0)">Wishlist</a></li>
-              <!--RENAME TO "Update List" when edit/remove functionality has been added-->
-              <li><a href="#" onclick="pivotToggle(1)">Add Form</a></li>
-              <li><a href="#" onclick="pivotToggle(2)">Collection</a></li>
-              <li><a href="#" onclick="pivotToggle(3)">Dev Data</a></li>
-            </ul>
-          </nav>
-        </header>
-        <div id="container">
-          <dialog id="submitDialog">
-              <button class="popupCloseBtn" onclick="hideSubmitDialog()">x</button>
-              <p id="submissionStatus"></p>
-          </dialog>
-          <div id="carousel">
-            <dialog id="addToColDialog">
-              <button class="popupCloseBtn" onclick="hideAddToColDialog()">x</button>
-              <p>Add &lt;insert title here&gt; to collection?</p>
-              <input type="submit" value="confirm">
-              <input type="button" value="deny">
-            </dialog>
-            <a id="lBtn" href="#" onclick="renderWishlist(event, false)">&lt;</a>
-            <div id="display">
-              <span id="wishlistButtonMenu">
-                <a href="#" id="markAsOwned" onclick="showAddToColDialog(event)">Mark as Owned</a>
-                <a href="#" id="wishlistEditBtn">Edit Item</a>
-                <a href="#" onclick="refreshWishlist(event)">Refresh</a>
-              </span>
-              <p class="titleText" id="wishTitle">Title</p>
-              <p class="subTitleText" id="wishArtist">Sub-Title</p>
-              <p class="releaseText" id="releaseDate">Sub-Title</p>
-              <img class="vinylImage" src="" alt="image" id="wishImg"></img>
-              <p id="wishDesc">Description</p>
-              <ul id="wishTracklist"></ul>
-              <p id="shopLinkLbl" class="wishLinkLbl"></p>
-              <a href="" id="wishShopLink" class="wishLinks">Shop Link here</a>
-              <p id="musicLinkLbl" class="wishLinkLbl"></p>
-              <a href="" id="wishMusicLink" class="wishLinks">Music Link here</a>
-            </div>
-            <a id="rBtn" href="#" onclick="renderWishlist(event, true)">&gt;</a>
-          </div>
-          <!--ADD TO WISHLIST PAGE-->
-          <div id="addFormPage" class="pivotHide">
-            <dialog id="authDialog">
-              <button class="popupCloseBtn" onclick="hideAuthDialog()">x</button>
-              <p>In order to make changes to the wishlist you need to provide a valid Github Auth Token.</p>
-              <label for="authToken">Github Auth Token: </label>
-              <input type="text" name="authToken" id="authToken"></input>
-              <input type="submit" onclick="event.preventDefault();getAuthToken(event);"></input>
-              <input type="button" onclick="localStorage.removeItem('authToken');hideAuthDialog();" value="Clear"></input>
-            </dialog>
-            <div id="addFormTokenBtnContainer">
-              <p id="formTitle">Add an album to the wishlist</p>
-              <a href="#" onclick="showAuthDialog();">⚙</a>
-            </div>
-            <form onsubmit="return false" id="addForm">
-              <label for="albumName">Album Name:</label>
-              <input type="text" name="albumName" id="albumName" required>
-              <label for="artistName">Artist Name:</label>
-              <input type="text" name="artistName" id="artistName" required>
-              <label for="description">Description:</label>
-              <input type="text" name="description" id="description">
-              <label for="color">Vinyl Color:</label>
-              <input list="colorsList" name="color" id="color">
-              <datalist id="colorsList">
-                <option value="Black">
-                <option value="Red">
-                <option value="Orange">
-                <option value="Yellow">
-                <option value="Green">
-                <option value="Blue">
-                <option value="Purple">
-                <option value="Pink">
-                <option value="White">
-                <option value="Grey">
-                <option value="Silver">
-                <option value="Gold">
-                <option value="Other">
-              </datalist>
-              <input type="color" id="colorHex" onchange="updateColorHex('color')"></input>
-              <label for="colorSec">Vinyl Secondary Color:</label>
-              <input list="colorsList" name="colorSec" id="colorSec">
-              <input type="color" id="colorSecHex" onchange="updateColorHex('colorSec')"></input>
-              <label for="vinylStyle">Vinyl Style:</label>
-              <input list="vinylStyleList" name="vinylStyle" id="vinylStyle">
-                <datalist id="vinylStyleList">
-                  <option value="Matte">
-                  <option value="Marble">
-                  <option value="Galaxy">
-                  <option value="Two-Tone">
-                  <option value="Splatter">
-                  <option value="Other">
-                </datalist>
-              <label for="shopurl">Purchase Link:</label>
-              <input type="url" name="shopurl" id="shopurl">
-              <label for="price">Price:</label>
-              <input type="text" name="price" id="price"></input>
-              <label for="releaseDate">Release Date:</label>
-              <input type="text" name="releaseDate" id="releaseDate"></input>
-              <label for="imageurl">Image URL:</label>
-              <input type="text" name="imageurl" id="imageurl"></input>
-              <label for="musicurl">Music URL:</label>
-              <input type="text" name="musicurl" id="musicurl"></input>
-              <span id="tracklistList"></span>
-              <span class="trackBtns">
-                <button id="formAddBtn" onclick="addTrack(event)">+</button>
-                <button id="formSubBtn" onclick="removeTrack(event)">-</button>
-              </span>
-              <span id="formBtns">
-                <!--<input type="submit" id="submit" onclick="postData(event);" target="#">-->
-                <input type="submit" id="submit" onclick="if(document.forms['addForm'].reportValidity()){addToWishlist();}" target="#">
-                <input type="reset" id="rst">
-              </span>
-            </form>
-          </div>
-          <!--COLLECTION-->
-          <div id="collection" class="pivotHide">
-            <!--TODO Add a mini menu at the top right of the collection to allow 
-            the selection of different displays modes. (List, Images (current),   Carousel)-->
-            <div id="colHeader">
-              <h2>Collection</h2>
-              <div id="colDisMenu">
-                <p>Display: </p>
-                <a href="#" id="colListBtn" title="List View">📃</a>
-                <a href="#" id="colCarouselBtn" title=
-      "Carousel View">🎠</a>
-                <a href="#" id="colShelfBtn" title="Shelf View">📚</a>
-              </div>
-            </div>
-            <div id="collectionList">
-              <img class="colVinylImage" src="" alt="image">
-              <img class="colVinylImage" src="" alt="image">
-              <img class="colVinylImage" src="" alt="image">
-            </div>
-          </div>
-          <!--DEV PAGE-->
-          <div id="na" class="pivotHide">
-            <a href="#" onclick="mapDevData()">Get Data/Refresh</a>
-            <pre id="preElement"></pre>
+<!--<body onload="localStorage.clear();getData();renderWishlist();">-->
+  <body onload="getData();renderWishlist();">
+    <header>
+      <h1 id="test">Site Title</h1>
+      <nav>
+        <ul>
+          <li><a href="#" onclick="pivotToggle(0)">Wishlist</a></li>
+          <!--RENAME TO "Update List" when edit/remove functionality has been added-->
+          <li><a href="#" onclick="pivotToggle(1)">Add Form</a></li>
+          <li><a href="#" onclick="pivotToggle(2)">Collection</a></li>
+          <li><a href="#" onclick="pivotToggle(3)">Dev Data</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div id="container">
+      <!--DIALOGS-->
+      <!--SUBMISSION CONFIRMATION FOR WISHLIST-->
+      <dialog id="submitDialog">
+          <button class="popupCloseBtn" onclick="hideSubmitDialog()">x</button>
+          <p id="submissionStatus"></p>
+      </dialog>
+      <!--MOVE WISHLIST ITEM TO COLLECTION-->
+      <dialog id="addToColDialog">
+          <button class="popupCloseBtn" onclick="hideAddToColDialog()">x</button>
+          <p id="addToColDialogText"></p>
+          <input type="submit" value="confirm" id="wishToColBtn">
+          <input type="button" value="deny" onclick="hideAddToColDialog()">
+        </dialog>
+      <!--PROVIDE AUTH TOKEN FOR SUBMISSIONS-->
+      <dialog id="authDialog">
+          <button class="popupCloseBtn" onclick="hideAuthDialog()">x</button>
+          <p>In order to make changes to the wishlist you need to provide a valid Github Auth Token.</p>
+          <label for="authToken">Github Auth Token: </label>
+          <input type="text" name="authToken" id="authToken"></input>
+        <input type="submit" onclick="event.preventDefault();getAuthToken(event);"></input>
+      <input type="button" onclick="localStorage.removeItem('authToken');hideAuthDialog();" value="Clear"></input>
+    </dialog>
+      <div id="carousel">
+        <a id="lBtn" href="#" onclick="renderWishlist(event, false)">&lt;</a>
+        <div id="display">
+          <span id="wishlistButtonMenu">
+            <a href="#" id="markAsOwned" onclick="showAddToColDialog(event)">Mark as Owned</a>
+            <a href="#" id="wishlistEditBtn">Edit Item</a>
+            <a href="#" onclick="refreshWishlist(event)">Refresh</a>
+          </span>
+          <p class="titleText" id="wishTitle">Title</p>
+          <p class="subTitleText" id="wishArtist">Sub-Title</p>
+          <p class="releaseText" id="releaseDate">Sub-Title</p>
+          <img class="vinylImage" src="" alt="image" id="wishImg"></img>
+          <p id="wishDesc">Description</p>
+          <ul id="wishTracklist"></ul>
+          <p id="shopLinkLbl" class="wishLinkLbl"></p>
+          <a href="" id="wishShopLink" class="wishLinks">Shop Link here</a>
+          <p id="musicLinkLbl" class="wishLinkLbl"></p>
+          <a href="" id="wishMusicLink" class="wishLinks">Music Link here</a>
+        </div>
+        <a id="rBtn" href="#" onclick="renderWishlist(event, true)">&gt;</a>
+      </div>
+      <!--ADD TO WISHLIST PAGE-->
+      <div id="addFormPage" class="pivotHide">
+        <div id="addFormTokenBtnContainer">
+          <p id="formTitle">Add an album to the wishlist</p>
+          <a href="#" onclick="showAuthDialog();">⚙</a>
+        </div>
+        <form onsubmit="return false" id="addForm">
+          <label for="albumName">Album Name:</label>
+          <input type="text" name="albumName" id="albumName" required>
+          <label for="artistName">Artist Name:</label>
+          <input type="text" name="artistName" id="artistName" required>
+          <label for="description">Description:</label>
+          <input type="text" name="description" id="description">
+          <label for="color">Vinyl Color:</label>
+          <input list="colorsList" name="color" id="color">
+          <datalist id="colorsList">
+            <option value="Black">
+            <option value="Red">
+            <option value="Orange">
+            <option value="Yellow">
+            <option value="Green">
+            <option value="Blue">
+            <option value="Purple">
+            <option value="Pink">
+            <option value="White">
+            <option value="Grey">
+            <option value="Silver">
+            <option value="Gold">
+            <option value="Other">
+          </datalist>
+          <input type="color" id="colorHex" onchange="updateColorHex('color')"></input>
+          <label for="colorSec">Vinyl Secondary Color:</label>
+          <input list="colorsList" name="colorSec" id="colorSec">
+          <input type="color" id="colorSecHex" onchange="updateColorHex('colorSec')"></input>
+          <label for="vinylStyle">Vinyl Style:</label>
+          <input list="vinylStyleList" name="vinylStyle" id="vinylStyle">
+            <datalist id="vinylStyleList">
+              <option value="Matte">
+              <option value="Marble">
+              <option value="Galaxy">
+              <option value="Two-Tone">
+              <option value="Splatter">
+              <option value="Other">
+            </datalist>
+          <label for="shopurl">Purchase Link:</label>
+          <input type="url" name="shopurl" id="shopurl">
+          <label for="price">Price:</label>
+          <input type="text" name="price" id="price"></input>
+          <label for="releaseDate">Release Date:</label>
+          <input type="text" name="releaseDate" id="releaseDate"></input>
+          <label for="imageurl">Image URL:</label>
+          <input type="text" name="imageurl" id="imageurl"></input>
+          <label for="musicurl">Music URL:</label>
+          <input type="text" name="musicurl" id="musicurl"></input>
+          <span id="tracklistList"></span>
+          <span class="trackBtns">
+            <button id="formAddBtn" onclick="addTrack(event)">+</button>
+            <button id="formSubBtn" onclick="removeTrack(event)">-</button>
+          </span>
+          <span id="formBtns">
+            <!--<input type="submit" id="submit" onclick="postData(event);" target="#">-->
+            <input type="submit" id="submit" onclick="if(document.forms['addForm'].reportValidity()){addToWishlist();}" target="#">
+            <input type="reset" id="rst">
+          </span>
+        </form>
+      </div>
+      <!--COLLECTION-->
+      <div id="collection" class="pivotHide">
+        <!--TODO Add a mini menu at the top right of the collection to allow 
+        the selection of different displays modes. (List, Images (current),   Carousel)-->
+        <div id="colHeader">
+          <h2>Collection</h2>
+          <div id="colDisMenu">
+            <p>Display: </p>
+            <a href="#" id="colListBtn" title="List View">📃</a>
+            <a href="#" id="colCarouselBtn" title=
+  "Carousel View">🎠</a>
+            <a href="#" id="colShelfBtn" title="Shelf View">📚</a>
           </div>
         </div>
-        <footer>
-          <a href="https://codepen.io/Guinewok/pen/JjVYMbr">CodePen</a>
-          <span>•</span>
-          <a href="https://music.youtube.com/">Youtube Music</a>
-          <span>•</span>
-          <a href="https://github.com/Guinewok/vinylWishlist">Github Repo</a>
-          <p id="cpyrt">Guinewok ©2024</p>
-        </footer>
-      </body>
-</html>
+        <div id="collectionList">
+          <img class="colVinylImage" src="" alt="image">
+          <img class="colVinylImage" src="" alt="image">
+          <img class="colVinylImage" src="" alt="image">
+        </div>
+      </div>
+      <!--DEV PAGE-->
+      <div id="na" class="pivotHide">
+        <a href="#" onclick="mapDevData()">Get Data/Refresh</a>
+        <pre id="preElement"></pre>
+      </div>
+    </div>
+    <footer>
+      <a href="https://codepen.io/Guinewok/pen/JjVYMbr">CodePen</a>
+      <span>•</span>
+      <a href="https://music.youtube.com/">Youtube Music</a>
+      <span>•</span>
+      <a href="https://github.com/Guinewok/vinylWishlist">Github Repo</a>
+      <p id="cpyrt">Guinewok ©2024</p>
+    </footer>
+  </body>

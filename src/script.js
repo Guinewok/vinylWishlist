@@ -106,7 +106,6 @@ async function addToWishlist(){
   //Check for Auth Token
   if(!authToken) {
     showAuthDialog();
-    console.log("Invalid Token");
   }else{
     const wishlist = JSON.parse(localStorage.getItem("wishlist"));
     wishlist[wishlist.length] = newObject;
@@ -170,7 +169,15 @@ function renderWishlist(e, increment){
       rBtn = document.getElementById('rBtn');
       rBtn.removeAttribute('disabled');
     }
-
+    // const buttonMenuContainer = document.getElementById('wishlistButtonMenu');
+    // buttonMenuContainer.append([])
+  
+    const addToColConfirmBtn = document.getElementById('wishToColBtn');
+    addToColConfirmBtn.setAttribute('onclick', `updateWishToCol( '${wishlist[i].devData.id}')`);
+  
+    const addToColText = document.getElementById('addToColDialogText');
+    addToColText.innerHTML = `Add ${wishlist[i].albumName} to collection?`;
+  
     const title = document.getElementById('wishTitle');
     title.innerHTML = `${wishlist[i].albumName}`;
   
@@ -294,7 +301,7 @@ function hideAuthDialog() {
   dialog.close();
 };
 
-function showAddToColDialog(e) {
+function showAddToColDialog(e, id) {
   e = e || window.event;
   e.preventDefault();
   const dialog = document.getElementById('addToColDialog');
@@ -302,7 +309,7 @@ function showAddToColDialog(e) {
 };
 
 function hideAddToColDialog() {
-  const dialog = document.getElementById('submitDialog');
+  const dialog = document.getElementById('addToColDialog');
   dialog.close();
 };
 
@@ -390,7 +397,7 @@ function loadEditForm(item) {
   document.getElementById('formBtns').innerHTML = 
     `<input type="submit" id="update" onclick="updateList(${item.devData.id.substring(1)});" target="#" value="Update">
     <input type="button" id="remove" value="Remove">
-    <input type="button" id="cancel" value="Cancel">`;
+    <input type="button" id="cancel" value="Cancel" onclick="document.forms[0].reset();pivotToggle(0);">`;
 }
 
 function editItem(e, currVal) {
@@ -398,7 +405,7 @@ function editItem(e, currVal) {
   e.preventDefault();
   const item = getItem(currVal);
   loadEditForm(item);
-  pivotToggle(e, 1);
+  pivotToggle(1);
   mapFormTracklist(item.tracklist.length);
   mapExistingToForm(item);
 }
@@ -459,6 +466,22 @@ function refreshWishlist(e){
     getData();
     renderWishlist();
 }
+
+function updateWishToCol(id) {
+  const authToken = localStorage.getItem("authToken");
+  if(!authToken) {
+    showAuthDialog();
+  }else{
+    console.log('token present: ', authToken);
+    //do something
+  }
+}
+
+//WIP
+/*function clearForm() {
+  var form = document.getElementById('addForm');
+  form.reset();
+}*/
 
 //DEV FUNCTIONS
 async function updateCount(){
