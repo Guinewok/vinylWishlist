@@ -10,7 +10,7 @@ const fileName = 'test.json';
 const status = 'TESTING';
 
 function pivotToggle(pivotNum) {
-  var pivotArray = ["carousel","addFormPage","collection","na"];
+  var pivotArray = ["carousel","addFormPage","collection","na", "wip"];
 
   for(i = 0; i < pivotArray.length; i++){
     if(i === Number(pivotNum)){
@@ -496,3 +496,80 @@ function mapDevData() {
   preElement.innerHTML += `,\n"Collection":` + localStorage.getItem("collection");
   preElement.innerHTML += `,\n"Removed":` + localStorage.getItem("removed");
 };
+
+async function youtubeAPITest() {
+  const key = "";
+  const q = document.getElementById('searchtest').value;
+  const type = "channel";
+  const response = await 
+  fetch(`https://www.googleapis.com/youtube/v3/search?key=${key}&part=snippet&type=${type}&q=${q}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+  const data = await response.json();
+  console.log(data);
+  const preElement = document.getElementById('responseTest');
+  const resultsElement = document.getElementById('searchResults');
+  resultsElement.innerHTML = "";
+  //preElement.innerHTML = JSON.stringify(data.items, null, 2);
+  for(i = 0; i < data.items.length; i++) {
+    const resultItemContainer = document.createElement("div");
+    resultItemContainer.classList.add('searchItem');
+    resultItemContainer.id = `result-${i}`
+    
+    const resultName = document.createElement('p');
+    resultName.innerHTML = data.items[i].snippet.channelTitle;
+    
+    const resultId = document.createElement('sub');
+    resultId.innerHTML = data.items[i].snippet.channelId;
+    
+    const resultDesc = document.createElement('p');
+    resultDesc.innerHTML = data.items[i].snippet.description;
+    
+    const resultThumb = document.createElement('img');
+    resultThumb.src = data.items[i].snippet.thumbnails.default.url;
+    resultThumb.classList.add('resultImg');
+    
+    const resultURL = document.createElement('a');
+    resultURL.href = `https://www.youtube.com/channel/${data.items[i].snippet.channelId}`;
+    resultURL.innerHTML = `https://www.youtube.com/channel/${data.items[i].snippet.channelId}`;
+    
+    const resultPlaylistsBtn = document.createElement("button");
+    resultPlaylistsBtn.setAttribute('onclick',`viewPlaylists('result-${i}', '${data.items[i].snippet.channelId}')`);
+    resultPlaylistsBtn.innerHTML = "View Playlists";
+    
+    resultItemContainer.append(...[resultThumb, resultName, resultId, resultDesc, resultURL, resultPlaylistsBtn ]);
+    resultsElement.append(resultItemContainer);
+  }
+};
+
+
+async function viewPlaylists(index, channelId) {
+  const key = "";
+  const response = await 
+  fetch(`https://www.googleapis.com/youtube/v3/playlists?key=${key}&part=snippet&channelId=${channelId}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+  const data = await response.json();
+  const searchItemContainer = document.getElementById(index);
+  for(i = 0; i < data.items.length; i++) {
+    const resultItemContainer = document.createElement("div");
+    resultItemContainer.classList.add('playlists');
+    
+    const playlistTitle = document.createElement('p');
+    playlistTitle.innerHTML = data.items[i].snippet.title;
+    
+    const playlistId = document.createElement('p');
+    playlistId.innerHTML = data.items[i].id;
+    
+    const playlistThumb = document.createElement('img');
+    playlistThumb.src = data.items[i].snippet.thumbnails.url;
+    playlistThumb.classList.add('playlistImg');
+    
+    resultItemContainer.append(...[playlistTitle, playlistId, playlistThumb]);
+    searchItemContainer.append(resultItemContainer);
+  }
+};
+
+//TODO - Add an eventListener to get the current search box input with a timeout and auto look up its contents

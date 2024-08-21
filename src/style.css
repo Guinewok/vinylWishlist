@@ -295,3 +295,37 @@ footer{
  top: 0;
   margin: 0;
 }
+
+/*WIP*/
+.searchItem {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin: 20px 10px;
+}
+
+.searchItem p, .searchItem sub, .searchItem a {
+  flex: 1 1 90%;
+  flex-grow: 1;
+  margin: 0;
+}
+
+
+/* .searchItem p {
+  display: block;
+  flex-grow: 0;
+}
+
+.resultImg {
+  flex-direction: row;
+  display: block;
+  
+} */
+
+#searchContainer, #resultNavBtns {
+  text-align: center;
+}
+
+.playlists{
+  flex: 100%;
+}

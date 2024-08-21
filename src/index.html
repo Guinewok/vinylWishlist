@@ -1,5 +1,5 @@
 <!--<body onload="localStorage.clear();getData();renderWishlist();">-->
-  <body onload="getData();renderWishlist();">
+  <body onload="getData();renderWishlist();pivotToggle(4)">
     <header>
       <h1 id="test">Site Title</h1>
       <nav>
@@ -9,6 +9,7 @@
           <li><a href="#" onclick="pivotToggle(1)">Add Form</a></li>
           <li><a href="#" onclick="pivotToggle(2)">Collection</a></li>
           <li><a href="#" onclick="pivotToggle(3)">Dev Data</a></li>
+          <li><a href="#" onclick="pivotToggle(4)">WIP</a></li>
         </ul>
       </nav>
     </header>
@@ -147,11 +148,27 @@
         <a href="#" onclick="mapDevData()">Get Data/Refresh</a>
         <pre id="preElement"></pre>
       </div>
+      <!--WIP PAGE-->
+      <div id="wip" class="pivotHide">
+        <div id="searchContainer">
+          <label for="searchtest">Search:</label>
+          <input type="text" name="searchtest" id="searchtest">
+          <button type="button" onclick="youtubeAPITest()">Submit</button>
+        </div>
+        <div id="searchResults"></div>
+        <pre id="responseTest"></pre>
+        <div id="resultNavBtns">
+          <button type="button" onclick="">&lt; Prev</button>
+          <button type="button" onclick="">Next &gt;</button>
+        </div>
+      </div>
     </div>
     <footer>
       <a href="https://codepen.io/Guinewok/pen/JjVYMbr">CodePen</a>
       <span>•</span>
       <a href="https://music.youtube.com/">Youtube Music</a>
+      <span>•</span>
+      <a href="https://developers.google.com/youtube">Youtube API</a>
       <span>•</span>
       <a href="https://github.com/Guinewok/vinylWishlist">Github Repo</a>
       <p id="cpyrt">Guinewok ©2024</p>
