@@ -1,5 +1,11 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <link rel="stylesheet" href="style.css">
+      <script type="text/javascript" src="script.js" async></script>
+  </head>-->
 <!--<body onload="localStorage.clear();getData();renderWishlist();">-->
-  <body onload="getData();renderWishlist();pivotToggle(4)">
+  <body onload="getData();renderWishlist();pivotToggle(4);populateGenres();">
     <header>
       <h1 id="test">Site Title</h1>
       <nav>
@@ -150,13 +156,21 @@
       </div>
       <!--WIP PAGE-->
       <div id="wip" class="pivotHide">
+        <div id="wipApiKey">
+          <label for="apiKey">API Key:</label>
+          <input type="text" name="apiKey" id="apiKey">
+          <button type="button" onclick="getYoutubeAPIKey()">Submit</button>
+        </div>
+        <div id="genres">
+          <select id="genreDropdown"></select>
+          <button type="button" onclick="clearGenre()">Clear</button>
+        </div>
         <div id="searchContainer">
           <label for="searchtest">Search:</label>
           <input type="text" name="searchtest" id="searchtest">
           <button type="button" onclick="youtubeAPITest()">Submit</button>
         </div>
         <div id="searchResults"></div>
-        <pre id="responseTest"></pre>
         <div id="resultNavBtns">
           <button type="button" onclick="">&lt; Prev</button>
           <button type="button" onclick="">Next &gt;</button>
@@ -174,3 +188,4 @@
       <p id="cpyrt">Guinewok ©2024</p>
     </footer>
   </body>
+<!--</html>-->

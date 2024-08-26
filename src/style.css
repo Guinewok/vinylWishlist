@@ -297,35 +297,96 @@ footer{
 }
 
 /*WIP*/
+#wip{
+  width: 800px;
+}
+
+#wipApiKey {
+  text-align: center;
+}
+
+#genres {
+  display: flex;
+  justify-content: right;
+}
+
+#searchContainer {
+  display: flex;
+}
+
+#searchContainer label {
+  flex: 1;
+  line-height: 30px;
+}
+
+#searchContainer input {
+  flex: 8;
+  margin: 0;
+  height: 30px;
+}
+
+#searchContainer button {
+  flex: 1;
+}
+
 .searchItem {
   display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
   margin: 20px 10px;
+  position: relative;
+  flex-wrap: wrap;
 }
 
-.searchItem p, .searchItem sub, .searchItem a {
-  flex: 1 1 90%;
-  flex-grow: 1;
+.searchItem img, .playlists img {
+  height: 120px;
+}
+
+.channelContainer, .playlistsContainer { 
+  width: 100%;
+  flex: 1 1 0;
+}
+
+.channelContainer *, .playlistsContainer *{
   margin: 0;
+  display: block;
 }
 
-
-/* .searchItem p {
-  display: block;
-  flex-grow: 0;
+.playlistsContainer img {
+  display: inline;
+  width: 120px;
 }
 
-.resultImg {
-  flex-direction: row;
-  display: block;
-  
-} */
+.channelContainer sub + p {
+  font-size: 12px;
+}
+
+.channelContainer button, .playlistsContainer button {
+  width: auto;
+}
+
+.playlistsContainer {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+}
+
+.playlistDetails{
+  width: calc(100% - 124px);
+}
+
+.playlists{
+  flex: 100%;
+  display: flex;
+  width: 700px;
+  margin: 10px 0px 10px 0px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.videos {
+  width: 100%;
+}
 
 #searchContainer, #resultNavBtns {
   text-align: center;
 }
 
-.playlists{
-  flex: 100%;
-}

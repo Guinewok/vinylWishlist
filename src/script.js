@@ -497,12 +497,16 @@ function mapDevData() {
   preElement.innerHTML += `,\n"Removed":` + localStorage.getItem("removed");
 };
 
+const topicSelected = "";
+
 async function youtubeAPITest() {
-  const key = "";
+  const key = localStorage.getItem("YoutubeAPIKey");
   const q = document.getElementById('searchtest').value;
   const type = "channel";
+  const order = "relevance";
+  const topic = localStorage.getItem("topic");
   const response = await 
-  fetch(`https://www.googleapis.com/youtube/v3/search?key=${key}&part=snippet&type=${type}&q=${q}`, {
+  fetch(`https://www.googleapis.com/youtube/v3/search?key=${key}&topicId=${topic}&order=${order}&part=snippet&type=${type}&q=${q}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
@@ -511,11 +515,13 @@ async function youtubeAPITest() {
   const preElement = document.getElementById('responseTest');
   const resultsElement = document.getElementById('searchResults');
   resultsElement.innerHTML = "";
-  //preElement.innerHTML = JSON.stringify(data.items, null, 2);
   for(i = 0; i < data.items.length; i++) {
     const resultItemContainer = document.createElement("div");
     resultItemContainer.classList.add('searchItem');
-    resultItemContainer.id = `result-${i}`
+    resultItemContainer.id = data.items[i].snippet.channelId;
+    
+    const channelContainer = document.createElement('div');
+    channelContainer.classList.add("channelContainer");
     
     const resultName = document.createElement('p');
     resultName.innerHTML = data.items[i].snippet.channelTitle;
@@ -535,41 +541,142 @@ async function youtubeAPITest() {
     resultURL.innerHTML = `https://www.youtube.com/channel/${data.items[i].snippet.channelId}`;
     
     const resultPlaylistsBtn = document.createElement("button");
-    resultPlaylistsBtn.setAttribute('onclick',`viewPlaylists('result-${i}', '${data.items[i].snippet.channelId}')`);
+    resultPlaylistsBtn.setAttribute('onclick',`viewPlaylists( '${data.items[i].snippet.channelId}')`);
     resultPlaylistsBtn.innerHTML = "View Playlists";
     
-    resultItemContainer.append(...[resultThumb, resultName, resultId, resultDesc, resultURL, resultPlaylistsBtn ]);
+    channelContainer.append(...[resultName, resultId, resultDesc, resultURL, resultPlaylistsBtn]);
+    
+    resultItemContainer.append(...[resultThumb, channelContainer ]);
     resultsElement.append(resultItemContainer);
   }
 };
 
 
-async function viewPlaylists(index, channelId) {
-  const key = "";
+async function viewPlaylists(channelId) {
+  const key = localStorage.getItem("YoutubeAPIKey");
   const response = await 
   fetch(`https://www.googleapis.com/youtube/v3/playlists?key=${key}&part=snippet&channelId=${channelId}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
   const data = await response.json();
-  const searchItemContainer = document.getElementById(index);
+  console.log(data);
+  const searchItemContainer = document.getElementById(channelId);
+  
+  const playlistsContainer = document.createElement('div');
+  playlistsContainer.classList.add('playlistsContainer');
   for(i = 0; i < data.items.length; i++) {
     const resultItemContainer = document.createElement("div");
     resultItemContainer.classList.add('playlists');
+    resultItemContainer.id = data.items[i].id;
+    
+    const playlistDetailsContainer = document.createElement("div");
+    playlistDetailsContainer.classList.add('playlistDetails');
     
     const playlistTitle = document.createElement('p');
     playlistTitle.innerHTML = data.items[i].snippet.title;
+    
+    const playlistUrl = document.createElement('a');
+    playlistUrl.href = `https://www.youtube.com/playlist?list=${data.items[i].id}`;
+    playlistUrl.innerHTML = `https://www.youtube.com/playlist?list=${data.items[i].id}`;
     
     const playlistId = document.createElement('p');
     playlistId.innerHTML = data.items[i].id;
     
     const playlistThumb = document.createElement('img');
-    playlistThumb.src = data.items[i].snippet.thumbnails.url;
+    playlistThumb.src = data.items[i].snippet.thumbnails.default.url;
     playlistThumb.classList.add('playlistImg');
     
-    resultItemContainer.append(...[playlistTitle, playlistId, playlistThumb]);
-    searchItemContainer.append(resultItemContainer);
+    const playListsSongBtn = document.createElement('button');
+    playListsSongBtn.setAttribute('onclick',`getPlaylistVideos('${data.items[i].id}')`);
+    playListsSongBtn.innerHTML = "View Videos";
+    
+    const playlistsVideoSection = document.createElement('div');
+    playlistsVideoSection.id = `list-${data.items[i].id}`;
+    playlistsVideoSection.classList.add('videos');
+    
+  playlistDetailsContainer.append(...[playlistTitle, playlistUrl, playlistId, playListsSongBtn, playlistsVideoSection]);
+    resultItemContainer.append(playlistThumb, playlistDetailsContainer);
+    playlistsContainer.append(resultItemContainer);
+    searchItemContainer.append(playlistsContainer);
   }
 };
 
+async function getPlaylistVideos(playlistId) {
+  const key = localStorage.getItem("YoutubeAPIKey");
+  console.log(key);
+  const response = await 
+ fetch(`https://www.googleapis.com/youtube/v3/playlistItems?key=${key}&part=snippet&maxResults=30&playlistId=${playlistId}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+  const data = await response.json();
+  const playlistItemContainer = document.getElementById(playlistId);
+  
+  const videoListContainer = document.getElementById(`list-${playlistId}`);
+  videoListContainer.innerHTML = "";
+  
+  for(i = 0; i < data.items.length; i++) {
+    const videoTitle = document.createElement('p');
+    videoTitle.innerHTML = data.items[i].snippet.title;
+    
+    /*const videoId = document.createElement('p');
+    videoId.innerHTML = data.items[i].id;*/
+    
+    /*const videoThumb = document.createElement('img');
+    videoThumb.src = data.items[i].snippet.thumbnails.default.url;
+    videoThumb.classList.add('videoImg');*/
+    
+    videoListContainer.append(...[videoTitle]);
+    playlistItemContainer.append(videoListContainer);
+  }
+};
+
+const topicArray = [
+  {code: "", name: "No Genre"},
+  {code: "/m/04rlf", name: "Music (parent topic)"},
+  {code: "/m/02mscn", name: "Christian music"},
+  {code: "/m/0ggq0m", name: "Classical music"},
+  {code: "/m/01lyv", name: "Country"},
+  {code: "/m/02lkt", name: "Electronic music"},
+  {code: "/m/0glt670", name: "Hip hop music"},
+  {code: "/m/05rwpb", name: "Independent music"},
+  {code: "/m/03_d0", name: "Jazz"},
+  {code: "/m/028sqc", name: "Music of Asia"},
+  {code: "/m/0g293", name: "Music of Latin America"},
+  {code: "/m/064t9", name: "Pop music"},
+  {code: "/m/06cqb", name: "Reggae"},
+  {code: "/m/06j6l", name: "Rhythm and blues"},
+  {code: "/m/06by7", name: "Rock music"},
+  {code: "/m/0gywn", name: "Soul music"}
+];
+
+function populateGenres() {
+  const dropdown = document.getElementById('genreDropdown');
+  for(i = 0; i < topicArray.length; i++) {
+    const option = document.createElement('option');
+    option.value = topicArray[i].code;
+    option.innerHTML = topicArray[i].name;
+    dropdown.append(option);
+  }
+};
+
+const genreDropdown = document.getElementById('genreDropdown');
+
+genreDropdown.addEventListener("change", (item) => {
+  console.log("selection made: ", item.target.value);
+  localStorage.setItem("topic", item.target.value);
+});
+
+function clearGenre() {
+  localStorage.removeItem("topic");
+};
+
+function getYoutubeAPIKey() {
+  const apikey = document.getElementById('apiKey');
+  localStorage.setItem("YoutubeAPIKey", apikey.value);
+}
+
 //TODO - Add an eventListener to get the current search box input with a timeout and auto look up its contents
+//TODO - Look into filtering the content returned by CategoryID = 10 (music)
+//https://developers.google.com/youtube/v3/docs/videoCategories/list?apix_params=%7B%22part%22%3A%5B%22snippet%22%5D%2C%22regionCode%22%3A%22US%22%7D#usage
