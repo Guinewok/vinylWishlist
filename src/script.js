@@ -9,6 +9,14 @@ const githubRepo = 'Guinewok/vinylWishlist';
 const fileName = 'test.json';
 const status = 'TESTING';
 
+window.addEventListener("load", () => {
+  //localStorage.clear();
+  getData();
+  renderWishlist();
+  pivotToggle(4);
+  populateGenres();
+});
+
 function pivotToggle(pivotNum) {
   var pivotArray = ["carousel","addFormPage","collection","na", "wip"];
 
