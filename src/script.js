@@ -8,13 +8,16 @@ const githubRepo = 'Guinewok/vinylWishlist';
 //const status = 'wishlisted';
 const fileName = 'test.json';
 const status = 'TESTING';
+var searchResultsArr = [];
+const statusArr = ["TESTING", "wishlisted", "collected", "removed"];
 
 window.addEventListener("load", () => {
   //localStorage.clear();
   getData();
   renderWishlist();
-  pivotToggle(4);
+  pivotToggle(0);
   populateGenres();
+  localStorage.removeItem("pageToken");
 });
 
 function pivotToggle(pivotNum) {
@@ -180,8 +183,11 @@ function renderWishlist(e, increment){
     // const buttonMenuContainer = document.getElementById('wishlistButtonMenu');
     // buttonMenuContainer.append([])
   
+    // const addToColConfirmBtn = document.getElementById('wishToColBtn');
+    // addToColConfirmBtn.setAttribute('onclick', `updateWishToCol( '${wishlist[i].devData.id}')`);
+  
     const addToColConfirmBtn = document.getElementById('wishToColBtn');
-    addToColConfirmBtn.setAttribute('onclick', `updateWishToCol( '${wishlist[i].devData.id}')`);
+    addToColConfirmBtn.setAttribute('onclick', `addToList('collection', '${wishlist[i].devData.id}')`);
   
     const addToColText = document.getElementById('addToColDialogText');
     addToColText.innerHTML = `Add ${wishlist[i].albumName} to collection?`;
@@ -507,23 +513,40 @@ function mapDevData() {
 
 const topicSelected = "";
 
-async function youtubeAPITest() {
+//TODO - The "search" endpoint has a single query cost of 100 units, meaning each time this query is called it costs 100 units of the 10000 units alloted for the key.  Need to store the results in an array and parse it to avoid excess query calls.  If the quota is hit this feature will not work until 2am the next day.
+async function youtubeSearch(hasPageToken) {
   const key = localStorage.getItem("YoutubeAPIKey");
+  const maxResults = 100;
+  const displayResults = 5;
   const q = document.getElementById('searchtest').value;
-  const type = "channel";
+  const type = "";
   const order = "relevance";
   const topic = localStorage.getItem("topic");
+  const pageToken = hasPageToken ? hasPageToken : null;
   const response = await 
-  fetch(`https://www.googleapis.com/youtube/v3/search?key=${key}&topicId=${topic}&order=${order}&part=snippet&type=${type}&q=${q}`, {
+  fetch(`https://www.googleapis.com/youtube/v3/search?key=${key}&maxResults${maxResults}&topicId=${topic}&order=${order}&part=snippet&type=${type}${(pageToken != "undefined" && pageToken != null) ? "".concat("&pageToken=",pageToken) : ""}&q=${q}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
   const data = await response.json();
   console.log(data);
+  
+  localStorage.setItem("apiData", data);
+  for(var item in data) {
+    searchResultsArr.push([item, data[item]]);
+  }
+  console.log(searchResultsArr);
+  
+  
+  // const prevBtn = document.getElementById('wipPrev');
+  // prevBtn.onclick = `youtubeSearch(data.prevPageToken)`;
+  // const nextBtn = document.getElementById('wipNext');
+  // nextBtn.onclick = `youtubeSearch(data.nextPageToken)`;
+  
   const preElement = document.getElementById('responseTest');
   const resultsElement = document.getElementById('searchResults');
   resultsElement.innerHTML = "";
-  for(i = 0; i < data.items.length; i++) {
+  for(i = 0; i < displayResults; i++) {
     const resultItemContainer = document.createElement("div");
     resultItemContainer.classList.add('searchItem');
     resultItemContainer.id = data.items[i].snippet.channelId;
@@ -556,9 +579,15 @@ async function youtubeAPITest() {
     
     resultItemContainer.append(...[resultThumb, channelContainer ]);
     resultsElement.append(resultItemContainer);
+    
+    console.log(data);
   }
 };
 
+function changePage(index, pageToken) {
+  
+  //Get the index and pagelength and re-render it to the results
+};
 
 async function viewPlaylists(channelId) {
   const key = localStorage.getItem("YoutubeAPIKey");
@@ -688,3 +717,281 @@ function getYoutubeAPIKey() {
 //TODO - Add an eventListener to get the current search box input with a timeout and auto look up its contents
 //TODO - Look into filtering the content returned by CategoryID = 10 (music)
 //https://developers.google.com/youtube/v3/docs/videoCategories/list?apix_params=%7B%22part%22%3A%5B%22snippet%22%5D%2C%22regionCode%22%3A%22US%22%7D#usage
+
+//TODO - WIP function to handle any additions to any of the 3 lists
+async function addToList(listName, index){
+  const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/${fileName}`;
+  //Only do this if the listName is wishlist, try passing the function call as item in params
+  const newObject = getItem(index);
+  console.log("newObject", newObject);
+  //const newObject = await parseFormData();
+  
+  const authToken = localStorage.getItem("authToken");
+  //Check for Auth Token
+  if(!authToken) {
+    showAuthDialog();
+  }else{
+    const list = JSON.parse(localStorage.getItem(listName));
+    console.log(list);
+    list[list.length] = newObject;
+    const fullObj = JSON.parse(localStorage.getItem("fullList"));
+    let commitMessage = "";
+    switch(listName) {
+      case 'wishlist': {
+        fullObj.wishlist = list;
+        commitMessage = `Add ${newObject.albumName} by ${newObject.artistName} to the vinyl wishlist`;
+        break;
+      }
+      case 'collection': {
+        fullObj.collection = list;
+        commitMessage = `Add ${newObject.albumName} by ${newObject.artistName} to the vinyl collection`;
+        break;
+      }
+      case 'removed': {
+        fullObj.removed = list;
+        commitMessage = `Remove ${newObject.albumName} by ${newObject.artistName} from the ${listName}`;
+        break;
+      }
+      default: {
+        console.log("failed");
+        commitMessage = "No list was selected";
+      }
+    };
+    //fullObj.wishlist = list;
+    console.log("Updated Object: ", fullObj);
+   
+    /*const commitMessage = `Add ${newObject.albumName} by ${newObject.artistName} to the vinyl wishlist`;*/
+    const base64Content = btoa(JSON.stringify(fullObj, null, 2)); 
+
+    const requestBody = {
+      message: commitMessage,
+      content: base64Content,
+      sha: localStorage.getItem("sha"),
+    };
+    console.log(requestBody);
+    pivotToggle(0);
+    };
+};
+
+//NEW STRUCTURE CONCEPT
+/**********************************
+Need the following functions to be created/rebuilt:
+  -addToList
+    -Accepts listName and item index(devdata.id)(optional)
+    -Adds an item to a list
+    -DOES NOT PUSH CHANGES
+    -Returns a changed object
+    
+  -removeFromList
+    -Accepts listName and item index(devdata.id)
+    -removes an item from a list
+    -DOES NOT PUSH CHANGES
+    -Returns a changed object
+    
+  -updateList
+    -Accepts listName and item index(devdata.id)
+    -Modifies an item in a list
+    -DOES NOT PUSH CHANGES
+    -Returns a changed object
+    
+  -createRequestBody
+    -Accepts changed objects
+    -Creates request bodies with commit messages
+    -DOES NOT PUSH TO REPO
+    
+  -pushToRepo
+    -Accepts request bodies
+    -Takes changes made and pushes them to the repo
+    
+--------------------------
+  INTENDED WORKFLOWS
+--------------------------
+    addListItem(listName, pivotTo){
+      const add = addToList(listName);
+      const requestBody = createRequestBody(add);
+      pushToRepo(requestBody);
+      pivotToggle(pivotTo);
+    }
+    
+    transferListItem(fromCol, toCol, itemIndex, pivotTo){
+      //Need to get the return values from both of these functions
+      const add = addToList(toCol, itemIndex);
+      const remove = removeFromList(fromCol, itemIndex);
+      //Need to plan out how more than one change can be made into a request body
+      //If too complex, a second createRequestBody can be made, or it can be handled in workflow functions
+      const requestBody = createRequestBody(add, remove);
+      pushToRepo(requestBody);
+      pivotToggle(pivotTo);
+    }
+    
+    updateListItem(listName, itemIndex, pivotTo){
+      const update = updateList(listName, itemIndex);
+      const requestBody = createRequestBody(update);
+      pushToRepo(requestBody);
+      pivotToggle(pivotTo);
+    }
+    
+    removeListItem(listName, itemIndex, pivotTo){
+      const remove = removeFromList(listName, itemIndex);
+      const requestBody = createRequestBody(remove);
+      pustToRepo(requestBody);
+      pivotToggle(pivotTo);
+    }
+**********************************/
+
+//FOR ADDING A VINYL TO WISHLIST OR COLLECTION
+async function testAddToList(listName, item){
+  const newObject = await item;
+  
+  //Append new object to the end of the list
+  const list = JSON.parse(localStorage.getItem(listName));
+  list[list.length] = newObject;
+  
+  //Get the fullList object
+  const fullObj = JSON.parse(localStorage.getItem("fullList"));
+  //Overwrite the corresponding section
+  let commitMessage = "";
+  switch(listName) {
+      case 'wishlist': {
+        fullObj.wishlist = list;
+        commitMessage = `Add ${newObject.albumName} by ${newObject.artistName} to the ${listName}`;
+        break;
+      }
+      case 'collection': {
+        fullObj.collection = list;
+        commitMessage = `Add ${newObject.albumName} by ${newObject.artistName} to the ${listName}`;
+        break;
+      }
+      case 'removed': {
+        fullObj.removed = list;
+        commitMessage = `Remove ${newObject.albumName} by ${newObject.artistName}`;
+        break;
+      }
+      default: {
+        console.log("FAILED - No listName was provided");
+      }
+    };
+  return [fullObj, commitMessage];
+};
+
+//FOR CREATING A REQUEST BODY TO SUBMIT TO THE PUSH FUNCTION
+async function testCreateRequestBody(listName, item) {
+  const fullItem = await item;
+  
+  const commitMessage = fullItem[1];
+  
+  const obj = fullItem[0];
+  const base64Content = btoa(JSON.stringify(obj, null, 2));
+  
+  const requestBody = {
+    message: commitMessage,
+    content: base64Content,
+    sha: localStorage.getItem("sha"),
+  };
+  return requestBody;
+};
+
+//FUNCTION TO PUSH CHANGES TO THE GITHUB REPO
+async function testPushToRepo(promiseRequestBody) {
+  const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/${fileName}`;
+  const authToken = localStorage.getItem("authToken");
+  const requestBody = await promiseRequestBody;
+  console.log("requestBody from push: ", requestBody);
+  //Check for Auth Token
+  if(!authToken) {
+    showAuthDialog();
+  }else{
+    fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    }).then((response) => {
+      if(response.ok) {
+        showSubmitDialog("Success <br> File updated and changes pushed to GitHub.");
+      }else{
+        showSubmitDialog(`Failed to ${requestBody.message}: ${response.status}`);
+      }
+    })
+  }
+};
+
+//WORKFLOW FUNCTION - Add a Vinyl to the Wishlist or Collection
+function testAddListItem(listName, pivotTo){
+   const item = testParseFormData(listName, statusArr[1]);
+   const add = testAddToList(listName, item);
+   console.log("<Promise> - List Addition ", add);
+  
+   const requestBody = testCreateRequestBody(listName, add);
+   console.log("<Promise> - requestBody: ", requestBody);
+  
+   testPushToRepo(requestBody);
+  
+   //Refresh to get the new sha, otherwise encounter 409 error
+   getData();
+  
+   if(pivotTo){pivotToggle(pivotTo)};
+ };
+
+function testParseFormData(listName, status) {
+  var myFormData = new FormData(document.querySelector('form'));
+  const formDataObj = {};
+  myFormData.forEach((value, key) => (formDataObj[key] = value));
+  for(var i in formDataObj){
+    if(formDataObj[i].length < 1){
+      formDataObj[i] = "None";
+    }
+  }
+ 
+  const newListItem = {
+			albumName: formDataObj.albumName,
+			artistName: formDataObj.artistName,
+      description: formDataObj.description,
+			design: {
+        color: formDataObj.color,
+        colorSec: formDataObj.colorSec,
+        vinylStyle: formDataObj.vinylStyle
+      },
+			price: formDataObj.price,
+			releaseDate: formDataObj.releaseDate,
+			shopurl: formDataObj.shopurl,
+			imageurl: formDataObj.imageurl,
+			musicurl: formDataObj.musicurl,
+      tracklist: [],
+			devData: {
+        id: listName.slice(0,1) + JSON.parse(localStorage.getItem(listName)).length,
+        status: status,
+        wishlistedDate: "",
+        collectedDate: "",
+        removedDate: "",
+      }
+      /*
+      apiDetails: {
+        channelId: formDataObj.channelId,
+        playlistId: formDataObj.playlistId
+      }
+      */
+		};
+//TODO Add error catching
+  for(var i = 0; i < trackCount; i++) {
+    const curr = document.getElementById(`tracknum${i + 1}`).value;
+    newListItem.tracklist.push({
+      trackName: curr,
+      trackNum: i + 1,
+    })
+  };
+  
+  if(listName === "wishlist"){ 
+    newListItem.devData.wishlistedDate = new Date() 
+  };
+  if(listName === "collection"){
+    newListItem.devData.collectedDate = new Date() 
+  };
+  if(listName === "removed"){
+    newListItem.devData.removedDate = new Date() 
+  };
+  console.log("Form Converted to JSON Object: ", newListItem);
+  return newListItem;
+};

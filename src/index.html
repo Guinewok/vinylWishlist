@@ -1,9 +1,9 @@
-<!--<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <link rel="stylesheet" href="style.css">
         <script type="text/javascript" src="script.js" async></script>
-    </head>-->
+    </head>
     <body>
       <header>
         <h1 id="test">Site Title</h1>
@@ -64,6 +64,10 @@
         </div>
         <!--ADD TO WISHLIST PAGE-->
         <div id="addFormPage" class="pivotHide">
+          <div>
+            <button type="button" class="addFormListBtn" onclick="testAddListItem('wishlist');">Wishlist</button>
+            <button type="button" class="addFormListBtn" onclick="testAddListItem('collection');">Collection</button>
+          </div>
           <div id="addFormTokenBtnContainer">
             <p id="formTitle">Add an album to the wishlist</p>
             <a href="#" onclick="showAuthDialog();">⚙</a>
@@ -122,8 +126,8 @@
               <button id="formSubBtn" onclick="removeTrack(event)">-</button>
             </span>
             <span id="formBtns">
-              <!--<input type="submit" id="submit" onclick="postData(event);" target="#">-->
               <input type="submit" id="submit" onclick="if(document.forms['addForm'].reportValidity()){addToWishlist();}" target="#">
+              <!--<input type="submit" id="submit" onclick="if(document.forms['addForm'].reportValidity()){addToList(`wishlist`, parseFormData())}" target="#"> -->
               <input type="reset" id="rst">
             </span>
           </form>
@@ -167,12 +171,12 @@
           <div id="searchContainer">
             <label for="searchtest">Search:</label>
             <input type="text" name="searchtest" id="searchtest">
-            <button type="button" onclick="youtubeAPITest()">Submit</button>
+            <button type="button" onclick="youtubeSearch(null)">Submit</button>
           </div>
           <div id="searchResults"></div>
           <div id="resultNavBtns">
-            <button type="button" onclick="">&lt; Prev</button>
-            <button type="button" onclick="">Next &gt;</button>
+            <button type="button" onclick="" id="wipPrev">&lt; Prev</button>
+            <button type="button" onclick="" id="wipNext">Next &gt;</button>
           </div>
         </div>
       </div>
@@ -187,4 +191,4 @@
         <p id="cpyrt">Guinewok ©2024</p>
       </footer>
     </body>
-    <!--</html>-->
+</html>
