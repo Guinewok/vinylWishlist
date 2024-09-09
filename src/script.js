@@ -151,9 +151,11 @@ async function addToWishlist(){
     };
 };
 
-function renderWishlist(e, increment){
-    e = e || window.event;
-    e.preventDefault();
+function renderWishlist(increment){
+    const wishlist = JSON.parse(localStorage.getItem("wishlist"));
+    const display = document.getElementById('display');
+    const i = incrementVar;
+    var tracklist = ""; 
   
     if(increment === true) {
       incrementVar++;
@@ -162,9 +164,6 @@ function renderWishlist(e, increment){
         incrementVar--;
       }
     }
-  
-    const wishlist = JSON.parse(localStorage.getItem("wishlist"));
-    const i = incrementVar;
   
     if(incrementVar === 0){
       lBtn = document.getElementById('lBtn');
@@ -180,71 +179,35 @@ function renderWishlist(e, increment){
       rBtn = document.getElementById('rBtn');
       rBtn.removeAttribute('disabled');
     }
-    // const buttonMenuContainer = document.getElementById('wishlistButtonMenu');
-    // buttonMenuContainer.append([])
+         
+    wishlist[i].tracklist.forEach((item) => {
+      tracklist += `<li>${item.trackName}</li>`;
+    })
   
-    // const addToColConfirmBtn = document.getElementById('wishToColBtn');
-    // addToColConfirmBtn.setAttribute('onclick', `updateWishToCol( '${wishlist[i].devData.id}')`);
-  
-    const addToColConfirmBtn = document.getElementById('wishToColBtn');
-    addToColConfirmBtn.setAttribute('onclick', `addToList('collection', '${wishlist[i].devData.id}')`);
-  
-    const addToColText = document.getElementById('addToColDialogText');
-    addToColText.innerHTML = `Add ${wishlist[i].albumName} to collection?`;
-  
-    const title = document.getElementById('wishTitle');
-    title.innerHTML = `${wishlist[i].albumName}`;
-  
-    const editBtn = document.getElementById('wishlistEditBtn');
-    editBtn.setAttribute('onclick', `editItem(event, '${wishlist[i].devData.id}')`);
-
-    const subtitle = document.getElementById('wishArtist');
-    subtitle.innerHTML = `${wishlist[i].artistName}`;
-  
-    const releaseDate = document.getElementById('releaseDate');
-    releaseDate.innerHTML = `${wishlist[i].releaseDate.slice(-4)}`;
-    releaseDate.title = `${wishlist[i].releaseDate}`;
-
-    const image = document.getElementById('wishImg');
-    image.src = wishlist[i].imageurl;
-    image.alt = "test text for now";
-
-    const oldTrackList = document.getElementById('wishTracklist');
-    oldTrackList.remove();
-
-    const trackList = document.createElement('ul');
-    trackList.setAttribute('id', 'wishTracklist');
-
-    var currTrackList = wishlist[i].tracklist;
-
-    for(x = 0; x < currTrackList.length; x++){
-      const createLi = document.createElement('li');
-      createLi.innerHTML = currTrackList[x].trackName;
-      trackList.append(...[createLi]);
-    }
-
-    const desc = document.getElementById('wishDesc');
-    desc.innerHTML = wishlist[i].description;
-  
-    const shopLinkLbl = document.getElementById('shopLinkLbl');
-    shopLinkLbl.innerHTML = "Buy Here:";
-  
-    const shopLink = document.getElementById('wishShopLink');
-    shopLink.href = wishlist[i].shopurl;
-    shopLink.innerHTML = wishlist[i].shopurl;
-  
-    const musicLinkLbl = document.getElementById('musicLinkLbl');
-    musicLinkLbl.innerHTML = "Listen Here:";
-  
-    const musicLink = document.getElementById('wishMusicLink');
-    musicLink.href = wishlist[i].musicurl;
-    musicLink.innerHTML = wishlist[i].musicurl;
-  
-    
-
-    const displayContainer = document.getElementById('display');
-    displayContainer.append(...[title, subtitle, releaseDate, image, trackList, desc, shopLinkLbl, shopLink, musicLinkLbl, musicLink]);
-  };
+    const vinyl = `
+      <span id="wishlistButtonMenu">
+        <a href="#" id="markAsOwned" onclick="showAddToColDialog(event)">Mark as Owned</a>
+        <a href="#" id="wishlistEditBtn">Edit Item</a>
+        <a href="#" onclick="refreshWishlist(event)">Refresh</a>
+      </span>
+      <p class="titleText" id="wishTitle">${wishlist[i].albumName}</p>
+      <p class="subTitleText" id="wishArtist">${wishlist[i].artistName}</p>
+      <p class="releaseText" id="releaseDate">${wishlist[i].releaseDate}</p>
+      <img 
+        class="vinylImage" 
+        src="${wishlist[i].imageurl}" 
+        alt="The vinyl for ${wishlist[i].albumName} by ${wishlist[i].artistName}" 
+        id="wishImg">
+      </img>
+      <p id="wishDesc">${wishlist[i].description}</p>
+      <ul id="wishTracklist">${tracklist}</ul>
+      <p id="shopLinkLbl" class="wishLinkLbl">Buy Here: </p>
+      <a href="" id="wishShopLink" class="wishLinks">${wishlist[i].shopurl}</a>
+      <p id="musicLinkLbl" class="wishLinkLbl">Listen Here: </p>
+      <a href="" id="wishMusicLink" class="wishLinks">${wishlist[i].musicurl}</a>
+    `;
+  display.innerHTML = vinyl;
+};
 
 function renderCollection(){
   const collection = JSON.parse(localStorage.getItem("collection"));
@@ -839,6 +802,67 @@ Need the following functions to be created/rebuilt:
     }
 **********************************/
 
+function testParseFormData(listName, status) {
+  var myFormData = new FormData(document.querySelector('form'));
+  const formDataObj = {};
+  myFormData.forEach((value, key) => (formDataObj[key] = value));
+  for(var i in formDataObj){
+    if(formDataObj[i].length < 1){
+      formDataObj[i] = "None";
+    }
+  }
+ 
+  const newListItem = {
+			albumName: formDataObj.albumName,
+			artistName: formDataObj.artistName,
+      description: formDataObj.description,
+			design: {
+        color: formDataObj.color,
+        colorSec: formDataObj.colorSec,
+        vinylStyle: formDataObj.vinylStyle
+      },
+			price: formDataObj.price,
+			releaseDate: formDataObj.releaseDate,
+			shopurl: formDataObj.shopurl,
+			imageurl: formDataObj.imageurl,
+			musicurl: formDataObj.musicurl,
+      tracklist: [],
+			devData: {
+        id: listName.slice(0,1) + JSON.parse(localStorage.getItem(listName)).length,
+        status: status,
+        modifiedDate: new Date(),
+        wishlistedDate: "",
+        collectedDate: "",
+        removedDate: "",
+      }
+      /*
+      apiDetails: {
+        channelId: formDataObj.channelId,
+        playlistId: formDataObj.playlistId
+      }
+      */
+		};
+  for(var i = 0; i < trackCount; i++) {
+    const curr = document.getElementById(`tracknum${i + 1}`).value;
+    newListItem.tracklist.push({
+      trackName: curr,
+      trackNum: i + 1,
+    })
+  };
+  
+  if(listName === "wishlist"){ 
+    newListItem.devData.wishlistedDate = new Date() 
+  };
+  if(listName === "collection"){
+    newListItem.devData.collectedDate = new Date() 
+  };
+  if(listName === "removed"){
+    newListItem.devData.removedDate = new Date() 
+  };
+  console.log("Form Converted to JSON Object: ", newListItem);
+  return newListItem;
+};
+
 //FOR ADDING A VINYL TO WISHLIST OR COLLECTION
 async function testAddToList(listName, item){
   const newObject = await item;
@@ -871,6 +895,38 @@ async function testAddToList(listName, item){
         console.log("FAILED - No listName was provided");
       }
     };
+  return [fullObj, commitMessage];
+};
+
+//FOR UPDATING THE DATA OF AN EXISTING ITEM IN A LIST
+async function testUpdateList(listName, item) {
+  const list = JSON.parse(localStorage.getItem(listName));
+  const newObject = await item;
+  console.log("Original Item: ", list[item.devData.id]);
+  console.log("Original Item 2: ", item);
+
+  list[item.devData.id] = newObject;
+  const fullObj = JSON.parse(localStorage.getItem("fullList"));
+  
+  let commitMessage = `Update details for ${newObject.albumName} by ${newObject.artistName}`;
+  switch(listName) {
+    case 'wishlist': {
+      fullObj.wishlist = list;
+      break;
+    }
+    case 'collection': {
+      fullObj.collection = list;
+      break;
+    }
+    case 'removed': {
+      fullObj.removed = list;
+      break;
+    }
+    default: {
+      console.log("FAILED - No listName was provided");
+    }
+  };
+  console.log("Updated Object: ", fullObj);
   return [fullObj, commitMessage];
 };
 
@@ -927,71 +983,25 @@ function testAddListItem(listName, pivotTo){
    const requestBody = testCreateRequestBody(listName, add);
    console.log("<Promise> - requestBody: ", requestBody);
   
-   testPushToRepo(requestBody);
+   //testPushToRepo(requestBody);
   
    //Refresh to get the new sha, otherwise encounter 409 error
-   getData();
+   //getData();
   
    if(pivotTo){pivotToggle(pivotTo)};
  };
 
-function testParseFormData(listName, status) {
-  var myFormData = new FormData(document.querySelector('form'));
-  const formDataObj = {};
-  myFormData.forEach((value, key) => (formDataObj[key] = value));
-  for(var i in formDataObj){
-    if(formDataObj[i].length < 1){
-      formDataObj[i] = "None";
-    }
-  }
- 
-  const newListItem = {
-			albumName: formDataObj.albumName,
-			artistName: formDataObj.artistName,
-      description: formDataObj.description,
-			design: {
-        color: formDataObj.color,
-        colorSec: formDataObj.colorSec,
-        vinylStyle: formDataObj.vinylStyle
-      },
-			price: formDataObj.price,
-			releaseDate: formDataObj.releaseDate,
-			shopurl: formDataObj.shopurl,
-			imageurl: formDataObj.imageurl,
-			musicurl: formDataObj.musicurl,
-      tracklist: [],
-			devData: {
-        id: listName.slice(0,1) + JSON.parse(localStorage.getItem(listName)).length,
-        status: status,
-        wishlistedDate: "",
-        collectedDate: "",
-        removedDate: "",
-      }
-      /*
-      apiDetails: {
-        channelId: formDataObj.channelId,
-        playlistId: formDataObj.playlistId
-      }
-      */
-		};
-//TODO Add error catching
-  for(var i = 0; i < trackCount; i++) {
-    const curr = document.getElementById(`tracknum${i + 1}`).value;
-    newListItem.tracklist.push({
-      trackName: curr,
-      trackNum: i + 1,
-    })
-  };
-  
-  if(listName === "wishlist"){ 
-    newListItem.devData.wishlistedDate = new Date() 
-  };
-  if(listName === "collection"){
-    newListItem.devData.collectedDate = new Date() 
-  };
-  if(listName === "removed"){
-    newListItem.devData.removedDate = new Date() 
-  };
-  console.log("Form Converted to JSON Object: ", newListItem);
-  return newListItem;
-};
+//WORKFLOW FUNCTION - Update an existing Vinyl
+function testUpdateListItem(listName, itemIndex, pivotEdit, pivotAfter){
+  //Need to rework logic, should not require the form to populate in order to get the data
+  const item = getItem(itemIndex);
+  loadEditForm(item);
+  console.log("update item: ", item);
+  //Need to rework this logic, should not have to pass a status for an update, should not update fields it doesnt have to
+  const parsed = testParseFormData(listName, statusArr[1]);
+  const update = testUpdateList(listName, parsed);
+  const requestBody = testCreateRequestBody(update);
+  console.log("update requestBody: ", requestBody);
+  //pushToRepo(requestBody);
+  //if(pivotAfter){pivotToggle(pivotAfter)};
+}
