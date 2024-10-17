@@ -63,7 +63,6 @@ window.addEventListener("load", () => {
   localStorage.removeItem("pageToken");
 });
 
-
 // #region parseFormData
 function parseFormData() {
   //Get form
@@ -780,6 +779,25 @@ Need the following functions to be created/rebuilt:
       pivotToggle(pivotTo);
     }
 **********************************/
+
+$(document).on('click', '#submit', (e) => {
+  //TODO - Add validity check to parse form or as it's own function thats called in parse form
+  if(document.forms['addForm'].reportValidity()){
+    workflowAddToList($(e.target).attr('data-list'))
+  }
+});
+
+// #region Workflow Functions
+//TODO - This workflow works great, needs to update the data-list attr on submit btn based on what is clicked
+function workflowAddToList(listName, pivotTo){
+  const formData = testParseFormData(listName, status);
+  const add = testAddToList(listName, formData);
+  const requestBody = testCreateRequestBody(listName, add);
+  testPushToRepo(requestBody);
+  // pivotToggle(pivotTo);
+}
+
+
 async function testGetData() {
   const response = await fetch(`https://api.github.com/repos/${githubRepo}/contents/${fileName}`, {
     method: 'GET',
@@ -882,7 +900,7 @@ function testParseFormData(listName, status) {
 			musicurl: formDataObj.musicurl,
       tracklist: [],
 			devData: {
-        id: listName.slice(0,1) + JSON.parse(localStorage.getItem(listName)).length,
+        id: listName.substring(0, 1) + JSON.parse(localStorage.getItem(listName)).length,
         status: status,
         modifiedDate: new Date(),
         wishlistedDate: "",
@@ -899,55 +917,58 @@ function testParseFormData(listName, status) {
   for(var i = 0; i < trackCount; i++) {
     const curr = document.getElementById(`tracknum${i + 1}`).value;
     newListItem.tracklist.push({
+      // trackName: $(`#tracknum${i + 1}`).val(),
       trackName: curr,
       trackNum: i + 1,
     })
   };
 
-  if(listName === "wishlist"){ 
-    newListItem.devData.wishlistedDate = new Date() 
-  };
-  if(listName === "collection"){
-    newListItem.devData.collectedDate = new Date() 
-  };
-  if(listName === "removed"){
-    newListItem.devData.removedDate = new Date() 
-  };
+  switch(listName){
+    case "wishlist":
+      newListItem.devData.wishlistedDate = new Date(); 
+      break;
+    case "collection": 
+      newListItem.devData.collectedDate = new Date();
+      break;
+    case "removed":
+      newListItem.devData.removedDate = new Date();
+      break;
+    default:
+      console.error(`[script.js - parseFormData] listName not provided`);
+      break;
+  }
   console.log("Form Converted to JSON Object: ", newListItem);
   return newListItem;
 };
 
 
 //FOR ADDING A VINYL TO WISHLIST OR COLLECTION
-async function testAddToList(listName, item){
-  const newObject = await item;
-
-  //Append new object to the end of the list
-  const list = JSON.parse(localStorage.getItem(listName));
-  list[list.length] = newObject;
-  
-  //Get the fullList object
+function testAddToList(listName, item){
   const fullObj = JSON.parse(localStorage.getItem("fullList"));
+  const list = JSON.parse(localStorage.getItem(listName));
+  //Append new object to the end of the list
+  list[list.length] = item;
+  
   //Overwrite the corresponding section
   let commitMessage = "";
   switch(listName) {
       case 'wishlist': {
         fullObj.wishlist = list;
-        commitMessage = `Add ${newObject.albumName} by ${newObject.artistName} to the ${listName}`;
+        commitMessage = `Add ${item.albumName} by ${item.artistName} to the ${listName}`;
         break;
       }
       case 'collection': {
         fullObj.collection = list;
-        commitMessage = `Add ${newObject.albumName} by ${newObject.artistName} to the ${listName}`;
+        commitMessage = `Add ${item.albumName} by ${item.artistName} to the ${listName}`;
         break;
       }
       case 'removed': {
         fullObj.removed = list;
-        commitMessage = `Remove ${newObject.albumName} by ${newObject.artistName}`;
+        commitMessage = `Remove ${item.albumName} by ${item.artistName}`;
         break;
       }
       default: {
-        console.log("FAILED - No listName was provided");
+        console.error("[script.js - testAddToList] - Failed to update list, no listName was provided.");
       }
     };
   return [fullObj, commitMessage];
@@ -956,15 +977,12 @@ async function testAddToList(listName, item){
 
 //FOR UPDATING THE DATA OF AN EXISTING ITEM IN A LIST
 async function testUpdateList(listName, item) {
-  const list = JSON.parse(localStorage.getItem(listName));
-  const newObject = await item;
-  console.log("Original Item: ", list[item.devData.id]);
-  console.log("Original Item 2: ", item);
-
-  list[item.devData.id] = newObject;
   const fullObj = JSON.parse(localStorage.getItem("fullList"));
+  const list = JSON.parse(localStorage.getItem(listName));
+  const commitMessage = `Update details for ${item.albumName} by ${item.artistName}`;
+
+  list[item.devData.id] = item;
   
-  let commitMessage = `Update details for ${newObject.albumName} by ${newObject.artistName}`;
   switch(listName) {
     case 'wishlist': {
       fullObj.wishlist = list;
@@ -979,23 +997,19 @@ async function testUpdateList(listName, item) {
       break;
     }
     default: {
-      console.log("FAILED - No listName was provided");
+      console.error(`[script.js - testUpdateList] - No listName was provided`);
     }
   };
-  console.log("Updated Object: ", fullObj);
+  console.log("[script.js - testUpdateList] - Updated Object: ", fullObj);
   return [fullObj, commitMessage];
 };
 
 
 //FOR CREATING A REQUEST BODY TO SUBMIT TO THE PUSH FUNCTION
-async function testCreateRequestBody(listName, item) {
-  const fullItem = await item;
-  
-  const commitMessage = fullItem[1];
-  
-  const obj = fullItem[0];
+function testCreateRequestBody(listName, item) {
+  const commitMessage = item[1];
+  const obj = item[0];
   const base64Content = btoa(JSON.stringify(obj, null, 2));
-  
   const requestBody = {
     message: commitMessage,
     content: base64Content,
@@ -1009,24 +1023,24 @@ async function testCreateRequestBody(listName, item) {
 async function testPushToRepo(promiseRequestBody) {
   const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/${fileName}`;
   const authToken = localStorage.getItem("authToken");
-  const requestBody = await promiseRequestBody;
-  console.log("requestBody from push: ", requestBody);
+  console.log("requestBody from push: ", promiseRequestBody);
   //Check for Auth Token
   if(!authToken) {
     showAuthDialog();
-  }else{
+  } else {
     fetch(apiUrl, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${authToken}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(requestBody),
-    }).then((response) => {
+      body: JSON.stringify(promiseRequestBody),
+    })
+    .then((response) => {
       if(response.ok) {
         showSubmitDialog("Success <br> File updated and changes pushed to GitHub.");
-      }else{
-        showSubmitDialog(`Failed to ${requestBody.message}: ${response.status}`);
+      } else {
+        showSubmitDialog(`Failed to ${promiseRequestBody.message}: ${response.status}`);
       }
     })
   }

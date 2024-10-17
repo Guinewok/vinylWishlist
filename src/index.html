@@ -24,32 +24,32 @@
         <!--DIALOGS-->
         <!--SUBMISSION CONFIRMATION FOR WISHLIST-->
         <dialog id="submitDialog">
-            <button class="popupCloseBtn" onclick="hideSubmitDialog()">x</button>
-            <p id="submissionStatus"></p>
+          <button class="popupCloseBtn" id="submitDialogClose" onclick="hideSubmitDialog()">x</button>
+          <p id="submissionStatus"></p>
         </dialog>
         <!--MOVE WISHLIST ITEM TO COLLECTION-->
         <dialog id="addToColDialog">
-            <button class="popupCloseBtn" onclick="hideAddToColDialog()">x</button>
-            <p id="addToColDialogText"></p>
-            <input type="submit" value="confirm" id="wishToColBtn">
-            <input type="button" value="deny" onclick="hideAddToColDialog()">
-          </dialog>
+          <button class="popupCloseBtn addToColClose" onclick="hideAddToColDialog()">x</button>
+          <p id="addToColDialogText"></p>
+          <input type="submit" value="confirm" id="wishToColBtn">
+          <input type="button" value="deny" class="addToColClose" onclick="hideAddToColDialog()">
+        </dialog>
         <!--PROVIDE AUTH TOKEN FOR SUBMISSIONS-->
         <dialog id="authDialog">
-            <button class="popupCloseBtn" onclick="hideAuthDialog()">x</button>
-            <p>In order to make changes to the wishlist you need to provide a valid Github Auth Token.</p>
-            <label for="authToken">Github Auth Token: </label>
-            <input type="text" name="authToken" id="authToken"></input>
-          <input type="submit" onclick="event.preventDefault();getAuthToken(event);"></input>
-        <input type="button" onclick="localStorage.removeItem('authToken');hideAuthDialog();" value="Clear"></input>
-      </dialog>
-        <div id="carousel">
-          <a id="lBtn" href="#" onclick="renderWishlist(event, false)">&lt;</a>
+          <button class="popupCloseBtn" id="authDialogClose" onclick="hideAuthDialog()">x</button>
+          <p>In order to make changes to the wishlist you need to provide a valid Github Auth Token.</p>
+          <label for="authToken">Github Auth Token: </label>
+          <input type="text" name="authToken" id="authToken"></input>
+          <input type="submit" id="authDialogSubmit" onclick="event.preventDefault();getAuthToken(event);"></input>
+          <input type="button" id="authDialogClear" onclick="localStorage.removeItem('authToken');" value="Clear"></input>
+        </dialog>
+        <div id="carousel" hidden>
+          <a id="lBtn" href="#">&lt;</a>
           <div id="display">
             <span id="wishlistButtonMenu">
               <a href="#" id="markAsOwned" onclick="showAddToColDialog(event)">Mark as Owned</a>
               <a href="#" id="wishlistEditBtn">Edit Item</a>
-              <a href="#" onclick="refreshWishlist(event)">Refresh</a>
+              <a href="#" id="wishlistRefresh" onclick="refreshWishlist(event)">Refresh</a>
             </span>
             <p class="titleText" id="wishTitle">Title</p>
             <p class="subTitleText" id="wishArtist">Sub-Title</p>
@@ -62,17 +62,17 @@
             <p id="musicLinkLbl" class="wishLinkLbl"></p>
             <a href="" id="wishMusicLink" class="wishLinks">Music Link here</a>
           </div>
-          <a id="rBtn" href="#" onclick="renderWishlist(event, true)">&gt;</a>
+          <a id="rBtn" href="#">&gt;</a>
         </div>
         <!--ADD TO WISHLIST PAGE-->
-        <div id="addFormPage" class="pivotHide">
+        <div id="addFormPage" hidden>
           <div>
-            <button type="button" class="addFormListBtn" onclick="testAddListItem('wishlist');">Wishlist</button>
-            <button type="button" class="addFormListBtn" onclick="testAddListItem('collection');">Collection</button>
+            <button type="button" class="addFormListBtn" data-listType="wishlist" onclick="testAddListItem('wishlist');">Wishlist</button>
+            <button type="button" class="addFormListBtn" data-listType="collection" onclick="testAddListItem('collection');">Collection</button>
           </div>
           <div id="addFormTokenBtnContainer">
             <p id="formTitle">Add an album to the wishlist</p>
-            <a href="#" onclick="showAuthDialog();">⚙</a>
+            <a href="#" id="setAuthTokenBtn" onclick="showAuthDialog();">⚙</a>
           </div>
           <form onsubmit="return false" id="addForm">
             <label for="albumName">Album Name:</label>
@@ -128,14 +128,14 @@
               <button id="formSubBtn" onclick="removeTrack(event)">-</button>
             </span>
             <span id="formBtns">
-              <input type="submit" id="submit" onclick="if(document.forms['addForm'].reportValidity()){addToWishlist();}" target="#">
+              <input type="submit" id="submit" data-list="wishlist" target="#">
               <!--<input type="submit" id="submit" onclick="if(document.forms['addForm'].reportValidity()){addToList(`wishlist`, parseFormData())}" target="#"> -->
               <input type="reset" id="rst">
             </span>
           </form>
         </div>
         <!--COLLECTION-->
-        <div id="collection" class="pivotHide">
+        <div id="collection" hidden>
           <!--TODO Add a mini menu at the top right of the collection to allow 
           the selection of different displays modes. (List, Images (current),   Carousel)-->
           <div id="colHeader">
@@ -143,8 +143,7 @@
             <div id="colDisMenu">
               <p>Display: </p>
               <a href="#" id="colListBtn" title="List View">📃</a>
-              <a href="#" id="colCarouselBtn" title=
-    "Carousel View">🎠</a>
+              <a href="#" id="colCarouselBtn" title="Carousel View">🎠</a>
               <a href="#" id="colShelfBtn" title="Shelf View">📚</a>
             </div>
           </div>
@@ -155,12 +154,12 @@
           </div>
         </div>
         <!--DEV PAGE-->
-        <div id="na" class="pivotHide">
+        <div id="na" hidden>
           <a href="#" onclick="mapDevData()">Get Data/Refresh</a>
           <pre id="preElement"></pre>
         </div>
         <!--WIP PAGE-->
-        <div id="wip" class="pivotHide">
+        <div id="wip" hidden>
           <div id="wipApiKey">
             <label for="apiKey">API Key:</label>
             <input type="text" name="apiKey" id="apiKey">
