@@ -113,28 +113,6 @@ async function addToWishlist(){
     };
 };
 
-// #region renderCollection
-function renderCollection(){
-  const collection = JSON.parse(localStorage.getItem("collection"));
-
-  const colDiv = document.getElementById('collectionList');
-  while (colDiv.hasChildNodes()) {
-    colDiv.removeChild(colDiv.firstChild);
-  }
-
-  for(i = devData; i < collection.length; i++){
-    const colItem = document.createElement('div');
-    colItem.classList.add('colItem');
-    colItem.innerHTML = `<a href="#" class="colEditBtn" onclick="editItem(event, '${collection[i].devData.id}');">edit</a><p>${collection[i].albumName}</p>`;
-    const colImg = document.createElement('img');
-    colImg.src = collection[i].imageurl;
-    //colImg.alt = data.collection[i].albumName;
-    colImg.classList.add('colVinylImage');
-    colItem.append(...[colImg]);
-    colDiv.append(...[colItem]);
-  }
-};
-
 // #region Tracklist Logic
 function mapFormTracklist(totalCount) {
   document.getElementById('tracklistList').innerHTML = "<label>Tracklist:</label><br>";
@@ -709,7 +687,7 @@ async function pushToRepo(promiseRequestBody) {
 };
 
 
-function testRenderCollection(){
+function renderCollection(){
   const collection = JSON.parse(localStorage.getItem("collection"));
 
   while($(collectionList).children().length > 0){
@@ -724,8 +702,7 @@ function testRenderCollection(){
         <img src="${collection[i].imageurl}" class="colVinylImage"></img>
       </div>
     `;
-    
-    $('#collectionList').html(testColItem);
+    $('#collectionList').append(testColItem);
   }
 };
 
