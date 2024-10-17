@@ -11,6 +11,49 @@ const status = 'TESTING';
 var searchResultsArr = [];
 const statusArr = ["TESTING", "wishlisted", "collected", "removed"];
 
+// #region TODO - set onclick events to clean up the html
+// onclick for nav a - pivotToggle
+$(document).on('click', '.navBtn', (e) => pivotToggle($(e.target).attr('data-pageId')));
+
+
+$('.navBtn[data-pageId="1"]').on('click', () => {
+  document.forms[0].reset();
+  mapFormTracklist(trackCount);
+});
+
+$('.navBtn[data-pageId="2"]').on('click', () => {
+  renderCollection();
+});
+
+// DIALOGS
+// $(document).on('click', '#submitDialogClose', hideSubmitDialog());
+// $(document).on('click', '.addToColClose', hideAddToColDialog());
+// $(document).on('click', '#authDialogClose', hideAuthDialog());
+// $(document).on('click', '#authDialogSubmit', (event: JQuery.ClickEvent) => {
+//   event.preventDefault();
+//   getAuthToken(event);
+// });
+// $(document).on('click', '#authDialogClear', localStorage.removeItem('authToken'));
+
+// WISHLIST
+$(document).on('click', '#lBtn', () => renderWishlist(false));
+$(document).on('click', '#rBtn', () => renderWishlist(true));
+$(document).on('click', '#markAsOwned', () => showAddToColDialog());
+$(document).on('click', '#wishlistRefresh', () => refreshWishlist());
+
+// ADD TO WISHLIST
+// $(document).on('click', '.addFormListBtn', testAddListItem($(this).attr('data-listType')));
+// $(document).on('click', '#setAuthTokenBtn', showAuthDialog());
+// $(document).on('click', '#colorHex', updateColorHex('color'));
+// $(document).on('click', '#colorSecHex', updateColorHex('colorSec'));
+// $(document).on('click', '#formAddBtn', addTrack(event));
+// $(document).on('click', '#formSubBtn', removeTrack(event));
+// $(document).on('click', '#submit', () => {
+//   if(document.forms['addForm'].reportValidity()){
+//     addToWishlist();
+//   };
+// });
+
 window.addEventListener("load", () => {
   //localStorage.clear();
   testGetData()
@@ -104,10 +147,11 @@ async function addToWishlist(){
       },
       body: JSON.stringify(requestBody),
     }).then((response) => {
-      if(response.ok) {
-        showSubmitDialog("Success <br> File updated and changes pushed to GitHub.");
-      }
+      if(!response.ok) {
         showSubmitDialog(`Failed to add album "${newObject.albumName} by ${newObject.artistName}": ${response.status}`);
+      }
+
+      showSubmitDialog("Success <br> File updated and changes pushed to GitHub.");
     });
     pivotToggle(0);
     };
@@ -468,15 +512,15 @@ async function youtubeSearch(hasPageToken) {
     {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-  });
+    }
+  );
   const data = await response.json();
   
-  localStorage.setItem("apiData", data);
+  localStorage.setItem("searchResults", data);
   for(var item in data) {
     searchResultsArr.push([item, data[item]]);
   }
   console.log(searchResultsArr);
-  
   
   // const prevBtn = document.getElementById('wipPrev');
   // prevBtn.onclick = `youtubeSearch(data.prevPageToken)`;
@@ -485,60 +529,75 @@ async function youtubeSearch(hasPageToken) {
   
   const preElement = document.getElementById('responseTest');
   const resultsElement = document.getElementById('searchResults');
-  resultsElement.innerHTML = "";
-  for(i = 0; i < displayResults; i++) {
-    const resultItemContainer = document.createElement("div");
-    resultItemContainer.classList.add('searchItem');
-    resultItemContainer.id = data.items[i].snippet.channelId;
-    
-    const channelContainer = document.createElement('div');
-    channelContainer.classList.add("channelContainer");
-    
-    const resultName = document.createElement('p');
-    resultName.innerHTML = data.items[i].snippet.channelTitle;
-    
-    const resultId = document.createElement('sub');
-    resultId.innerHTML = data.items[i].snippet.channelId;
-    
-    const resultDesc = document.createElement('p');
-    resultDesc.innerHTML = data.items[i].snippet.description;
-    
-    const resultThumb = document.createElement('img');
-    resultThumb.src = data.items[i].snippet.thumbnails.default.url;
-    resultThumb.classList.add('resultImg');
-    
-    const resultURL = document.createElement('a');
-    resultURL.href = `https://www.youtube.com/channel/${data.items[i].snippet.channelId}`;
-    resultURL.innerHTML = `https://www.youtube.com/channel/${data.items[i].snippet.channelId}`;
-    
-    const resultPlaylistsBtn = document.createElement("button");
-    resultPlaylistsBtn.setAttribute('onclick',`viewPlaylists( '${data.items[i].snippet.channelId}')`);
-    resultPlaylistsBtn.innerHTML = "View Playlists";
-    
-    channelContainer.append(...[resultName, resultId, resultDesc, resultURL, resultPlaylistsBtn]);
-    
-    resultItemContainer.append(...[resultThumb, channelContainer ]);
-    resultsElement.append(resultItemContainer);
-    
-    console.log(data);
-  }
-};
-
-function changePage(index, pageToken) {
+  resultsElement.innerHTML = ""; //Clear the element to avoid duplicates
   
-  //Get the index and pagelength and re-render it to the results
+  for(i = 0; i < displayResults; i++) {
+    const searchItem = `
+      <div class="searchItem" id="${data.items[i].snippet.channelId}">
+        <div class="channelContainer">
+          <p>${data.items[i].snippet.channelTitle}</p>
+          <sub>${data.items[i].snippet.channelId}</sub>
+          <p>${data.items[i].snippet.description}</p>
+          <img 
+            src="${data.items[i].snippet.thumbnails.default.url}" 
+            class="resultImg"
+          >
+          </img>
+          <a href="https://www.youtube.com/channel/${data.items[i].snippet.channelId}">
+            https://www.youtube.com/channel/${data.items[i].snippet.channelId}
+          </a>
+          <button 
+            type="button" 
+            onclick="viewPlaylists('${data.items[i].snippet.channelId}')"
+          >
+            View Playlists
+          </button>
+          <div class="playlistsContainer"></div>
+        </div>
+      </div>
+    `;
+    resultsElement.innerHTML += searchItem;
+  };
 };
 
 async function viewPlaylists(channelId) {
   const key = localStorage.getItem("YoutubeAPIKey");
   const response = await 
-  fetch(`https://www.googleapis.com/youtube/v3/playlists?key=${key}&part=snippet&channelId=${channelId}`, {
+  fetch(`https://www.googleapis.com/youtube/v3/playlists?` +
+    `key=${key}` +
+    `&part=snippet` +
+    `&channelId=${channelId}`, 
+    {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-  });
+    }
+  );
   const data = await response.json();
-  console.log(data);
   const searchItemContainer = document.getElementById(channelId);
+  
+  console.log(data);
+  
+  data.items.forEach((item) => {
+    const test = `
+      <div class="playlistsContainer">
+        <div class="playlists" id="${item.id}">
+          <div class="playlistDetails">
+            <p>${item.snippet.title}</p>
+            <a 
+              href="https://www.youtube.com/playlist?list=${item.id}"
+            >
+              https://www.youtube.com/playlist?list=${item.id}
+            </a>
+            <p>${item.id}</p>
+            <img src="${item.snippet.thumbnails.default.url}" class="playlistImg" alt=""></img>
+            <button type="button" onclick="getPlaylistVideos('${item.id}')">View Videos</button>
+            <div class="videos" id="list-${item.id}"></div>
+          </div>
+        </div>
+      </div>
+    `;
+    searchItemContainer.innerHTML += test;
+  });
   
   const playlistsContainer = document.createElement('div');
   playlistsContainer.classList.add('playlistsContainer');
