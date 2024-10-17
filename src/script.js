@@ -157,64 +157,6 @@ async function addToWishlist(){
     };
 };
 
-function renderWishlist(increment){
-    const wishlist = JSON.parse(localStorage.getItem("wishlist"));
-    const display = document.getElementById('display');
-    const i = incrementVar;
-    var tracklist = ""; 
-  
-    if(increment === true) {
-      incrementVar++;
-    }else{
-      if(increment === false) {
-        incrementVar--;
-      }
-    }
-  
-    if(incrementVar === 0){
-      lBtn = document.getElementById('lBtn');
-      lBtn.setAttribute('disabled', 'disabled');
-    }else{
-      lBtn = document.getElementById('lBtn');
-      lBtn.removeAttribute('disabled');
-    }
-    if(incrementVar + 1 === wishlist.length){
-      rBtn = document.getElementById('rBtn');
-      rBtn.setAttribute('disabled', 'disabled');
-    }else{
-      rBtn = document.getElementById('rBtn');
-      rBtn.removeAttribute('disabled');
-    }
-         
-    wishlist[i].tracklist.forEach((item) => {
-      tracklist += `<li>${item.trackName}</li>`;
-    })
-  
-    const vinyl = `
-      <span id="wishlistButtonMenu">
-        <a href="#" id="markAsOwned" onclick="showAddToColDialog(event)">Mark as Owned</a>
-        <a href="#" id="wishlistEditBtn">Edit Item</a>
-        <a href="#" onclick="refreshWishlist(event)">Refresh</a>
-      </span>
-      <p class="titleText" id="wishTitle">${wishlist[i].albumName}</p>
-      <p class="subTitleText" id="wishArtist">${wishlist[i].artistName}</p>
-      <p class="releaseText" id="releaseDate">${wishlist[i].releaseDate}</p>
-      <img 
-        class="vinylImage" 
-        src="${wishlist[i].imageurl}" 
-        alt="The vinyl for ${wishlist[i].albumName} by ${wishlist[i].artistName}" 
-        id="wishImg">
-      </img>
-      <p id="wishDesc">${wishlist[i].description}</p>
-      <ul id="wishTracklist">${tracklist}</ul>
-      <p id="shopLinkLbl" class="wishLinkLbl">Buy Here: </p>
-      <a href="" id="wishShopLink" class="wishLinks">${wishlist[i].shopurl}</a>
-      <p id="musicLinkLbl" class="wishLinkLbl">Listen Here: </p>
-      <a href="" id="wishMusicLink" class="wishLinks">${wishlist[i].musicurl}</a>
-    `;
-  display.innerHTML = vinyl;
-};
-
 // #region renderCollection
 function renderCollection(){
   const collection = JSON.parse(localStorage.getItem("collection"));
@@ -870,6 +812,50 @@ function pivotToggle(pivotNum) {
   });
 };
 
+
+function renderWishlist(increment){
+  const wishlist = JSON.parse(localStorage.getItem("wishlist"));
+  let tracklist = '';
+
+  if(increment !== undefined) {
+    increment ? incrementVar++ : incrementVar--;
+  } 
+
+  incrementVar === 0 ? $('#lBtn').attr('disabled', 'disabled') : $('#lBtn').removeAttr('disabled');
+  incrementVar + 1 === wishlist.length ? $('#rBtn').attr('disabled', 'disabled') : $('#rBtn').removeAttr('disabled');
+
+  wishlist[incrementVar].tracklist.forEach((item) => {
+    tracklist += `<li>${item.trackName}</li>`;
+  });
+
+  //TODO - remove the onclick here, bind with jquery
+  const vinyl = `
+    <span id="wishlistButtonMenu">
+      <a href="#" id="markAsOwned">Mark as Owned</a>
+      <a href="#" id="wishlistEditBtn">Edit Item</a>
+      <a href="#" id="wishlistRefresh">Refresh</a>
+    </span>
+    <p class="titleText" id="wishTitle">${wishlist[incrementVar].albumName}</p>
+    <p class="subTitleText" id="wishArtist">${wishlist[incrementVar].artistName}</p>
+    <p class="releaseText" id="releaseDate">${wishlist[incrementVar].releaseDate}</p>
+    <img 
+      class="vinylImage" 
+      src="${wishlist[incrementVar].imageurl}" 
+      alt="The vinyl for ${wishlist[incrementVar].albumName} by ${wishlist[incrementVar].artistName}" 
+      id="wishImg">
+    </img>
+    <p id="wishDesc">${wishlist[incrementVar].description}</p>
+    <ul id="wishTracklist">${tracklist}</ul>
+    <p id="shopLinkLbl" class="wishLinkLbl">Buy Here: </p>
+    <a href="" id="wishShopLink" class="wishLinks">${wishlist[incrementVar].shopurl}</a>
+    <p id="musicLinkLbl" class="wishLinkLbl">Listen Here: </p>
+    <a href="" id="wishMusicLink" class="wishLinks">${wishlist[incrementVar].musicurl}</a>
+  `;
+
+  $('#display').html(vinyl);
+};
+
+
 function testParseFormData(listName, status) {
   var myFormData = new FormData(document.querySelector('form'));
   const formDataObj = {};
@@ -1078,4 +1064,97 @@ function testUpdateListItem(listName, itemIndex, pivotEdit, pivotAfter){
   console.log("update requestBody: ", requestBody);
   //pushToRepo(requestBody);
   //if(pivotAfter){pivotToggle(pivotAfter)};
-}
+};
+
+
+function testRenderCollection(){
+  const collection = JSON.parse(localStorage.getItem("collection"));
+
+  while($(collectionList).children().length > 0){
+    $(collectionList).children().remove();
+  }
+
+  for(i = devData; i < collection.length; i++){
+    const testColItem = `
+      <div class="colItem">
+        <a href="#" class="colEditBtn" onclick="editItem(event, '${collection[i].devData.id}');" editId="${collection[i].devData.id}">edit</a>
+        <p>${collection[i].albumName}</p>
+        <img src="${collection[i].imageurl}" class="colVinylImage"></img>
+      </div>
+    `;
+    
+    $('#collectionList').html(testColItem);
+  }
+};
+
+
+function mapExistingToForm(item) {
+  let form = document.querySelector('form');
+  var myFormData = new FormData(form);
+  for(var obj in item){
+    switch(obj) {
+      case obj === "devData":
+        break;
+      case obj === "design":
+        for(var value in item[obj]){
+          $(value).val(item[obj][value]);
+          // var field = document.getElementById(d);
+          // field.value = item[i][d];
+        }
+        break;
+      case obj === "tracklist":
+        //item[obj].forEach(() => {})
+        for(let x = 0; x < item[obj].length; x++){
+          $(`#tracknum${x + 1}`).val(item[obj][x].trackName);
+          // var trackField = document.getElementById(`tracknum${x + 1}`);
+          // trackField.value = item[i][x].trackName;
+        }
+        break;
+      default:
+        console.log(item[obj]);
+        $(obj).val(item[obj]);
+        // var field = document.getElementById(i);
+        // field.value = item[i];
+        break;
+    }
+
+    // if(i === "devData"){
+    //   break;
+    // }else{
+    //   if(i === "design"){
+    //     for(var d in item[i]){
+    //       var field = document.getElementById(d);
+    //       field.value = item[i][d];
+    //     }
+    //   }else{
+    //     if(i === "tracklist"){
+    //       for(let x = 0; x < item[i].length; x++){
+    //         var trackField = document.getElementById(`tracknum${x + 1}`);
+    //         trackField.value = item[i][x].trackName;
+    //       }
+    //     }else{
+    //       console.log(item[i]);
+    //       var field = document.getElementById(i);
+    //       field.value = item[i];
+    //     }
+    //   }
+    // }
+  }
+
+  //item.tracklist.forEach(() => {})
+  for(var i = 0; i < item.tracklist.length; i++){
+      var trackField = document.getElementById(`tracknum${i+1}`);
+      trackField.value = item.tracklist[i].trackName;
+  }
+};
+
+// function testEditItem(currVal) {
+//   const item = getItem(currVal);
+//   loadEditForm(item);
+//   pivotToggle(1);
+//   mapFormTracklist(item.tracklist.length);
+//   mapExistingToForm(item);
+//   console.log("testEditItem: ", item);
+// };
+
+// $(document).on('click', '.colEditBtn', testEditItem($(this)).attr('editId'));
