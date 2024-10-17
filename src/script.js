@@ -25,13 +25,6 @@ $('.navBtn[data-pageId="2"]').on('click', () => {
   renderCollection();
 });
 
-$(document).on('click', '#submit', (e) => {
-  //TODO - Add validity check to parse form or as it's own function thats called in parse form
-  if(document.forms['addForm'].reportValidity()){
-    workflowAddToList($(e.target).attr('data-list'))
-  }
-});
-
 // DIALOGS
 // $(document).on('click', '#submitDialogClose', hideSubmitDialog());
 // $(document).on('click', '.addToColClose', hideAddToColDialog());
@@ -55,10 +48,11 @@ $(document).on('click', '#colorHex', () => updateColorHex('color'));
 $(document).on('click', '#colorSecHex', () => updateColorHex('colorSec'));
 $(document).on('click', '#formAddBtn', () => addTrack());
 $(document).on('click', '#formSubBtn', () => removeTrack());
-$(document).on('click', '#submit', () => {
+$(document).on('click', '#submit', (e) => {
+  //TODO - Add validity check to parse form or as it's own function thats called in parse form
   if(document.forms['addForm'].reportValidity()){
-    addToWishlist();
-  };
+    workflowAddToList($(e.target).attr('data-list'))
+  }
 });
 
 window.addEventListener("load", () => {
@@ -69,49 +63,6 @@ window.addEventListener("load", () => {
   populateGenres();
   localStorage.removeItem("pageToken");
 });
-
-// #region addToWishlist
-async function addToWishlist(){
-  const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/${fileName}`;
-  const newObject = await parseFormData();
-  const authToken = localStorage.getItem("authToken");
-  //Check for Auth Token
-  if(!authToken) {
-    showAuthDialog();
-  }else{
-    const wishlist = JSON.parse(localStorage.getItem("wishlist"));
-    wishlist[wishlist.length] = newObject;
-    const fullObj = JSON.parse(localStorage.getItem("fullList"));
-    fullObj.wishlist = wishlist;
-    console.log("Updated Object: ", fullObj);
-   
-    const commitMessage = `Add ${newObject.albumName} by ${newObject.artistName} to the vinyl wishlist`;
-    const base64Content = btoa(JSON.stringify(fullObj, null, 2)); 
-
-    const requestBody = {
-      message: commitMessage,
-      content: base64Content,
-      sha: localStorage.getItem("sha"),
-    };
-    console.log(requestBody);
-
-    fetch(apiUrl, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    }).then((response) => {
-      if(!response.ok) {
-        showSubmitDialog(`Failed to add album "${newObject.albumName} by ${newObject.artistName}": ${response.status}`);
-      }
-
-      showSubmitDialog("Success <br> File updated and changes pushed to GitHub.");
-    });
-    pivotToggle(0);
-    };
-};
 
 // #region Tracklist Logic
 function mapFormTracklist(totalCount) {
@@ -415,7 +366,7 @@ function workflowAddToList(listName, pivotTo){
   // pivotToggle(pivotTo);
 }
 
-
+// #region addTrack
 function addTrack() {
   trackCount += 1;
   $('#tracklistList').append(`
@@ -426,7 +377,7 @@ function addTrack() {
   `);
 }
 
-
+// #region removeTrack
 function removeTrack() {
   if(trackCount > 0) { 
     $(`#tracknum${trackCount}Lbl`).remove();
@@ -438,6 +389,7 @@ function removeTrack() {
   }
 }
 
+// #region getData
 async function getData() {
   const response = await fetch(`https://api.github.com/repos/${githubRepo}/contents/${fileName}`, {
     method: 'GET',
@@ -458,7 +410,7 @@ async function getData() {
   });
 };
 
-
+// #region pivotToggle
 function pivotToggle(pivotNum) {
   var pivotArray = ["carousel","addFormPage","collection","na", "wip"];
 
@@ -470,7 +422,7 @@ function pivotToggle(pivotNum) {
   });
 };
 
-
+// #region renderWishlist
 function renderWishlist(increment){
   const wishlist = JSON.parse(localStorage.getItem("wishlist"));
   let tracklist = '';
@@ -513,7 +465,7 @@ function renderWishlist(increment){
   $('#display').html(vinyl);
 };
 
-
+// #region parseFormData
 function parseFormData(listName, status) {
   var myFormData = new FormData(document.querySelector('form'));
   const formDataObj = {};
@@ -582,7 +534,7 @@ function parseFormData(listName, status) {
 };
 
 
-//FOR ADDING A VINYL TO WISHLIST OR COLLECTION
+// #region addToList
 function addToList(listName, item){
   const fullObj = JSON.parse(localStorage.getItem("fullList"));
   const list = JSON.parse(localStorage.getItem(listName));
@@ -645,7 +597,7 @@ async function testUpdateList(listName, item) {
 };
 
 
-//FOR CREATING A REQUEST BODY TO SUBMIT TO THE PUSH FUNCTION
+// #region createRequestBody
 function createRequestBody(listName, item) {
   const commitMessage = item[1];
   const obj = item[0];
@@ -659,7 +611,7 @@ function createRequestBody(listName, item) {
 };
 
 
-//FUNCTION TO PUSH CHANGES TO THE GITHUB REPO
+// #region pushToRepo
 async function pushToRepo(promiseRequestBody) {
   const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/${fileName}`;
   const authToken = localStorage.getItem("authToken");
@@ -686,7 +638,7 @@ async function pushToRepo(promiseRequestBody) {
   }
 };
 
-
+// #region renderCollection
 function renderCollection(){
   const collection = JSON.parse(localStorage.getItem("collection"));
 
