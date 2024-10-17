@@ -20,27 +20,6 @@ window.addEventListener("load", () => {
   localStorage.removeItem("pageToken");
 });
 
-function pivotToggle(pivotNum) {
-  var pivotArray = ["carousel","addFormPage","collection","na", "wip"];
-
-  for(let i = 0; i < pivotArray.length; i++){
-    if(i === Number(pivotNum)){
-      const div = document.getElementById(pivotArray[pivotNum]);
-      div.classList.add('pivotHide');
-      div.classList.remove('pivotHide');
-    }else{
-      const div = document.getElementById(pivotArray[i]);
-      div.classList.add('pivotHide');
-    }
-  };
-  if(pivotNum === 1) {
-    document.forms[0].reset();
-    mapFormTracklist(trackCount);
-  }
-  if(pivotNum === 2) {
-    renderCollection();
-  }
-};
 
 // #region parseFormData
 function parseFormData() {
@@ -315,7 +294,11 @@ function getItem (currVal) {
     case 'r':
       var list = localStorage.getItem("removed");
       break;
+    default:
+      console.error(`[script.js - getItem] Invalid list id, received: ${firstChar}`);
+      break;
   }
+  console.log(currVal);
   const array = JSON.parse(list);
   var index = currVal.replace(firstChar, "");
   var item = array[index];
@@ -417,8 +400,8 @@ async function updateList(index){
       body: JSON.stringify(requestBody)
     });
     console.log('File updated and changes pushed to GitHub.');
-    pivotToggle(event, 0);
-  }
+    pivotToggle(0);
+  };
 };
 
 // #region updateColorHex
@@ -450,7 +433,6 @@ function updateWishToCol(id) {
 async function updateCount(){
   const test = document.getElementById('test');
   test.innerHTML = `value: ${incrementVar}`;
-  return false;
 };
 
 function mapDevData() {
@@ -488,7 +470,6 @@ async function youtubeSearch(hasPageToken) {
       headers: { 'Content-Type': 'application/json' },
   });
   const data = await response.json();
-  console.log(data);
   
   localStorage.setItem("apiData", data);
   for(var item in data) {
@@ -818,6 +799,18 @@ async function testGetData() {
   });
 };
 
+
+function pivotToggle(pivotNum) {
+  var pivotArray = ["carousel","addFormPage","collection","na", "wip"];
+
+  pivotArray.forEach((item) => {
+    $(`#${item}`).hide();
+    if(item === pivotArray[pivotNum]) {
+      $(`#${pivotArray[pivotNum]}`).show();
+    }
+  });
+};
+
 function testParseFormData(listName, status) {
   var myFormData = new FormData(document.querySelector('form'));
   const formDataObj = {};
@@ -879,6 +872,7 @@ function testParseFormData(listName, status) {
   return newListItem;
 };
 
+
 //FOR ADDING A VINYL TO WISHLIST OR COLLECTION
 async function testAddToList(listName, item){
   const newObject = await item;
@@ -914,6 +908,7 @@ async function testAddToList(listName, item){
   return [fullObj, commitMessage];
 };
 
+
 //FOR UPDATING THE DATA OF AN EXISTING ITEM IN A LIST
 async function testUpdateList(listName, item) {
   const list = JSON.parse(localStorage.getItem(listName));
@@ -946,6 +941,7 @@ async function testUpdateList(listName, item) {
   return [fullObj, commitMessage];
 };
 
+
 //FOR CREATING A REQUEST BODY TO SUBMIT TO THE PUSH FUNCTION
 async function testCreateRequestBody(listName, item) {
   const fullItem = await item;
@@ -962,6 +958,7 @@ async function testCreateRequestBody(listName, item) {
   };
   return requestBody;
 };
+
 
 //FUNCTION TO PUSH CHANGES TO THE GITHUB REPO
 async function testPushToRepo(promiseRequestBody) {
@@ -990,6 +987,7 @@ async function testPushToRepo(promiseRequestBody) {
   }
 };
 
+
 //WORKFLOW FUNCTION - Add a Vinyl to the Wishlist or Collection
 function testAddListItem(listName, pivotTo){
    const item = testParseFormData(listName, statusArr[1]);
@@ -1004,8 +1002,9 @@ function testAddListItem(listName, pivotTo){
    //Refresh to get the new sha, otherwise encounter 409 error
    //getData();
   
-   if(pivotTo){pivotToggle(pivotTo)};
+   // if(pivotTo){pivotToggle(pivotTo)};
  };
+
 
 //WORKFLOW FUNCTION - Update an existing Vinyl
 function testUpdateListItem(listName, itemIndex, pivotEdit, pivotAfter){
