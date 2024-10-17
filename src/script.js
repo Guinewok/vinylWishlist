@@ -13,7 +13,7 @@ const statusArr = ["TESTING", "wishlisted", "collected", "removed"];
 
 window.addEventListener("load", () => {
   //localStorage.clear();
-  getData();
+  testGetData()
   renderWishlist();
   pivotToggle(0);
   populateGenres();
@@ -23,16 +23,16 @@ window.addEventListener("load", () => {
 function pivotToggle(pivotNum) {
   var pivotArray = ["carousel","addFormPage","collection","na", "wip"];
 
-  for(i = 0; i < pivotArray.length; i++){
+  for(let i = 0; i < pivotArray.length; i++){
     if(i === Number(pivotNum)){
-      var div = document.getElementById(pivotArray[pivotNum]);
+      const div = document.getElementById(pivotArray[pivotNum]);
       div.classList.add('pivotHide');
       div.classList.remove('pivotHide');
     }else{
-      var div = document.getElementById(pivotArray[i]);
+      const div = document.getElementById(pivotArray[i]);
       div.classList.add('pivotHide');
     }
-  }
+  };
   if(pivotNum === 1) {
     document.forms[0].reset();
     mapFormTracklist(trackCount);
@@ -42,25 +42,7 @@ function pivotToggle(pivotNum) {
   }
 };
 
-async function getData() {
-  const response = await fetch(`https://api.github.com/repos/${githubRepo}/contents/${fileName}`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  });
-  const data = await response.json();
-  //TODO test if the first JSON.parse can be removed
-  const dataParsed = JSON.parse(atob(data.content));
-  localStorage.setItem("fullList", JSON.stringify(dataParsed, null, 2));
-  localStorage.setItem("wishlist", JSON.stringify(dataParsed.wishlist, null, 2));
-  localStorage.setItem("collection", JSON.stringify(dataParsed.collection, null, 2));
-  localStorage.setItem("removed", JSON.stringify(dataParsed.removed, null, 2));
-  localStorage.setItem("sha", data.sha);
-  console.log("Wishlist: ", JSON.parse(localStorage.getItem("wishlist")));
-  console.log("Collection: ", JSON.parse(localStorage.getItem("collection")));
-  console.log("Removed: ", JSON.parse(localStorage.getItem("removed")));
-  console.log("sha: ", localStorage.getItem("sha"));
-};
-
+// #region parseFormData
 function parseFormData() {
   //Get form
   let form = document.querySelector('form');
@@ -110,6 +92,7 @@ function parseFormData() {
   return newListItem;
 }
 
+// #region addToWishlist
 async function addToWishlist(){
   const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/${fileName}`;
   const newObject = await parseFormData();
@@ -145,7 +128,7 @@ async function addToWishlist(){
       if(response.ok) {
         showSubmitDialog("Success <br> File updated and changes pushed to GitHub.");
       }
-      showSubmitDialog(`Failed to add album "${newObject.albumName} by ${newObject.artistName}": ${response.status}`);
+        showSubmitDialog(`Failed to add album "${newObject.albumName} by ${newObject.artistName}": ${response.status}`);
     });
     pivotToggle(0);
     };
@@ -209,6 +192,7 @@ function renderWishlist(increment){
   display.innerHTML = vinyl;
 };
 
+// #region renderCollection
 function renderCollection(){
   const collection = JSON.parse(localStorage.getItem("collection"));
 
@@ -230,6 +214,7 @@ function renderCollection(){
   }
 };
 
+// #region Tracklist Logic
 function mapFormTracklist(totalCount) {
   document.getElementById('tracklistList').innerHTML = "<label>Tracklist:</label><br>";
   trackCount = totalCount;
@@ -266,6 +251,7 @@ document.getElementById(`tracknum${trackCount}Lbl`).remove();
   }
 }
 
+// #region Dialog functions
 function showAuthDialog() {
   const authTokenVal = document.getElementById("authToken");
   authTokenVal.value = localStorage.getItem("authToken");
@@ -316,8 +302,9 @@ function getAuthToken(e) {
   }
 };
 
+// #region getItem
 function getItem (currVal) {
-  var firstChar = currVal.charAt(0);
+  var firstChar = currVal.toString().charAt(0);
   switch(firstChar) {
     case 'w':
       var list = localStorage.getItem("wishlist");
@@ -333,8 +320,9 @@ function getItem (currVal) {
   var index = currVal.replace(firstChar, "");
   var item = array[index];
   return item;
-}
+};
 
+// #region mapExistingToForm
 function mapExistingToForm(item) {
   let form = document.querySelector('form');
   var myFormData = new FormData(form);
@@ -366,8 +354,9 @@ function mapExistingToForm(item) {
       var trackField = document.getElementById(`tracknum${i+1}`);
       trackField.value = trackList[i].trackName;
   }
-}
+};
 
+// #region loadEditForm
 function loadEditForm(item) {
   document.getElementById('formTitle').innerHTML = `Update ${item.albumName} by ${item.artistName}`;
   document.getElementById('formBtns').innerHTML = "";
@@ -375,8 +364,9 @@ function loadEditForm(item) {
     `<input type="submit" id="update" onclick="updateList(${item.devData.id.substring(1)});" target="#" value="Update">
     <input type="button" id="remove" value="Remove">
     <input type="button" id="cancel" value="Cancel" onclick="document.forms[0].reset();pivotToggle(0);">`;
-}
+};
 
+// #region editItem
 function editItem(e, currVal) {
   e = e || window.event;
   e.preventDefault();
@@ -385,8 +375,9 @@ function editItem(e, currVal) {
   pivotToggle(1);
   mapFormTracklist(item.tracklist.length);
   mapExistingToForm(item);
-}
+};
 
+// #region updateList
 //TODO test and ensure the correct item is the one being modified, avoid duplicates
 async function updateList(index){
   const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/${fileName}`;
@@ -430,6 +421,7 @@ async function updateList(index){
   }
 };
 
+// #region updateColorHex
 function updateColorHex(currElement) {
   const inputField = document.getElementById(`${currElement}`);
   const fieldId = currElement + "Hex";
@@ -437,13 +429,13 @@ function updateColorHex(currElement) {
   inputField.value = colorField.value;
 };
 
-function refreshWishlist(e){
-    e = e || window.event;
-    e.preventDefault();
+// #region refreshWishlist
+function refreshWishlist(){
     getData();
     renderWishlist();
-}
+};
 
+// #region updateWishToCol
 function updateWishToCol(id) {
   const authToken = localStorage.getItem("authToken");
   if(!authToken) {
@@ -452,15 +444,9 @@ function updateWishToCol(id) {
     console.log('token present: ', authToken);
     //do something
   }
-}
+};
 
-//WIP
-/*function clearForm() {
-  var form = document.getElementById('addForm');
-  form.reset();
-}*/
-
-//DEV FUNCTIONS
+// #region Dev Functions
 async function updateCount(){
   const test = document.getElementById('test');
   test.innerHTML = `value: ${incrementVar}`;
@@ -476,6 +462,8 @@ function mapDevData() {
 
 const topicSelected = "";
 
+// #region Youtube API Logic
+
 //TODO - The "search" endpoint has a single query cost of 100 units, meaning each time this query is called it costs 100 units of the 10000 units alloted for the key.  Need to store the results in an array and parse it to avoid excess query calls.  If the quota is hit this feature will not work until 2am the next day.
 async function youtubeSearch(hasPageToken) {
   const key = localStorage.getItem("YoutubeAPIKey");
@@ -487,9 +475,17 @@ async function youtubeSearch(hasPageToken) {
   const topic = localStorage.getItem("topic");
   const pageToken = hasPageToken ? hasPageToken : null;
   const response = await 
-  fetch(`https://www.googleapis.com/youtube/v3/search?key=${key}&maxResults${maxResults}&topicId=${topic}&order=${order}&part=snippet&type=${type}${(pageToken != "undefined" && pageToken != null) ? "".concat("&pageToken=",pageToken) : ""}&q=${q}`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
+  fetch(`https://www.googleapis.com/youtube/v3/search?` +
+    `key=${key}` +
+    `&maxResults${maxResults}` +
+    `&topicId=${topic}` +
+    `&order=${order}` +
+    `&part=snippet` +
+    `&type=${type}${(pageToken != "undefined" && pageToken != null) ? "".concat("&pageToken=",pageToken) : ""}` +
+    `&q=${q}`, 
+    {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
   });
   const data = await response.json();
   console.log(data);
@@ -556,8 +552,8 @@ async function viewPlaylists(channelId) {
   const key = localStorage.getItem("YoutubeAPIKey");
   const response = await 
   fetch(`https://www.googleapis.com/youtube/v3/playlists?key=${key}&part=snippet&channelId=${channelId}`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
   });
   const data = await response.json();
   console.log(data);
@@ -653,7 +649,7 @@ const topicArray = [
 
 function populateGenres() {
   const dropdown = document.getElementById('genreDropdown');
-  for(i = 0; i < topicArray.length; i++) {
+  for(let i = 0; i < topicArray.length; i++) {
     const option = document.createElement('option');
     option.value = topicArray[i].code;
     option.innerHTML = topicArray[i].name;
@@ -736,6 +732,7 @@ async function addToList(listName, index){
     };
 };
 
+// #region Logic Restructure
 //NEW STRUCTURE CONCEPT
 /**********************************
 Need the following functions to be created/rebuilt:
@@ -801,6 +798,25 @@ Need the following functions to be created/rebuilt:
       pivotToggle(pivotTo);
     }
 **********************************/
+async function testGetData() {
+  const response = await fetch(`https://api.github.com/repos/${githubRepo}/contents/${fileName}`, {
+    method: 'GET',
+    headers: { 
+      'Content-Type': 'application/json' 
+    },
+  });
+
+  const data = await response.json();
+  const dataParsed = JSON.parse(atob(data.content));
+  const arr = ["wishlist", "collection", "removed"];
+
+  localStorage.setItem("fullList", JSON.stringify(dataParsed, null, 2));
+  localStorage.setItem("sha", data.sha);
+  arr.forEach((item) => {
+    localStorage.setItem(item, JSON.stringify(dataParsed[item], null, 2));
+    console.log(`${item}: `, JSON.parse(localStorage.getItem(item)));
+  });
+};
 
 function testParseFormData(listName, status) {
   var myFormData = new FormData(document.querySelector('form'));
@@ -849,7 +865,7 @@ function testParseFormData(listName, status) {
       trackNum: i + 1,
     })
   };
-  
+
   if(listName === "wishlist"){ 
     newListItem.devData.wishlistedDate = new Date() 
   };
@@ -866,7 +882,7 @@ function testParseFormData(listName, status) {
 //FOR ADDING A VINYL TO WISHLIST OR COLLECTION
 async function testAddToList(listName, item){
   const newObject = await item;
-  
+
   //Append new object to the end of the list
   const list = JSON.parse(localStorage.getItem(listName));
   list[list.length] = newObject;
