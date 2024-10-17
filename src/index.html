@@ -13,12 +13,12 @@
         <nav>
           <ul>
             <!-- TODO - This is bad practice, change these to buttons instead of a -->
-            <li><a href="#" class="navBtn" data-pageId="0">Wishlist</a></li>
+            <li><button class="navBtn" data-pageId="0">Wishlist</button></li>
             <!--RENAME TO "Update List" when edit/remove functionality has been added-->
-            <li><a href="#" class="navBtn" data-pageId="1">Add Form</a></li>
-            <li><a href="#" class="navBtn" data-pageId="2">Collection</a></li>
-            <li><a href="#" class="navBtn" data-pageId="3">Dev Data</a></li>
-            <li><a href="#" class="navBtn" data-pageId="4">WIP</a></li>
+            <li><button class="navBtn" data-pageId="1">Add Form</button></li>
+            <li><button class="navBtn" data-pageId="2">Collection</button></li>
+            <li><button class="navBtn" data-pageId="3">Dev Data</button></li>
+            <li><button class="navBtn" data-pageId="4">WIP</button></li>
           </ul>
         </nav>
       </header>
@@ -46,12 +46,12 @@
           <input type="button" id="authDialogClear" onclick="localStorage.removeItem('authToken');" value="Clear"></input>
         </dialog>
         <div id="carousel" hidden>
-          <a id="lBtn" href="#">&lt;</a>
+          <button id="lBtn" href="#">&lt;</button>
           <div id="display">
             <span id="wishlistButtonMenu">
-              <a href="#" id="markAsOwned" onclick="showAddToColDialog(event)">Mark as Owned</a>
-              <a href="#" id="wishlistEditBtn">Edit Item</a>
-              <a href="#" id="wishlistRefresh" onclick="refreshWishlist(event)">Refresh</a>
+              <button id="markAsOwned">Mark as Owned</button>
+              <button id="wishlistEditBtn">Edit Item</button>
+              <button id="wishlistRefresh">Refresh</button>
             </span>
             <p class="titleText" id="wishTitle">Title</p>
             <p class="subTitleText" id="wishArtist">Sub-Title</p>
@@ -64,17 +64,17 @@
             <p id="musicLinkLbl" class="wishLinkLbl"></p>
             <a href="" id="wishMusicLink" class="wishLinks">Music Link here</a>
           </div>
-          <a id="rBtn" href="#">&gt;</a>
+          <button id="rBtn" href="#">&gt;</button>
         </div>
         <!--ADD TO WISHLIST PAGE-->
         <div id="addFormPage" hidden>
           <div>
-            <button type="button" class="addFormListBtn" data-listType="wishlist" onclick="testAddListItem('wishlist');">Wishlist</button>
-            <button type="button" class="addFormListBtn" data-listType="collection" onclick="testAddListItem('collection');">Collection</button>
+            <button type="button" class="addFormListBtn" data-listType="wishlist">Wishlist</button>
+            <button type="button" class="addFormListBtn" data-listType="collection">Collection</button>
           </div>
           <div id="addFormTokenBtnContainer">
             <p id="formTitle">Add an album to the wishlist</p>
-            <a href="#" id="setAuthTokenBtn" onclick="showAuthDialog();">⚙</a>
+            <a href="#" id="setAuthTokenBtn">⚙</a>
           </div>
           <form onsubmit="return false" id="addForm">
             <label for="albumName">Album Name:</label>
@@ -126,8 +126,8 @@
             <input type="text" name="musicurl" id="musicurl"></input>
             <span id="tracklistList"></span>
             <span class="trackBtns">
-              <button id="formAddBtn" onclick="addTrack(event)">+</button>
-              <button id="formSubBtn" onclick="removeTrack(event)">-</button>
+              <button id="formAddBtn">+</button>
+              <button id="formSubBtn">-</button>
             </span>
             <span id="formBtns">
               <input type="submit" id="submit" data-list="wishlist" target="#">

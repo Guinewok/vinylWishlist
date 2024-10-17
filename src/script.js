@@ -25,6 +25,13 @@ $('.navBtn[data-pageId="2"]').on('click', () => {
   renderCollection();
 });
 
+$(document).on('click', '#submit', (e) => {
+  //TODO - Add validity check to parse form or as it's own function thats called in parse form
+  if(document.forms['addForm'].reportValidity()){
+    workflowAddToList($(e.target).attr('data-list'))
+  }
+});
+
 // DIALOGS
 // $(document).on('click', '#submitDialogClose', hideSubmitDialog());
 // $(document).on('click', '.addToColClose', hideAddToColDialog());
@@ -42,17 +49,17 @@ $(document).on('click', '#markAsOwned', () => showAddToColDialog());
 $(document).on('click', '#wishlistRefresh', () => refreshWishlist());
 
 // ADD TO WISHLIST
-// $(document).on('click', '.addFormListBtn', testAddListItem($(this).attr('data-listType')));
-// $(document).on('click', '#setAuthTokenBtn', showAuthDialog());
-// $(document).on('click', '#colorHex', updateColorHex('color'));
-// $(document).on('click', '#colorSecHex', updateColorHex('colorSec'));
-// $(document).on('click', '#formAddBtn', addTrack(event));
-// $(document).on('click', '#formSubBtn', removeTrack(event));
-// $(document).on('click', '#submit', () => {
-//   if(document.forms['addForm'].reportValidity()){
-//     addToWishlist();
-//   };
-// });
+$(document).on('click', '.addFormListBtn', () => addListItem($(this).attr('data-listType')));
+$(document).on('click', '#setAuthTokenBtn', () => showAuthDialog());
+$(document).on('click', '#colorHex', () => updateColorHex('color'));
+$(document).on('click', '#colorSecHex', () => updateColorHex('colorSec'));
+$(document).on('click', '#formAddBtn', () => addTrack());
+$(document).on('click', '#formSubBtn', () => removeTrack());
+$(document).on('click', '#submit', () => {
+  if(document.forms['addForm'].reportValidity()){
+    addToWishlist();
+  };
+});
 
 window.addEventListener("load", () => {
   //localStorage.clear();
@@ -137,31 +144,6 @@ function mapFormTracklist(totalCount) {
     document.getElementById('tracklistList').innerHTML += 
     `<label for="tracknum${curr}" id="tracknum${curr}Lbl" class="formTrack">Track ${curr}:</label>
     <input type="text" name="tracknum${curr}" id="tracknum${curr}" class="formTrack"></input>`;
-  }
-}
-
-function addTrack(e) {
-  e = e || window.event;
-  e.preventDefault();
-  trackCount += 1;
-  console.log(trackCount);
-  /*document.getElementById('tracklistList').innerHTML += 
-    `<label for="tracknum${trackCount}" id="tracklist${trackCount}Lbl" class="formTrack">Track ${trackCount}:</label>
-    <input type="text" name="tracknum${trackCount}" id="tracknum${trackCount}" class="formTrack"></input>`;*/
-  document.getElementById('tracklistList').insertAdjacentHTML('beforeend',
-    `<label for="tracknum${trackCount}" id="tracknum${trackCount}Lbl" class="formTrack">Track ${trackCount}:</label>
-    <input type="text" name="tracknum${trackCount}" id="tracknum${trackCount}" class="formTrack"></input>`);
-}
-
-function removeTrack(event) {
-  event.preventDefault();
-  if (trackCount > 0) {
-document.getElementById(`tracknum${trackCount}Lbl`).remove();
-   document.getElementById(`tracknum${trackCount}`).remove();
-  trackCount -= 1;
-  }else{
-    //TODO add a css effect to the button to indicate it isn't usable.
-    console.log('No more tracks to remove');
   }
 }
 
@@ -445,14 +427,6 @@ Need the following functions to be created/rebuilt:
       pivotToggle(pivotTo);
     }
 **********************************/
-
-$(document).on('click', '#submit', (e) => {
-  //TODO - Add validity check to parse form or as it's own function thats called in parse form
-  if(document.forms['addForm'].reportValidity()){
-    workflowAddToList($(e.target).attr('data-list'))
-  }
-});
-
 // #region Workflow Functions
 //TODO - This workflow works great, needs to update the data-list attr on submit btn based on what is clicked
 function workflowAddToList(listName, pivotTo){
@@ -463,6 +437,28 @@ function workflowAddToList(listName, pivotTo){
   // pivotToggle(pivotTo);
 }
 
+
+function addTrack() {
+  trackCount += 1;
+  $('#tracklistList').append(`
+    <label for="tracknum${trackCount}" id="tracknum${trackCount}Lbl" class="formTrack">
+      Track ${trackCount}:
+    </label>
+    <input type="text" name="tracknum${trackCount}" id="tracknum${trackCount}" class="formTrack"></input>
+  `);
+}
+
+
+function removeTrack() {
+  if(trackCount > 0) { 
+    $(`#tracknum${trackCount}Lbl`).remove();
+    $(`#tracknum${trackCount}`).remove();
+    trackCount -= 1;
+  } else { 
+    //TODO add a css effect to the button to indicate it isn't usable.
+    console.log('No more tracks to remove');
+  }
+}
 
 async function getData() {
   const response = await fetch(`https://api.github.com/repos/${githubRepo}/contents/${fileName}`, {
@@ -515,9 +511,9 @@ function renderWishlist(increment){
   //TODO - remove the onclick here, bind with jquery
   const vinyl = `
     <span id="wishlistButtonMenu">
-      <a href="#" id="markAsOwned">Mark as Owned</a>
-      <a href="#" id="wishlistEditBtn">Edit Item</a>
-      <a href="#" id="wishlistRefresh">Refresh</a>
+      <button id="markAsOwned">Mark as Owned</button>
+      <button id="wishlistEditBtn">Edit Item</button>
+      <button id="wishlistRefresh">Refresh</button>
     </span>
     <p class="titleText" id="wishTitle">${wishlist[incrementVar].albumName}</p>
     <p class="subTitleText" id="wishArtist">${wishlist[incrementVar].artistName}</p>
