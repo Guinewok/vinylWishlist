@@ -56,62 +56,12 @@ $(document).on('click', '#wishlistRefresh', () => refreshWishlist());
 
 window.addEventListener("load", () => {
   //localStorage.clear();
-  testGetData()
+  getData()
   renderWishlist();
   pivotToggle(0);
   populateGenres();
   localStorage.removeItem("pageToken");
 });
-
-// #region parseFormData
-function parseFormData() {
-  //Get form
-  let form = document.querySelector('form');
-  var myFormData = new FormData(form);
-  const formDataObj = {};
-  myFormData.forEach((value, key) => (formDataObj[key] = value));
-  console.log("Form Values: ", formDataObj);
-  
-  for(var i in formDataObj){
-    if(formDataObj[i].length < 1){
-      formDataObj[i] = "None";
-    }
-  }
-  console.log("Form Values: ", formDataObj);
-  const curDate = new Date();
- 
-  const newListItem = {
-			albumName: formDataObj.albumName,
-			artistName: formDataObj.artistName,
-      description: formDataObj.description,
-			design: {
-        color: formDataObj.color,
-        colorSec: formDataObj.colorSec,
-        vinylStyle: formDataObj.vinylStyle
-      },
-			price: formDataObj.price,
-			releaseDate: formDataObj.releaseDate,
-			shopurl: formDataObj.shopurl,
-			imageurl: formDataObj.imageurl,
-			musicurl: formDataObj.musicurl,
-      tracklist: [],
-			devData: {
-				id: "w" + JSON.parse(localStorage.getItem("wishlist")).length,
-				status: status,
-				wishlistedDate: curDate
-			}
-		};
-//TODO Add error catching
-  for(var i = 0; i < trackCount; i++) {
-    const curr = document.getElementById(`tracknum${i + 1}`).value;
-    newListItem.tracklist.push({
-      trackName: curr,
-      trackNum: i + 1,
-    })
-  }
-  console.log("Form Converted to JSON Object: ", newListItem);
-  return newListItem;
-}
 
 // #region addToWishlist
 async function addToWishlist(){
@@ -790,15 +740,15 @@ $(document).on('click', '#submit', (e) => {
 // #region Workflow Functions
 //TODO - This workflow works great, needs to update the data-list attr on submit btn based on what is clicked
 function workflowAddToList(listName, pivotTo){
-  const formData = testParseFormData(listName, status);
-  const add = testAddToList(listName, formData);
+  const formData = parseFormData(listName, status);
+  const add = addToList(listName, formData);
   const requestBody = testCreateRequestBody(listName, add);
   testPushToRepo(requestBody);
   // pivotToggle(pivotTo);
 }
 
 
-async function testGetData() {
+async function getData() {
   const response = await fetch(`https://api.github.com/repos/${githubRepo}/contents/${fileName}`, {
     method: 'GET',
     headers: { 
@@ -874,7 +824,7 @@ function renderWishlist(increment){
 };
 
 
-function testParseFormData(listName, status) {
+function parseFormData(listName, status) {
   var myFormData = new FormData(document.querySelector('form'));
   const formDataObj = {};
   myFormData.forEach((value, key) => (formDataObj[key] = value));
@@ -943,7 +893,7 @@ function testParseFormData(listName, status) {
 
 
 //FOR ADDING A VINYL TO WISHLIST OR COLLECTION
-function testAddToList(listName, item){
+function addToList(listName, item){
   const fullObj = JSON.parse(localStorage.getItem("fullList"));
   const list = JSON.parse(localStorage.getItem(listName));
   //Append new object to the end of the list
@@ -1006,7 +956,7 @@ async function testUpdateList(listName, item) {
 
 
 //FOR CREATING A REQUEST BODY TO SUBMIT TO THE PUSH FUNCTION
-function testCreateRequestBody(listName, item) {
+function createRequestBody(listName, item) {
   const commitMessage = item[1];
   const obj = item[0];
   const base64Content = btoa(JSON.stringify(obj, null, 2));
@@ -1020,7 +970,7 @@ function testCreateRequestBody(listName, item) {
 
 
 //FUNCTION TO PUSH CHANGES TO THE GITHUB REPO
-async function testPushToRepo(promiseRequestBody) {
+async function pushToRepo(promiseRequestBody) {
   const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/${fileName}`;
   const authToken = localStorage.getItem("authToken");
   console.log("requestBody from push: ", promiseRequestBody);
@@ -1047,40 +997,6 @@ async function testPushToRepo(promiseRequestBody) {
 };
 
 
-//WORKFLOW FUNCTION - Add a Vinyl to the Wishlist or Collection
-function testAddListItem(listName, pivotTo){
-   const item = testParseFormData(listName, statusArr[1]);
-   const add = testAddToList(listName, item);
-   console.log("<Promise> - List Addition ", add);
-  
-   const requestBody = testCreateRequestBody(listName, add);
-   console.log("<Promise> - requestBody: ", requestBody);
-  
-   //testPushToRepo(requestBody);
-  
-   //Refresh to get the new sha, otherwise encounter 409 error
-   //getData();
-  
-   // if(pivotTo){pivotToggle(pivotTo)};
- };
-
-
-//WORKFLOW FUNCTION - Update an existing Vinyl
-function testUpdateListItem(listName, itemIndex, pivotEdit, pivotAfter){
-  //Need to rework logic, should not require the form to populate in order to get the data
-  const item = getItem(itemIndex);
-  loadEditForm(item);
-  console.log("update item: ", item);
-  //Need to rework this logic, should not have to pass a status for an update, should not update fields it doesnt have to
-  const parsed = testParseFormData(listName, statusArr[1]);
-  const update = testUpdateList(listName, parsed);
-  const requestBody = testCreateRequestBody(update);
-  console.log("update requestBody: ", requestBody);
-  //pushToRepo(requestBody);
-  //if(pivotAfter){pivotToggle(pivotAfter)};
-};
-
-
 function testRenderCollection(){
   const collection = JSON.parse(localStorage.getItem("collection"));
 
@@ -1102,7 +1018,7 @@ function testRenderCollection(){
 };
 
 
-function mapExistingToForm(item) {
+function testMapExistingToForm(item) {
   let form = document.querySelector('form');
   var myFormData = new FormData(form);
   for(var obj in item){
