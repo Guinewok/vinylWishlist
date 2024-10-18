@@ -69,50 +69,6 @@ window.addEventListener("load", () => {
   localStorage.removeItem("pageToken");
 });
 
-// #region updateList
-//TODO test and ensure the correct item is the one being modified, avoid duplicates
-async function updateList(index){
-  const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/${fileName}`;
-  const updateObject = await parseFormData();
-  const authToken = localStorage.getItem("authToken");
-  console.log(authToken);
-  if(!authToken) {
-    workflowOpenAuthDialog();
-    console.log("Invalid Token");
-  }else{
-    const wishlist = JSON.parse(localStorage.getItem("wishlist"));
-    console.log("Original Item: ", wishlist[index]);
-    //This is a bandaid, the approach must be reworked as parseFormData() automatically generates the date value as it wasn't engineered to be used like this.  Current approach grabs the unedited version of devData and manually overwrites it evertime.
-    const ogDevData = wishlist[index].devData;
-    wishlist[index] = updateObject;
-    wishlist[index].devData = ogDevData;
-    const fullObj = JSON.parse(localStorage.getItem("fullList"));
-    fullObj.wishlist = wishlist;
-    console.log("Updated Object: ", fullObj);
-   
-    const commitMessage = `Update details for ${updateObject.albumName} by ${updateObject.artistName} in the vinyl wishlist`;
-    const base64Content = btoa(JSON.stringify(fullObj, null, 2)); 
-
-    const requestBody = {
-      message: commitMessage,
-      content: base64Content,
-      sha: localStorage.getItem("sha"),
-    };
-    console.log(requestBody);
-
-    fetch(apiUrl, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody)
-    });
-    console.log('File updated and changes pushed to GitHub.');
-    pivotToggle(0);
-  };
-};
-
 // #region updateColorHex
 function updateColorHex(currElement) {
   const inputField = document.getElementById(`${currElement}`);
