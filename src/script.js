@@ -53,8 +53,8 @@ $(document).on('click', '.editExistingBtn', (e) => workflowOpenExistingVinyl($(e
 
 // ADD TO WISHLIST
 $(document).on('click', '.addFormListBtn', () => addListItem($(this).attr('data-listType')));
-$(document).on('click', '#colorHex', () => updateColorHex('color'));
-$(document).on('click', '#colorSecHex', () => updateColorHex('colorSec'));
+$(document).on('click', '#colorHex', () =>  $('#color').val($('#colorHex').val()));
+$(document).on('click', '#colorSecHex', () => $('#colorSec').val($('#colorSecHex').val()));
 $(document).on('click', '#formAddBtn', () => addTrack());
 $(document).on('click', '#formSubBtn', () => removeTrack());
 $(document).on('click', '#submitAdd', (e) => {
@@ -71,14 +71,6 @@ window.addEventListener("load", () => {
   populateGenres();
   localStorage.removeItem("pageToken");
 });
-
-// #region updateColorHex
-function updateColorHex(currElement) {
-  const inputField = document.getElementById(`${currElement}`);
-  const fieldId = currElement + "Hex";
-  const colorField = document.getElementById(`${fieldId}`);
-  inputField.value = colorField.value;
-};
 
 // #region updateWishToCol
 function updateWishToCol(id) {
@@ -103,8 +95,6 @@ function mapDevData() {
   preElement.innerHTML += `,\n"Collection":` + localStorage.getItem("collection");
   preElement.innerHTML += `,\n"Removed":` + localStorage.getItem("removed");
 };
-
-const topicSelected = "";
 
 // #region Logic Restructure
 //NEW STRUCTURE CONCEPT
