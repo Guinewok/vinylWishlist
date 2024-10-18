@@ -125,7 +125,7 @@ img.vinylImage {
   font-weight: bold;
 }
 
-a#rBtn[disabled], a#lBtn[disabled] {
+#rBtn[disabled], #lBtn[disabled],  button[disabled]{
   pointer-events: none;
   background-color: dimgray !important;
 }

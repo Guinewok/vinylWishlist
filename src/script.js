@@ -89,9 +89,7 @@ function hideAuthDialog() {
   dialog.close();
 };
 
-function showAddToColDialog(e, id) {
-  e = e || window.event;
-  e.preventDefault();
+function showAddToColDialog(id) {
   const dialog = document.getElementById('addToColDialog');
   dialog.showModal();
 };
@@ -113,9 +111,7 @@ function hideSubmitDialog() {
   dialog.close();
 };
 
-function getAuthToken(e) {
-  e = e || window.event;
-  e.preventDefault();
+function getAuthToken() {
   const authTokenVal = document.getElementById("authToken").value;
   if (authTokenVal.length > 0) {
     localStorage.setItem("authToken", authTokenVal);
@@ -127,63 +123,40 @@ function getAuthToken(e) {
   }
 };
 
-// #region getItem
-function getItem (currVal) {
-  var firstChar = currVal.toString().charAt(0);
-  switch(firstChar) {
-    case 'w':
-      var list = localStorage.getItem("wishlist");
-      break;
-    case 'c':
-      var list = localStorage.getItem("collection");
-      break;
-    case 'r':
-      var list = localStorage.getItem("removed");
-      break;
-    default:
-      console.error(`[script.js - getItem] Invalid list id, received: ${firstChar}`);
-      break;
-  }
-  console.log(currVal);
-  const array = JSON.parse(list);
-  var index = currVal.replace(firstChar, "");
-  var item = array[index];
-  return item;
-};
 
-// #region mapExistingToForm
-function mapExistingToForm(item) {
-  let form = document.querySelector('form');
-  var myFormData = new FormData(form);
-  for(var i in item){
-    if(i === "devData"){
-      break;
-    }else{
-      if(i === "design"){
-        for(var d in item[i]){
-          var field = document.getElementById(d);
-          field.value = item[i][d];
-        }
-      }else{
-        if(i === "tracklist"){
-          for(let x = 0; x < item[i].length; x++){
-            var trackField = document.getElementById(`tracknum${x + 1}`);
-            trackField.value = item[i][x].trackName;
-          }
-        }else{
-          console.log(item[i]);
-          var field = document.getElementById(i);
-          field.value = item[i];
-        }
-      }
-    }
-  }
-  const trackList = item.tracklist;
-  for(var i = 0; i < trackList.length; i++){
-      var trackField = document.getElementById(`tracknum${i+1}`);
-      trackField.value = trackList[i].trackName;
-  }
-};
+// // #region mapExistingToForm
+// function mapExistingToForm(item) {
+//   let form = document.querySelector('form');
+//   var myFormData = new FormData(form);
+//   for(var i in item){
+//     if(i === "devData"){
+//       break;
+//     }else{
+//       if(i === "design"){
+//         for(var d in item[i]){
+//           var field = document.getElementById(d);
+//           field.value = item[i][d];
+//         }
+//       }else{
+//         if(i === "tracklist"){
+//           for(let x = 0; x < item[i].length; x++){
+//             var trackField = document.getElementById(`tracknum${x + 1}`);
+//             trackField.value = item[i][x].trackName;
+//           }
+//         }else{
+//           console.log(item[i]);
+//           var field = document.getElementById(i);
+//           field.value = item[i];
+//         }
+//       }
+//     }
+//   }
+//   const trackList = item.tracklist;
+//   for(var i = 0; i < trackList.length; i++){
+//       var trackField = document.getElementById(`tracknum${i+1}`);
+//       trackField.value = trackList[i].trackName;
+//   }
+// };
 
 // #region loadEditForm
 function loadEditForm(item) {
@@ -196,15 +169,15 @@ function loadEditForm(item) {
 };
 
 // #region editItem
-function editItem(e, currVal) {
-  e = e || window.event;
-  e.preventDefault();
-  const item = getItem(currVal);
-  loadEditForm(item);
-  pivotToggle(1);
-  mapFormTracklist(item.tracklist.length);
-  mapExistingToForm(item);
-};
+// function editItem(e, currVal) {
+//   e = e || window.event;
+//   e.preventDefault();
+//   const item = getItem(currVal);
+//   loadEditForm(item);
+//   pivotToggle(1);
+//   mapFormTracklist(item.tracklist.length);
+//   mapExistingToForm(item);
+// };
 
 // #region updateList
 //TODO test and ensure the correct item is the one being modified, avoid duplicates
@@ -359,14 +332,45 @@ Need the following functions to be created/rebuilt:
 // #region Workflow Functions
 //TODO - This workflow works great, needs to update the data-list attr on submit btn based on what is clicked
 function workflowAddToList(listName, pivotTo){
-  const formData = parseFormData(listName, status);
-  const add = addToList(listName, formData);
-  const requestBody = createRequestBody(listName, add);
-  pushToRepo(requestBody);
-  // pivotToggle(pivotTo);
+  const formData = parseFormData(listName, null, status);
+  // const updatedList = addToList(listName, formData);
+  const updatedList = modifyList(listName, formData, "add");
+  const requestBody = createRequestBody(listName, updatedList);
+  console.log("formData: ", formData);
+  console.log("updatedList: ", updatedList);
+  console.log("requestBody: ", requestBody);
+  //pushToRepo(requestBody);
+  if(pivotTo){
+    pivotToggle(pivotTo);
+  }
+}
+
+
+function workflowOpenExistingVinyl(itemId) {
+  const item = getItem(itemId);
+  let listName = getList(itemId);
+  // mapFormTracklist(item.tracklist.length);
+  mapExistingToForm(item);
+  renderFormFooter(listName, "update");
+  pivotToggle(1);
+}
+
+
+function workflowUpdateExistingVinyl(listName, item, pivotTo) {
+  const formData = parseFormData(listName, item, status);
+  const updatedList = modifyList(listName, formData, "update");
+  const requestBody = createRequestBody(listName, updatedList);
+  console.log("formData: ", formData);
+  console.log("updatedList: ", updatedList);
+  console.log("requestBody: ", requestBody);
+  //pushToRepo(requestBody);
+  if(pivotTo){
+    pivotToggle(pivotTo);
+  }
 }
 
 // #region addTrack
+/**Used to add track input fields to the form*/
 function addTrack() {
   trackCount += 1;
   $('#tracklistList').append(`
@@ -378,6 +382,7 @@ function addTrack() {
 }
 
 // #region removeTrack
+/**Used to remove track input fields from the form*/
 function removeTrack() {
   if(trackCount > 0) { 
     $(`#tracknum${trackCount}Lbl`).remove();
@@ -390,6 +395,7 @@ function removeTrack() {
 }
 
 // #region getData
+/**Call Github API and return the contents of the JSON file used to store vinyl data. */
 async function getData() {
   const response = await fetch(`https://api.github.com/repos/${githubRepo}/contents/${fileName}`, {
     method: 'GET',
@@ -411,6 +417,7 @@ async function getData() {
 };
 
 // #region pivotToggle
+/**Used to pivot between pages. */
 function pivotToggle(pivotNum) {
   var pivotArray = ["carousel","addFormPage","collection","na", "wip"];
 
@@ -423,6 +430,7 @@ function pivotToggle(pivotNum) {
 };
 
 // #region renderWishlist
+/**Renders the item displayed on the wishlist page. */
 function renderWishlist(increment){
   const wishlist = JSON.parse(localStorage.getItem("wishlist"));
   let tracklist = '';
@@ -438,11 +446,11 @@ function renderWishlist(increment){
     tracklist += `<li>${item.trackName}</li>`;
   });
 
-  //TODO - remove the onclick here, bind with jquery
+  //TODO - make the buttons 100% height
   const vinyl = `
     <span id="wishlistButtonMenu">
       <button id="markAsOwned">Mark as Owned</button>
-      <button id="wishlistEditBtn">Edit Item</button>
+      <button id="wishlistEditBtn" data-itemId="${wishlist[incrementVar].devData.id}" class="editExistingBtn">Edit Item</button>
       <button id="wishlistRefresh">Refresh</button>
     </span>
     <p class="titleText" id="wishTitle">${wishlist[incrementVar].albumName}</p>
@@ -465,8 +473,30 @@ function renderWishlist(increment){
   $('#display').html(vinyl);
 };
 
+// #region renderFormFooter
+/**Renders the buttons on form based on the type of changes being made */
+function renderFormFooter(listName, formType) {
+  switch(formType) {
+    case "update":
+      $('#formBtns').html(`
+        <input type="submit" id="submitUpdate" data-list="${listName}" target="#" value="Save"/>
+        <input type="button" id="cancelUpdate" value="Cancel"/>
+      `);
+      break;
+    default:
+      $('#formBtns').html(`
+        <input type="submit" id="submitAdd" data-list="${listName}" target="#"/>
+        <input type="reset" id="rst"/>
+      `);
+      break;
+  }
+}
+
 // #region parseFormData
-function parseFormData(listName, status) {
+// TODO - have a check for whether or not the item is new or updated, this function probably shouldn't be creating any data whatsoever
+// If not new then the devData should not be touched.  A new function for devData maybe?
+/**Returns the value entered in the form as a JSON object */
+function parseFormData(listName, item, status) {
   var myFormData = new FormData(document.querySelector('form'));
   const formDataObj = {};
   myFormData.forEach((value, key) => (formDataObj[key] = value));
@@ -477,57 +507,42 @@ function parseFormData(listName, status) {
   }
  
   const newListItem = {
-			albumName: formDataObj.albumName,
-			artistName: formDataObj.artistName,
-      description: formDataObj.description,
-			design: {
-        color: formDataObj.color,
-        colorSec: formDataObj.colorSec,
-        vinylStyle: formDataObj.vinylStyle
-      },
-			price: formDataObj.price,
-			releaseDate: formDataObj.releaseDate,
-			shopurl: formDataObj.shopurl,
-			imageurl: formDataObj.imageurl,
-			musicurl: formDataObj.musicurl,
-      tracklist: [],
-			devData: {
-        id: listName.substring(0, 1) + JSON.parse(localStorage.getItem(listName)).length,
-        status: status,
-        modifiedDate: new Date(),
-        wishlistedDate: "",
-        collectedDate: "",
-        removedDate: "",
-      }
-      /*
-      apiDetails: {
-        channelId: formDataObj.channelId,
-        playlistId: formDataObj.playlistId
-      }
-      */
-		};
+    albumName: formDataObj.albumName,
+    artistName: formDataObj.artistName,
+    description: formDataObj.description,
+    design: {
+      color: formDataObj.color,
+      colorSec: formDataObj.colorSec,
+      vinylStyle: formDataObj.vinylStyle
+    },
+    price: formDataObj.price,
+    releaseDate: formDataObj.releaseDate,
+    shopurl: formDataObj.shopurl,
+    imageurl: formDataObj.imageurl,
+    musicurl: formDataObj.musicurl,
+    tracklist: [],
+    devData: {},
+    /*
+    apiDetails: {
+      channelId: formDataObj.channelId,
+      playlistId: formDataObj.playlistId
+    }
+    */
+  };
+
   for(var i = 0; i < trackCount; i++) {
-    const curr = document.getElementById(`tracknum${i + 1}`).value;
     newListItem.tracklist.push({
-      // trackName: $(`#tracknum${i + 1}`).val(),
-      trackName: curr,
+      trackName: $(`#tracknum${i + 1}`).val(),
       trackNum: i + 1,
     })
   };
 
-  switch(listName){
-    case "wishlist":
-      newListItem.devData.wishlistedDate = new Date(); 
-      break;
-    case "collection": 
-      newListItem.devData.collectedDate = new Date();
-      break;
-    case "removed":
-      newListItem.devData.removedDate = new Date();
-      break;
-    default:
-      console.error(`[script.js - parseFormData] listName not provided`);
-      break;
+  if(item === null){
+    newListItem.devData = {
+      id: listName.substring(0, 1) + JSON.parse(localStorage.getItem(listName)).length,
+      status: status,
+      modifiedDate: new Date(),
+    }
   }
   console.log("Form Converted to JSON Object: ", newListItem);
   return newListItem;
@@ -535,6 +550,7 @@ function parseFormData(listName, status) {
 
 
 // #region addToList
+/**Adds an item to the selected locally-stored list */
 function addToList(listName, item){
   const fullObj = JSON.parse(localStorage.getItem("fullList"));
   const list = JSON.parse(localStorage.getItem(listName));
@@ -598,6 +614,7 @@ async function testUpdateList(listName, item) {
 
 
 // #region createRequestBody
+/**Creates a "request body" object able to be used by the Github API to change files */
 function createRequestBody(listName, item) {
   const commitMessage = item[1];
   const obj = item[0];
@@ -611,7 +628,41 @@ function createRequestBody(listName, item) {
 };
 
 
+// #region getItem
+/**Returns an items full details given it's ID */
+function getItem (currVal) {
+  const firstChar = currVal.toString().charAt(0);
+  const list = getList(currVal);
+  // console.log("getItem: ", list[currVal.replace(firstChar, "")]);
+  return list[currVal.replace(firstChar, "")];
+};
+
+
+// #region getList
+/**Returns an item's list based on it's ID */
+function getList(devId) {
+  const indentifier = devId.charAt(0);
+  let list;
+  switch(indentifier) {
+    case 'w':
+      list = JSON.parse(localStorage.getItem("wishlist"));
+      break;
+    case 'c':
+      list = JSON.parse(localStorage.getItem("collection"));
+      break;
+    case 'r':
+      list = JSON.parse(localStorage.getItem("removed"));
+      break;
+    default:
+      console.error(`[script.js - getList] Invalid list id, received: ${devId}`);
+      break;
+  }
+  return list;
+}
+
+
 // #region pushToRepo
+/**Takes a "request body" object and pushes it to the Github repo. */
 async function pushToRepo(promiseRequestBody) {
   const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/${fileName}`;
   const authToken = localStorage.getItem("authToken");
@@ -639,6 +690,7 @@ async function pushToRepo(promiseRequestBody) {
 };
 
 // #region renderCollection
+/**Maps the collection list JSON object to the collection page UI */
 function renderCollection(){
   const collection = JSON.parse(localStorage.getItem("collection"));
 
@@ -649,7 +701,7 @@ function renderCollection(){
   for(i = devData; i < collection.length; i++){
     const testColItem = `
       <div class="colItem">
-        <a href="#" class="colEditBtn" onclick="editItem(event, '${collection[i].devData.id}');" editId="${collection[i].devData.id}">edit</a>
+        <a href="#" class="colEditBtn editExistingBtn" data-itemId="${collection[i].devData.id}">edit</a>
         <p>${collection[i].albumName}</p>
         <img src="${collection[i].imageurl}" class="colVinylImage"></img>
       </div>
@@ -659,63 +711,75 @@ function renderCollection(){
 };
 
 
-function testMapExistingToForm(item) {
-  let form = document.querySelector('form');
-  var myFormData = new FormData(form);
-  for(var obj in item){
-    switch(obj) {
-      case obj === "devData":
+// NEW TEST FUNCTION
+//Concept is to be a combo of add, update, and remove
+/**Handles the addition, modification, or removal of a vinyl for any given list */
+function modifyList(listName, item, modType){
+  let fullList = JSON.parse(localStorage.getItem("fullList"));
+  let list = JSON.parse(localStorage.getItem(listName));
+  let commitMessage = "";
+
+  switch(modType){
+    case "add":
+      if(listName === "removed"){
+        throw `[script.js - modifyList] - Cannot "Add" to removed list, set modType to "removed" to remove an item.`;
+      }
+
+      listName === "wishlist" ? item.devData.wishlistedDate = new Date() : null;
+      listName === "collection" ? item.devData.collectedDate = new Date() : null;
+
+      list[list.length] = item;
+      fullList[listName] = list;
+      commitMessage = `Add ${item.albumName} by ${item.artistName} to the ${listName}`;
+      break;
+    case "update":
+      list[item.devData.id.substring(1)] = item;
+      fullList[listName] = list;
+      commitMessage = `Update ${item.albumName} by ${item.artistName} in the ${listName}`;
+      break;
+    case "remove":
+      item.devData.removedDate = new Date();
+      // TODO - Need to loop through the array with the removal and update each devData.id, otherwise all logic using that id will need to change
+      commitMessage = `Remove ${item.albumName} by ${item.artistName} from the ${listName}`;
+      break;
+    default:
+      console.error(`[script.js - modifyList] - Failed to modify list, modType not provided or invalid.  Received: ${modType}`);
+      break;
+  }
+  return[fullList, commitMessage];
+}
+
+// #region mapExistingToForm
+/**Maps an existing vinyl object to the form */
+function mapExistingToForm(item) {
+  $('#tracklistList').html("<label>Tracklist:</label><br>");
+  for(var key in item){
+    switch(key) {
+      case "devData":
         break;
-      case obj === "design":
-        for(var value in item[obj]){
-          $(value).val(item[obj][value]);
+      case "design":
+        for(var value in item[key]){
+          $(value).val(item[key][value]);
+          //TODO - colors do not map correctly
           // var field = document.getElementById(d);
           // field.value = item[i][d];
         }
         break;
-      case obj === "tracklist":
-        //item[obj].forEach(() => {})
-        for(let x = 0; x < item[obj].length; x++){
-          $(`#tracknum${x + 1}`).val(item[obj][x].trackName);
-          // var trackField = document.getElementById(`tracknum${x + 1}`);
-          // trackField.value = item[i][x].trackName;
+      case "tracklist":
+        for(let i = 0; i < item[key].length; i++){
+          let curr = i + 1;
+          $('#tracklistList').append(`
+            <label for="tracknum${curr}" id="tracknum${curr}Lbl" class="formTrack">
+              Track ${curr}:
+            </label>
+            <input type="text" name="tracknum${curr}" id="tracknum${curr}" class="formTrack" value="${item[key][i].trackName}"></input>
+          `)
         }
         break;
       default:
-        console.log(item[obj]);
-        $(obj).val(item[obj]);
-        // var field = document.getElementById(i);
-        // field.value = item[i];
+        $(`#${key}`).val(item[key]);
         break;
     }
-
-    // if(i === "devData"){
-    //   break;
-    // }else{
-    //   if(i === "design"){
-    //     for(var d in item[i]){
-    //       var field = document.getElementById(d);
-    //       field.value = item[i][d];
-    //     }
-    //   }else{
-    //     if(i === "tracklist"){
-    //       for(let x = 0; x < item[i].length; x++){
-    //         var trackField = document.getElementById(`tracknum${x + 1}`);
-    //         trackField.value = item[i][x].trackName;
-    //       }
-    //     }else{
-    //       console.log(item[i]);
-    //       var field = document.getElementById(i);
-    //       field.value = item[i];
-    //     }
-    //   }
-    // }
-  }
-
-  //item.tracklist.forEach(() => {})
-  for(var i = 0; i < item.tracklist.length; i++){
-      var trackField = document.getElementById(`tracknum${i+1}`);
-      trackField.value = item.tracklist[i].trackName;
   }
 };
 
