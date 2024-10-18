@@ -12,12 +12,10 @@ var searchResultsArr = [];
 
 // NAVIGATION
 $(document).on('click', '.navBtn', (e) => pivotToggle($(e.target).attr('data-pageId')));
-$('.navBtn[data-pageId="1"]').on('click', () => {
+$(document).on('click', '.navBtn[data-pageId="2"]', () => renderCollection());
+$(document).on('click', '.navBtn[data-pageId="1"]', () => {
   document.forms[0].reset();
   renderFormFooter();
-});
-$('.navBtn[data-pageId="2"]').on('click', () => {
-  renderCollection();
 });
 
 // DIALOGS
@@ -68,7 +66,6 @@ window.addEventListener("load", () => {
   localStorage.removeItem("pageToken");
 });
 
-// #region Logic Restructure
 /**********************************
 Need the following functions to be created/rebuilt:
   -addToList
@@ -142,7 +139,7 @@ function workflowAddToList(listName, pivotTo){
   if(pivotTo){
     pivotToggle(pivotTo);
   }
-}
+};
 
 
 function workflowOpenExistingVinyl(itemId) {
@@ -151,7 +148,7 @@ function workflowOpenExistingVinyl(itemId) {
   mapExistingToForm(item);
   renderFormFooter(list, item, "update");
   pivotToggle(1);
-}
+};
 
 
 //TODO - need to allow for items to be moved from one list to another
@@ -165,7 +162,8 @@ function workflowUpdateExistingVinyl(itemId, pivotTo) {
   if(pivotTo){
     pivotToggle(pivotTo);
   }
-}
+};
+
 
 // #region Workflow Dialogs
 function workflowOpenAuthDialog(){
@@ -176,9 +174,8 @@ function workflowOpenAuthDialog(){
     <input type="submit" id="authDialogSubmit"/>
     <input type="button" id="authDialogClear" value="Clear"/>
   `);
-
   document.getElementById('sharedDialog').showModal();
-}
+};
 
 
 function workflowOpenMarkAsOwnedDialog(itemId){
@@ -189,15 +186,13 @@ function workflowOpenMarkAsOwnedDialog(itemId){
     <input type="button" id="markAsOwnedConfirmBtn" data-itemId="${item.devData.id}" value="Confirm"/>
     <input type="button" id="markAsOwnedDenyBtn" value="Deny"/>
   `);
-
   document.getElementById('sharedDialog').showModal();
-}
+};
 
 
 function workflowOpenSubmitDialog(item, submissionStatus, submissionType) {
   const list = getList(item.devData.id);
   $('#dialogBtns').html(``);
-
   switch(submissionType) {
     case "add":
       $('#dialogHeader').html(`<h2>Addition ${submissionStatus ? "Success" : "Failure"}</h2>`);
@@ -224,7 +219,8 @@ function workflowOpenSubmitDialog(item, submissionStatus, submissionType) {
       throw `[script.js - workflowOpenSubmitDialog] - Invalid submission type.  Received: ${submissionType}`;
   }
   document.getElementById('sharedDialog').showModal();
-}
+};
+
 
 // #region addTrack
 /**Used to add track input fields to the form*/
@@ -236,7 +232,8 @@ function addTrack() {
     </label>
     <input type="text" name="tracknum${trackCount}" id="tracknum${trackCount}" class="formTrack"></input>
   `);
-}
+};
+
 
 // #region removeTrack
 /**Used to remove track input fields from the form*/
@@ -249,7 +246,8 @@ function removeTrack() {
       $('#formSubBtn').attr('disabled', 'disabled'); 
     }
   }
-}
+};
+
 
 // #region getAuthToken
 function getAuthToken() {
@@ -259,6 +257,7 @@ function getAuthToken() {
     document.getElementById('sharedDialog').close();
   }
 };
+
 
 // #region getData
 /**Call Github API and return the contents of the JSON file used to store vinyl data. */
@@ -282,6 +281,7 @@ async function getData() {
   });
 };
 
+
 // #region pivotToggle
 /**Used to pivot between pages. */
 function pivotToggle(pivotNum) {
@@ -294,6 +294,7 @@ function pivotToggle(pivotNum) {
     }
   });
 };
+
 
 // #region renderWishlist
 /**Renders the item displayed on the wishlist page. */
@@ -312,7 +313,6 @@ function renderWishlist(increment){
     tracklist += `<li>${item.trackName}</li>`;
   });
 
-  //TODO - make the buttons 100% height
   const vinyl = `
     <span id="wishlistButtonMenu">
       <button id="markAsOwned" data-itemId="${wishlist[incrementVar].devData.id}">Mark as Owned</button>
@@ -335,9 +335,9 @@ function renderWishlist(increment){
     <p id="musicLinkLbl" class="wishLinkLbl">Listen Here: </p>
     <a href="" id="wishMusicLink" class="wishLinks">${wishlist[incrementVar].musicurl}</a>
   `;
-
   $('#display').html(vinyl);
 };
+
 
 // #region renderFormFooter
 /**Renders the buttons on form based on the type of changes being made */
@@ -358,7 +358,8 @@ function renderFormFooter(listName, item, formType) {
       `);
       break;
   }
-}
+};
+
 
 // #region parseFormData
 /**Returns the value entered in the form as a JSON object */
@@ -449,6 +450,7 @@ function addToList(listName, item){
   return [fullObj, commitMessage];
 };
 
+
 // #region createRequestBody
 /**Creates a "request body" object able to be used by the Github API to change files */
 function createRequestBody(listName, item) {
@@ -497,7 +499,7 @@ function getList(devId) {
       break;
   }
   return {list: list, listName: listName};
-}
+};
 
 
 // #region pushToRepo
@@ -527,6 +529,7 @@ function pushToRepo(promiseRequestBody, item, submissionType) {
     });
   };
 };
+
 
 // #region renderCollection
 /**Maps the collection list JSON object to the collection page UI */
@@ -585,7 +588,8 @@ function modifyList(listName, item, modType){
       break;
   }
   return[fullList, commitMessage];
-}
+};
+
 
 // #region mapExistingToForm
 /**Maps an existing vinyl object to the form */
@@ -620,6 +624,7 @@ function mapExistingToForm(item) {
     }
   }
 };
+
 
 // #region Dev Functions
 async function updateCount(){
