@@ -69,18 +69,6 @@ window.addEventListener("load", () => {
   localStorage.removeItem("pageToken");
 });
 
-function getAuthToken() {
-  const authTokenVal = document.getElementById("authToken").value;
-  if (authTokenVal.length > 0) {
-    localStorage.setItem("authToken", authTokenVal);
-    console.log("Auth Token: ", authTokenVal);
-    document.getElementById('sharedDialog').close()
-  }else{
-    //Handle errors here, display error message
-    console.log("Invalid Auth Token entered");
-  }
-};
-
 // #region updateList
 //TODO test and ensure the correct item is the one being modified, avoid duplicates
 async function updateList(index){
@@ -349,6 +337,15 @@ function removeTrack() {
     }
   }
 }
+
+// #region getAuthToken
+function getAuthToken() {
+  if($('#authToken').val()){
+    console.log(`[script.js - getAuthToken] - Github Auth Token: ${$('#authToken').val()}`);
+    localStorage.setItem("authToken", $('#authToken').val());
+    document.getElementById('sharedDialog').close();
+  }
+};
 
 // #region getData
 /**Call Github API and return the contents of the JSON file used to store vinyl data. */
