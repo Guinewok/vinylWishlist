@@ -81,16 +81,6 @@ function getAuthToken() {
   }
 };
 
-// #region loadEditForm
-function loadEditForm(item) {
-  document.getElementById('formTitle').innerHTML = `Update ${item.albumName} by ${item.artistName}`;
-  document.getElementById('formBtns').innerHTML = "";
-  document.getElementById('formBtns').innerHTML = 
-    `<input type="submit" id="update" onclick="updateList(${item.devData.id.substring(1)});" target="#" value="Update">
-    <input type="button" id="remove" value="Remove">
-    <input type="button" id="cancel" value="Cancel" onclick="document.forms[0].reset();pivotToggle(0);">`;
-};
-
 // #region updateList
 //TODO test and ensure the correct item is the one being modified, avoid duplicates
 async function updateList(index){
@@ -444,12 +434,14 @@ function renderWishlist(increment){
 function renderFormFooter(listName, item, formType) {
   switch(formType) {
     case "update":
+      $('#formTitle').html(`Update ${item.albumName} by ${item.artistName}`);
       $('#formBtns').html(`
         <input type="submit" id="submitUpdate" data-itemid="${item.devData.id}" data-list="${listName}" target="#" value="Save"/>
         <input type="button" id="cancelUpdate" value="Cancel"/>
       `);
       break;
     default:
+      $('#formTitle').html(`Add an album to the wishlist`);
       $('#formBtns').html(`
         <input type="submit" id="submitAdd" data-itemid="w" data-list="wishlist" target="#"/>
         <input type="reset" id="rst"/>
