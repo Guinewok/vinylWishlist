@@ -18,6 +18,7 @@ $(document).on('click', '.navBtn', (e) => pivotToggle($(e.target).attr('data-pag
 
 $('.navBtn[data-pageId="1"]').on('click', () => {
   document.forms[0].reset();
+  renderFormFooter();
   mapFormTracklist(trackCount);
 });
 
@@ -40,6 +41,7 @@ $(document).on('click', '#lBtn', () => renderWishlist(false));
 $(document).on('click', '#rBtn', () => renderWishlist(true));
 $(document).on('click', '#markAsOwned', () => showAddToColDialog());
 $(document).on('click', '#wishlistRefresh', () => refreshWishlist());
+$(document).on('click', '.editExistingBtn', (e) => workflowOpenExistingVinyl($(e.target).attr('data-itemId')));
 
 // ADD TO WISHLIST
 $(document).on('click', '.addFormListBtn', () => addListItem($(this).attr('data-listType')));
@@ -48,12 +50,13 @@ $(document).on('click', '#colorHex', () => updateColorHex('color'));
 $(document).on('click', '#colorSecHex', () => updateColorHex('colorSec'));
 $(document).on('click', '#formAddBtn', () => addTrack());
 $(document).on('click', '#formSubBtn', () => removeTrack());
-$(document).on('click', '#submit', (e) => {
+$(document).on('click', '#submitAdd', (e) => {
   //TODO - Add validity check to parse form or as it's own function thats called in parse form
   if(document.forms['addForm'].reportValidity()){
     workflowAddToList($(e.target).attr('data-list'))
   }
 });
+$(document).on('click', '#cancelUpdate', () => pivotToggle(0))
 
 window.addEventListener("load", () => {
   //localStorage.clear();
@@ -63,18 +66,6 @@ window.addEventListener("load", () => {
   populateGenres();
   localStorage.removeItem("pageToken");
 });
-
-// #region Tracklist Logic
-function mapFormTracklist(totalCount) {
-  document.getElementById('tracklistList').innerHTML = "<label>Tracklist:</label><br>";
-  trackCount = totalCount;
-  for(var i = 0; i < totalCount; i++) {
-    var curr = i + 1;
-    document.getElementById('tracklistList').innerHTML += 
-    `<label for="tracknum${curr}" id="tracknum${curr}Lbl" class="formTrack">Track ${curr}:</label>
-    <input type="text" name="tracknum${curr}" id="tracknum${curr}" class="formTrack"></input>`;
-  }
-}
 
 // #region Dialog functions
 function showAuthDialog() {
@@ -387,10 +378,11 @@ function removeTrack() {
   if(trackCount > 0) { 
     $(`#tracknum${trackCount}Lbl`).remove();
     $(`#tracknum${trackCount}`).remove();
-    trackCount -= 1;
-  } else { 
-    //TODO add a css effect to the button to indicate it isn't usable.
-    console.log('No more tracks to remove');
+    trackCount--;
+    if(trackCount === 0){ 
+      $('#formSubBtn').attr('disabled', 'disabled'); 
+      // console.log('No more tracks to remove');
+    }
   }
 }
 
