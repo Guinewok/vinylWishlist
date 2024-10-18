@@ -11,15 +11,12 @@ const status = 'TESTING';
 var searchResultsArr = [];
 const statusArr = ["TESTING", "wishlisted", "collected", "removed"];
 
-// TODO - set onclick events to clean up the html
 // NAVIGATION
 $(document).on('click', '.navBtn', (e) => pivotToggle($(e.target).attr('data-pageId')));
-
 $('.navBtn[data-pageId="1"]').on('click', () => {
   document.forms[0].reset();
   renderFormFooter();
 });
-
 $('.navBtn[data-pageId="2"]').on('click', () => {
   renderCollection();
 });
@@ -44,12 +41,11 @@ $(document).on('click', '#cancelUpdate', () => pivotToggle(0))
 // WISHLIST
 $(document).on('click', '#lBtn', () => renderWishlist(false));
 $(document).on('click', '#rBtn', () => renderWishlist(true));
+$(document).on('click', '.editExistingBtn', (e) => workflowOpenExistingVinyl($(e.target).attr('data-itemId'))); //Used by collection edit buttons as well
 $(document).on('click', '#wishlistRefresh', () => {
   getData();
   renderWishlist();
 });
-//Shared by the collection button
-$(document).on('click', '.editExistingBtn', (e) => workflowOpenExistingVinyl($(e.target).attr('data-itemId')));
 
 // ADD TO WISHLIST
 $(document).on('click', '.addFormListBtn', () => addListItem($(this).attr('data-listType')));
@@ -64,6 +60,7 @@ $(document).on('click', '#submitAdd', (e) => {
   }
 });
 
+
 window.addEventListener("load", () => {
   getData()
   renderWishlist();
@@ -73,7 +70,6 @@ window.addEventListener("load", () => {
 });
 
 // #region Logic Restructure
-//NEW STRUCTURE CONCEPT
 /**********************************
 Need the following functions to be created/rebuilt:
   -addToList
@@ -139,7 +135,6 @@ Need the following functions to be created/rebuilt:
     }
 **********************************/
 // #region Workflow Functions
-//TODO - This workflow works great, needs to update the data-list attr on submit btn based on what is clicked
 function workflowAddToList(listName, pivotTo){
   const formData = parseFormData(listName, null, status);
   const updatedList = modifyList(listName, formData, "add");
@@ -428,11 +423,9 @@ function parseFormData(listName, item, status) {
 function addToList(listName, item){
   const fullObj = JSON.parse(localStorage.getItem("fullList"));
   const list = JSON.parse(localStorage.getItem(listName));
-  //Append new object to the end of the list
   list[list.length] = item;
-  
-  //Overwrite the corresponding section
   let commitMessage = "";
+
   switch(listName) {
       case 'wishlist': {
         fullObj.wishlist = list;
@@ -453,39 +446,9 @@ function addToList(listName, item){
         console.error("[script.js - testAddToList] - Failed to update list, no listName was provided.");
       }
     };
+
   return [fullObj, commitMessage];
 };
-
-
-//FOR UPDATING THE DATA OF AN EXISTING ITEM IN A LIST
-async function testUpdateList(listName, item) {
-  const fullObj = JSON.parse(localStorage.getItem("fullList"));
-  const list = JSON.parse(localStorage.getItem(listName));
-  const commitMessage = `Update details for ${item.albumName} by ${item.artistName}`;
-
-  list[item.devData.id] = item;
-  
-  switch(listName) {
-    case 'wishlist': {
-      fullObj.wishlist = list;
-      break;
-    }
-    case 'collection': {
-      fullObj.collection = list;
-      break;
-    }
-    case 'removed': {
-      fullObj.removed = list;
-      break;
-    }
-    default: {
-      console.error(`[script.js - testUpdateList] - No listName was provided`);
-    }
-  };
-  console.log("[script.js - testUpdateList] - Updated Object: ", fullObj);
-  return [fullObj, commitMessage];
-};
-
 
 // #region createRequestBody
 /**Creates a "request body" object able to be used by the Github API to change files */
