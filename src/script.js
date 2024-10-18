@@ -44,7 +44,10 @@ $(document).on('click', '#cancelUpdate', () => pivotToggle(0))
 // WISHLIST
 $(document).on('click', '#lBtn', () => renderWishlist(false));
 $(document).on('click', '#rBtn', () => renderWishlist(true));
-$(document).on('click', '#wishlistRefresh', () => refreshWishlist());
+$(document).on('click', '#wishlistRefresh', () => {
+  getData();
+  renderWishlist();
+});
 //Shared by the collection button
 $(document).on('click', '.editExistingBtn', (e) => workflowOpenExistingVinyl($(e.target).attr('data-itemId')));
 
@@ -75,12 +78,6 @@ function updateColorHex(currElement) {
   const fieldId = currElement + "Hex";
   const colorField = document.getElementById(`${fieldId}`);
   inputField.value = colorField.value;
-};
-
-// #region refreshWishlist
-function refreshWishlist(){
-    getData();
-    renderWishlist();
 };
 
 // #region updateWishToCol
