@@ -3,13 +3,12 @@ var incrementVar = 0;
 var devData = 1;
 var trackCount = 3;
 var dialogHidden = true;
-const githubRepo = 'Guinewok/vinylWishlist';
-//const fileName = 'vinylWishlist.json';
-//const status = 'wishlisted';
-const fileName = 'test.json';
 const status = 'TESTING';
+const viewMode = 'TEST';
+const apiUrl = viewMode === 'PROD' ? 
+  `https://api.github.com/repos/Guinewok/vinylWishlist/contents/vinylWishlist.json` : 
+  `https://api.github.com/repos/Guinewok/vinylWishlist/contents/test.json`;
 var searchResultsArr = [];
-const statusArr = ["TESTING", "wishlisted", "collected", "removed"];
 
 // NAVIGATION
 $(document).on('click', '.navBtn', (e) => pivotToggle($(e.target).attr('data-pageId')));
@@ -264,7 +263,7 @@ function getAuthToken() {
 // #region getData
 /**Call Github API and return the contents of the JSON file used to store vinyl data. */
 async function getData() {
-  const response = await fetch(`https://api.github.com/repos/${githubRepo}/contents/${fileName}`, {
+  const response = await fetch(apiUrl, {
     method: 'GET',
     headers: { 
       'Content-Type': 'application/json' 
@@ -504,7 +503,6 @@ function getList(devId) {
 // #region pushToRepo
 /**Takes a "request body" object and pushes it to the Github repo. */
 function pushToRepo(promiseRequestBody, item, submissionType) {
-  const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/${fileName}`;
   const authToken = localStorage.getItem("authToken");
   //Check for Auth Token
   if(!authToken || authToken.length === 0) {
