@@ -11,10 +11,9 @@ const status = 'TESTING';
 var searchResultsArr = [];
 const statusArr = ["TESTING", "wishlisted", "collected", "removed"];
 
-// #region TODO - set onclick events to clean up the html
-// onclick for nav a - pivotToggle
+// TODO - set onclick events to clean up the html
+// NAVIGATION
 $(document).on('click', '.navBtn', (e) => pivotToggle($(e.target).attr('data-pageId')));
-
 
 $('.navBtn[data-pageId="1"]').on('click', () => {
   document.forms[0].reset();
@@ -26,17 +25,9 @@ $('.navBtn[data-pageId="2"]').on('click', () => {
 });
 
 // DIALOGS
-// $(document).on('click', '#submitDialogClose', hideSubmitDialog());
-// $(document).on('click', '.addToColClose', hideAddToColDialog());
-// $(document).on('click', '#authDialogClose', () => hideAuthDialog());
+$(document).on('click', '#dialogClose', () => document.getElementById('sharedDialog').close());
 $(document).on('click', '#setAuthTokenBtn', () => workflowOpenAuthDialog());
 $(document).on('click', '#authDialogClose', () => document.getElementById('sharedDialog').close());
-$(document).on('click', '#dialogClose', () => document.getElementById('sharedDialog').close());
-$(document).on('click', '#markAsOwnedConfirmBtn', (e) => workflowUpdateExistingVinyl($(e.target).attr('data-itemId')));
-$(document).on('click', '#submitUpdate', (e) => workflowUpdateExistingVinyl($(e.target).attr('data-itemId')));
-$(document).on('click', '#markAsOwnedDenyBtn', () => document.getElementById('sharedDialog').close());
-$(document).on('click', '#markAsOwned', (e) => workflowOpenMarkAsOwnedDialog($(e.target).attr('data-itemId')));
-
 $(document).on('click', '#authDialogSubmit', () => getAuthToken());
 $(document).on('click', '#authDialogClear', () => {
   localStorage.removeItem('authToken');
@@ -44,16 +35,21 @@ $(document).on('click', '#authDialogClear', () => {
   document.getElementById('sharedDialog').close();
 });
 
+$(document).on('click', '#markAsOwnedConfirmBtn', (e) => workflowUpdateExistingVinyl($(e.target).attr('data-itemId')));
+$(document).on('click', '#markAsOwnedDenyBtn', () => document.getElementById('sharedDialog').close());
+$(document).on('click', '#markAsOwned', (e) => workflowOpenMarkAsOwnedDialog($(e.target).attr('data-itemId')));
+$(document).on('click', '#submitUpdate', (e) => workflowUpdateExistingVinyl($(e.target).attr('data-itemId')));
+$(document).on('click', '#cancelUpdate', () => pivotToggle(0))
+
 // WISHLIST
 $(document).on('click', '#lBtn', () => renderWishlist(false));
 $(document).on('click', '#rBtn', () => renderWishlist(true));
-// $(document).on('click', '#markAsOwned', () => showAddToColDialog());
 $(document).on('click', '#wishlistRefresh', () => refreshWishlist());
+//Shared by the collection button
 $(document).on('click', '.editExistingBtn', (e) => workflowOpenExistingVinyl($(e.target).attr('data-itemId')));
 
 // ADD TO WISHLIST
 $(document).on('click', '.addFormListBtn', () => addListItem($(this).attr('data-listType')));
-// $(document).on('click', '#setAuthTokenBtn', () => showAuthDialog());
 $(document).on('click', '#colorHex', () => updateColorHex('color'));
 $(document).on('click', '#colorSecHex', () => updateColorHex('colorSec'));
 $(document).on('click', '#formAddBtn', () => addTrack());
@@ -64,51 +60,14 @@ $(document).on('click', '#submitAdd', (e) => {
     workflowAddToList($(e.target).attr('data-list'))
   }
 });
-$(document).on('click', '#cancelUpdate', () => pivotToggle(0))
 
 window.addEventListener("load", () => {
-  //localStorage.clear();
   getData()
   renderWishlist();
   pivotToggle(0);
   populateGenres();
   localStorage.removeItem("pageToken");
 });
-
-// #region Dialog functions
-// function showAuthDialog() {
-//   const authTokenVal = document.getElementById("authToken");
-//   authTokenVal.value = localStorage.getItem("authToken");
-//   const dialog = document.getElementById('authDialog');
-//   dialog.showModal();
-// };
-
-// function hideAuthDialog() {
-//   const dialog = document.getElementById('authDialog');
-//   dialog.close();
-// };
-
-// function showAddToColDialog(id) {
-//   const dialog = document.getElementById('addToColDialog');
-//   dialog.showModal();
-// };
-
-// function hideAddToColDialog() {
-//   const dialog = document.getElementById('addToColDialog');
-//   dialog.close();
-// };
-
-// function showSubmitDialog(status) {
-//   const dialogText = document.getElementById('submissionStatus');
-//   dialogText.innerHTML = status;
-//   const dialog = document.getElementById('submitDialog');
-//   dialog.showModal();
-// };
-
-// function hideSubmitDialog() {
-//   const dialog = document.getElementById('submitDialog');
-//   dialog.close();
-// };
 
 function getAuthToken() {
   const authTokenVal = document.getElementById("authToken").value;
@@ -122,41 +81,6 @@ function getAuthToken() {
   }
 };
 
-
-// // #region mapExistingToForm
-// function mapExistingToForm(item) {
-//   let form = document.querySelector('form');
-//   var myFormData = new FormData(form);
-//   for(var i in item){
-//     if(i === "devData"){
-//       break;
-//     }else{
-//       if(i === "design"){
-//         for(var d in item[i]){
-//           var field = document.getElementById(d);
-//           field.value = item[i][d];
-//         }
-//       }else{
-//         if(i === "tracklist"){
-//           for(let x = 0; x < item[i].length; x++){
-//             var trackField = document.getElementById(`tracknum${x + 1}`);
-//             trackField.value = item[i][x].trackName;
-//           }
-//         }else{
-//           console.log(item[i]);
-//           var field = document.getElementById(i);
-//           field.value = item[i];
-//         }
-//       }
-//     }
-//   }
-//   const trackList = item.tracklist;
-//   for(var i = 0; i < trackList.length; i++){
-//       var trackField = document.getElementById(`tracknum${i+1}`);
-//       trackField.value = trackList[i].trackName;
-//   }
-// };
-
 // #region loadEditForm
 function loadEditForm(item) {
   document.getElementById('formTitle').innerHTML = `Update ${item.albumName} by ${item.artistName}`;
@@ -166,17 +90,6 @@ function loadEditForm(item) {
     <input type="button" id="remove" value="Remove">
     <input type="button" id="cancel" value="Cancel" onclick="document.forms[0].reset();pivotToggle(0);">`;
 };
-
-// #region editItem
-// function editItem(e, currVal) {
-//   e = e || window.event;
-//   e.preventDefault();
-//   const item = getItem(currVal);
-//   loadEditForm(item);
-//   pivotToggle(1);
-//   mapFormTracklist(item.tracklist.length);
-//   mapExistingToForm(item);
-// };
 
 // #region updateList
 //TODO test and ensure the correct item is the one being modified, avoid duplicates
@@ -401,7 +314,6 @@ function workflowOpenSubmitDialog(item, submissionStatus, submissionType) {
         `Sucessfully added ${item.albumName} by ${item.artistName} to the ${list.listName}` : 
         `Failed to add ${item.albumName} by ${item.artistName} to the ${list.listName}`
       }</p>`);
-      // $('#dialogContent').html(`<p>Successfully added ${item.albumName} by ${item.artistName} to the ${listName}</p>`);
       break;
     case "update":
       $('#dialogHeader').html(`<h2>Update ${submissionStatus ? "Success" : "Failure"}</h2>`);
@@ -409,7 +321,6 @@ function workflowOpenSubmitDialog(item, submissionStatus, submissionType) {
         `Sucessfully updated ${item.albumName} by ${item.artistName} in the ${list.listName}` : 
         `Failed to update ${item.albumName} by ${item.artistName} in the ${list.listName}`
       }</p>`);
-      // $('#dialogContent').html(`<p>Successfully saved ${item.albumName} by ${item.artistName} to the ${listName}</p>`);
       break;
     case "remove":
       $('#dialogHeader').html(`<h2>Removal ${submissionStatus ? "Success" : "Failure"}</h2>`);
@@ -417,7 +328,6 @@ function workflowOpenSubmitDialog(item, submissionStatus, submissionType) {
         `Sucessfully removed ${item.albumName} by ${item.artistName} from the ${list.listName}` : 
         `Failed to remove ${item.albumName} by ${item.artistName} from the ${list.listName}`
       }</p>`);
-      // $('#dialogContent').html(`<p>Successfully removed ${item.albumName} by ${item.artistName} from the ${listName}</p>`);
       break;
     default:
       throw `[script.js - workflowOpenSubmitDialog] - Invalid submission type.  Received: ${submissionType}`;
@@ -549,8 +459,6 @@ function renderFormFooter(listName, item, formType) {
 }
 
 // #region parseFormData
-// TODO - have a check for whether or not the item is new or updated, this function probably shouldn't be creating any data whatsoever
-// If not new then the devData should not be touched.  A new function for devData maybe?
 /**Returns the value entered in the form as a JSON object */
 function parseFormData(listName, item, status) {
   var myFormData = new FormData(document.querySelector('form'));
@@ -773,8 +681,7 @@ function renderCollection(){
 };
 
 
-// NEW TEST FUNCTION
-//Concept is to be a combo of add, update, and remove
+// #region modifyList
 /**Handles the addition, modification, or removal of a vinyl for any given list */
 function modifyList(listName, item, modType){
   let fullList = JSON.parse(localStorage.getItem("fullList"));
@@ -844,14 +751,3 @@ function mapExistingToForm(item) {
     }
   }
 };
-
-// function testEditItem(currVal) {
-//   const item = getItem(currVal);
-//   loadEditForm(item);
-//   pivotToggle(1);
-//   mapFormTracklist(item.tracklist.length);
-//   mapExistingToForm(item);
-//   console.log("testEditItem: ", item);
-// };
-
-// $(document).on('click', '.colEditBtn', testEditItem($(this)).attr('editId'));
