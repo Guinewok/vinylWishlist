@@ -72,30 +72,6 @@ window.addEventListener("load", () => {
   localStorage.removeItem("pageToken");
 });
 
-// #region updateWishToCol
-function updateWishToCol(id) {
-  const authToken = localStorage.getItem("authToken");
-  if(!authToken) {
-    workflowOpenAuthDialog();
-  }else{
-    console.log('token present: ', authToken);
-    //do something
-  }
-};
-
-// #region Dev Functions
-async function updateCount(){
-  const test = document.getElementById('test');
-  test.innerHTML = `value: ${incrementVar}`;
-};
-
-function mapDevData() {
-  const preElement = document.getElementById('preElement');
-  preElement.innerHTML = `"Wishlist":` + localStorage.getItem("wishlist");
-  preElement.innerHTML += `,\n"Collection":` + localStorage.getItem("collection");
-  preElement.innerHTML += `,\n"Removed":` + localStorage.getItem("removed");
-};
-
 // #region Logic Restructure
 //NEW STRUCTURE CONCEPT
 /**********************************
@@ -682,4 +658,17 @@ function mapExistingToForm(item) {
         break;
     }
   }
+};
+
+// #region Dev Functions
+async function updateCount(){
+  const test = document.getElementById('test');
+  test.innerHTML = `value: ${incrementVar}`;
+};
+
+function mapDevData() {
+  const preElement = document.getElementById('preElement');
+  preElement.innerHTML = `"Wishlist":` + localStorage.getItem("wishlist");
+  preElement.innerHTML += `,\n"Collection":` + localStorage.getItem("collection");
+  preElement.innerHTML += `,\n"Removed":` + localStorage.getItem("removed");
 };
