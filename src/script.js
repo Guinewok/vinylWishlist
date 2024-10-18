@@ -19,7 +19,6 @@ $(document).on('click', '.navBtn', (e) => pivotToggle($(e.target).attr('data-pag
 $('.navBtn[data-pageId="1"]').on('click', () => {
   document.forms[0].reset();
   renderFormFooter();
-  mapFormTracklist(trackCount);
 });
 
 $('.navBtn[data-pageId="2"]').on('click', () => {
@@ -29,23 +28,32 @@ $('.navBtn[data-pageId="2"]').on('click', () => {
 // DIALOGS
 // $(document).on('click', '#submitDialogClose', hideSubmitDialog());
 // $(document).on('click', '.addToColClose', hideAddToColDialog());
-// $(document).on('click', '#authDialogClose', hideAuthDialog());
-// $(document).on('click', '#authDialogSubmit', (event: JQuery.ClickEvent) => {
-//   event.preventDefault();
-//   getAuthToken(event);
-// });
-// $(document).on('click', '#authDialogClear', localStorage.removeItem('authToken'));
+// $(document).on('click', '#authDialogClose', () => hideAuthDialog());
+$(document).on('click', '#setAuthTokenBtn', () => workflowOpenAuthDialog());
+$(document).on('click', '#authDialogClose', () => document.getElementById('sharedDialog').close());
+$(document).on('click', '#dialogClose', () => document.getElementById('sharedDialog').close());
+$(document).on('click', '#markAsOwnedConfirmBtn', (e) => workflowUpdateExistingVinyl($(e.target).attr('data-itemId')));
+$(document).on('click', '#submitUpdate', (e) => workflowUpdateExistingVinyl($(e.target).attr('data-itemId')));
+$(document).on('click', '#markAsOwnedDenyBtn', () => document.getElementById('sharedDialog').close());
+$(document).on('click', '#markAsOwned', (e) => workflowOpenMarkAsOwnedDialog($(e.target).attr('data-itemId')));
+
+$(document).on('click', '#authDialogSubmit', () => getAuthToken());
+$(document).on('click', '#authDialogClear', () => {
+  localStorage.removeItem('authToken');
+  $('#authToken').val("");
+  document.getElementById('sharedDialog').close();
+});
 
 // WISHLIST
 $(document).on('click', '#lBtn', () => renderWishlist(false));
 $(document).on('click', '#rBtn', () => renderWishlist(true));
-$(document).on('click', '#markAsOwned', () => showAddToColDialog());
+// $(document).on('click', '#markAsOwned', () => showAddToColDialog());
 $(document).on('click', '#wishlistRefresh', () => refreshWishlist());
 $(document).on('click', '.editExistingBtn', (e) => workflowOpenExistingVinyl($(e.target).attr('data-itemId')));
 
 // ADD TO WISHLIST
 $(document).on('click', '.addFormListBtn', () => addListItem($(this).attr('data-listType')));
-$(document).on('click', '#setAuthTokenBtn', () => showAuthDialog());
+// $(document).on('click', '#setAuthTokenBtn', () => showAuthDialog());
 $(document).on('click', '#colorHex', () => updateColorHex('color'));
 $(document).on('click', '#colorSecHex', () => updateColorHex('colorSec'));
 $(document).on('click', '#formAddBtn', () => addTrack());
@@ -68,46 +76,46 @@ window.addEventListener("load", () => {
 });
 
 // #region Dialog functions
-function showAuthDialog() {
-  const authTokenVal = document.getElementById("authToken");
-  authTokenVal.value = localStorage.getItem("authToken");
-  const dialog = document.getElementById('authDialog');
-  dialog.showModal();
-};
+// function showAuthDialog() {
+//   const authTokenVal = document.getElementById("authToken");
+//   authTokenVal.value = localStorage.getItem("authToken");
+//   const dialog = document.getElementById('authDialog');
+//   dialog.showModal();
+// };
 
-function hideAuthDialog() {
-  const dialog = document.getElementById('authDialog');
-  dialog.close();
-};
+// function hideAuthDialog() {
+//   const dialog = document.getElementById('authDialog');
+//   dialog.close();
+// };
 
-function showAddToColDialog(id) {
-  const dialog = document.getElementById('addToColDialog');
-  dialog.showModal();
-};
+// function showAddToColDialog(id) {
+//   const dialog = document.getElementById('addToColDialog');
+//   dialog.showModal();
+// };
 
-function hideAddToColDialog() {
-  const dialog = document.getElementById('addToColDialog');
-  dialog.close();
-};
+// function hideAddToColDialog() {
+//   const dialog = document.getElementById('addToColDialog');
+//   dialog.close();
+// };
 
-function showSubmitDialog(status) {
-  const dialogText = document.getElementById('submissionStatus');
-  dialogText.innerHTML = status;
-  const dialog = document.getElementById('submitDialog');
-  dialog.showModal();
-};
+// function showSubmitDialog(status) {
+//   const dialogText = document.getElementById('submissionStatus');
+//   dialogText.innerHTML = status;
+//   const dialog = document.getElementById('submitDialog');
+//   dialog.showModal();
+// };
 
-function hideSubmitDialog() {
-  const dialog = document.getElementById('submitDialog');
-  dialog.close();
-};
+// function hideSubmitDialog() {
+//   const dialog = document.getElementById('submitDialog');
+//   dialog.close();
+// };
 
 function getAuthToken() {
   const authTokenVal = document.getElementById("authToken").value;
   if (authTokenVal.length > 0) {
     localStorage.setItem("authToken", authTokenVal);
     console.log("Auth Token: ", authTokenVal);
-    hideAuthDialog();
+    document.getElementById('sharedDialog').close()
   }else{
     //Handle errors here, display error message
     console.log("Invalid Auth Token entered");
@@ -178,7 +186,7 @@ async function updateList(index){
   const authToken = localStorage.getItem("authToken");
   console.log(authToken);
   if(!authToken) {
-    showAuthDialog();
+    workflowOpenAuthDialog();
     console.log("Invalid Token");
   }else{
     const wishlist = JSON.parse(localStorage.getItem("wishlist"));
@@ -232,7 +240,7 @@ function refreshWishlist(){
 function updateWishToCol(id) {
   const authToken = localStorage.getItem("authToken");
   if(!authToken) {
-    showAuthDialog();
+    workflowOpenAuthDialog();
   }else{
     console.log('token present: ', authToken);
     //do something
@@ -324,13 +332,9 @@ Need the following functions to be created/rebuilt:
 //TODO - This workflow works great, needs to update the data-list attr on submit btn based on what is clicked
 function workflowAddToList(listName, pivotTo){
   const formData = parseFormData(listName, null, status);
-  // const updatedList = addToList(listName, formData);
   const updatedList = modifyList(listName, formData, "add");
   const requestBody = createRequestBody(listName, updatedList);
-  console.log("formData: ", formData);
-  console.log("updatedList: ", updatedList);
-  console.log("requestBody: ", requestBody);
-  //pushToRepo(requestBody);
+  pushToRepo(requestBody, formData, "add");
   if(pivotTo){
     pivotToggle(pivotTo);
   }
@@ -339,25 +343,86 @@ function workflowAddToList(listName, pivotTo){
 
 function workflowOpenExistingVinyl(itemId) {
   const item = getItem(itemId);
-  let listName = getList(itemId);
-  // mapFormTracklist(item.tracklist.length);
+  const list = getList(itemId);
   mapExistingToForm(item);
-  renderFormFooter(listName, "update");
+  renderFormFooter(list, item, "update");
   pivotToggle(1);
 }
 
 
-function workflowUpdateExistingVinyl(listName, item, pivotTo) {
-  const formData = parseFormData(listName, item, status);
-  const updatedList = modifyList(listName, formData, "update");
-  const requestBody = createRequestBody(listName, updatedList);
-  console.log("formData: ", formData);
-  console.log("updatedList: ", updatedList);
-  console.log("requestBody: ", requestBody);
-  //pushToRepo(requestBody);
+//TODO - need to allow for items to be moved from one list to another
+function workflowUpdateExistingVinyl(itemId, pivotTo) {
+  const item = getItem(itemId);
+  const list = getList(itemId);
+  const formData = parseFormData(list.listName, item, status);
+  const updatedList = modifyList(list.listName, formData, "update");
+  const requestBody = createRequestBody(list.listName, updatedList);
+  pushToRepo(requestBody, formData, "update");
   if(pivotTo){
     pivotToggle(pivotTo);
   }
+}
+
+// #region Workflow Dialogs
+function workflowOpenAuthDialog(){
+  $('#dialogHeader').html(`<h2>Provide Github Authorization Token</h2>`);
+  $('#dialogContent').html(`<p>In order to make changes to the wishlist you need to provide a valid Github Auth Token</p>`);
+  $('#dialogBtns').html(`
+    <input type="text" name="authToken" id="authToken"></input>
+    <input type="submit" id="authDialogSubmit"/>
+    <input type="button" id="authDialogClear" value="Clear"/>
+  `);
+
+  document.getElementById('sharedDialog').showModal();
+}
+
+
+function workflowOpenMarkAsOwnedDialog(itemId){
+  const item = getItem(itemId);
+  $('#dialogHeader').html(`<h2>Add to Collection</h2>`);
+  $('#dialogContent').html(`<p>Add ${item.albumName} by ${item.artistName} to the collection?</p>`);
+  $('#dialogBtns').html(`
+    <input type="button" id="markAsOwnedConfirmBtn" data-itemId="${item.devData.id}" value="Confirm"/>
+    <input type="button" id="markAsOwnedDenyBtn" value="Deny"/>
+  `);
+
+  document.getElementById('sharedDialog').showModal();
+}
+
+
+function workflowOpenSubmitDialog(item, submissionStatus, submissionType) {
+  const list = getList(item.devData.id);
+  $('#dialogBtns').html(``);
+
+  switch(submissionType) {
+    case "add":
+      $('#dialogHeader').html(`<h2>Addition ${submissionStatus ? "Success" : "Failure"}</h2>`);
+      $('#dialogContent').html(`<p>${submissionStatus ? 
+        `Sucessfully added ${item.albumName} by ${item.artistName} to the ${list.listName}` : 
+        `Failed to add ${item.albumName} by ${item.artistName} to the ${list.listName}`
+      }</p>`);
+      // $('#dialogContent').html(`<p>Successfully added ${item.albumName} by ${item.artistName} to the ${listName}</p>`);
+      break;
+    case "update":
+      $('#dialogHeader').html(`<h2>Update ${submissionStatus ? "Success" : "Failure"}</h2>`);
+      $('#dialogContent').html(`<p>${submissionStatus ? 
+        `Sucessfully updated ${item.albumName} by ${item.artistName} in the ${list.listName}` : 
+        `Failed to update ${item.albumName} by ${item.artistName} in the ${list.listName}`
+      }</p>`);
+      // $('#dialogContent').html(`<p>Successfully saved ${item.albumName} by ${item.artistName} to the ${listName}</p>`);
+      break;
+    case "remove":
+      $('#dialogHeader').html(`<h2>Removal ${submissionStatus ? "Success" : "Failure"}</h2>`);
+      $('#dialogContent').html(`<p>${submissionStatus ? 
+        `Sucessfully removed ${item.albumName} by ${item.artistName} from the ${list.listName}` : 
+        `Failed to remove ${item.albumName} by ${item.artistName} from the ${list.listName}`
+      }</p>`);
+      // $('#dialogContent').html(`<p>Successfully removed ${item.albumName} by ${item.artistName} from the ${listName}</p>`);
+      break;
+    default:
+      throw `[script.js - workflowOpenSubmitDialog] - Invalid submission type.  Received: ${submissionType}`;
+  }
+  document.getElementById('sharedDialog').showModal();
 }
 
 // #region addTrack
@@ -381,7 +446,6 @@ function removeTrack() {
     trackCount--;
     if(trackCount === 0){ 
       $('#formSubBtn').attr('disabled', 'disabled'); 
-      // console.log('No more tracks to remove');
     }
   }
 }
@@ -441,7 +505,7 @@ function renderWishlist(increment){
   //TODO - make the buttons 100% height
   const vinyl = `
     <span id="wishlistButtonMenu">
-      <button id="markAsOwned">Mark as Owned</button>
+      <button id="markAsOwned" data-itemId="${wishlist[incrementVar].devData.id}">Mark as Owned</button>
       <button id="wishlistEditBtn" data-itemId="${wishlist[incrementVar].devData.id}" class="editExistingBtn">Edit Item</button>
       <button id="wishlistRefresh">Refresh</button>
     </span>
@@ -467,17 +531,17 @@ function renderWishlist(increment){
 
 // #region renderFormFooter
 /**Renders the buttons on form based on the type of changes being made */
-function renderFormFooter(listName, formType) {
+function renderFormFooter(listName, item, formType) {
   switch(formType) {
     case "update":
       $('#formBtns').html(`
-        <input type="submit" id="submitUpdate" data-list="${listName}" target="#" value="Save"/>
+        <input type="submit" id="submitUpdate" data-itemid="${item.devData.id}" data-list="${listName}" target="#" value="Save"/>
         <input type="button" id="cancelUpdate" value="Cancel"/>
       `);
       break;
     default:
       $('#formBtns').html(`
-        <input type="submit" id="submitAdd" data-list="${listName}" target="#"/>
+        <input type="submit" id="submitAdd" data-itemid="w" data-list="wishlist" target="#"/>
         <input type="reset" id="rst"/>
       `);
       break;
@@ -535,6 +599,8 @@ function parseFormData(listName, item, status) {
       status: status,
       modifiedDate: new Date(),
     }
+  } else {
+    newListItem.devData = item.devData;
   }
   console.log("Form Converted to JSON Object: ", newListItem);
   return newListItem;
@@ -622,46 +688,48 @@ function createRequestBody(listName, item) {
 
 // #region getItem
 /**Returns an items full details given it's ID */
-function getItem (currVal) {
-  const firstChar = currVal.toString().charAt(0);
-  const list = getList(currVal);
-  // console.log("getItem: ", list[currVal.replace(firstChar, "")]);
-  return list[currVal.replace(firstChar, "")];
+function getItem (devId) {
+  const firstChar = devId.toString().charAt(0);
+  const list = getList(devId);
+  return list.list[devId.replace(firstChar, "")];
 };
 
 
 // #region getList
 /**Returns an item's list based on it's ID */
 function getList(devId) {
-  const indentifier = devId.charAt(0);
+  const indentifier = devId.toString().charAt(0);
   let list;
+  let listName;
   switch(indentifier) {
     case 'w':
       list = JSON.parse(localStorage.getItem("wishlist"));
+      listName = "wishlist";
       break;
     case 'c':
       list = JSON.parse(localStorage.getItem("collection"));
+      listName = "collection";
       break;
     case 'r':
       list = JSON.parse(localStorage.getItem("removed"));
+      listName = "removed";
       break;
     default:
       console.error(`[script.js - getList] Invalid list id, received: ${devId}`);
       break;
   }
-  return list;
+  return {list: list, listName: listName};
 }
 
 
 // #region pushToRepo
 /**Takes a "request body" object and pushes it to the Github repo. */
-async function pushToRepo(promiseRequestBody) {
+function pushToRepo(promiseRequestBody, item, submissionType) {
   const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/${fileName}`;
   const authToken = localStorage.getItem("authToken");
-  console.log("requestBody from push: ", promiseRequestBody);
   //Check for Auth Token
-  if(!authToken) {
-    showAuthDialog();
+  if(!authToken || authToken.length === 0) {
+    workflowOpenAuthDialog();
   } else {
     fetch(apiUrl, {
       method: 'PUT',
@@ -672,13 +740,15 @@ async function pushToRepo(promiseRequestBody) {
       body: JSON.stringify(promiseRequestBody),
     })
     .then((response) => {
+      console.log(response);
       if(response.ok) {
-        showSubmitDialog("Success <br> File updated and changes pushed to GitHub.");
+        workflowOpenSubmitDialog(item, true, submissionType);
       } else {
-        showSubmitDialog(`Failed to ${promiseRequestBody.message}: ${response.status}`);
+        console.log(`[script.js - pushToRepo] - Failed to push to Github, status: ${response.status}`)
+        workflowOpenSubmitDialog(item, false, submissionType);
       }
-    })
-  }
+    });
+  };
 };
 
 // #region renderCollection
@@ -725,7 +795,7 @@ function modifyList(listName, item, modType){
       commitMessage = `Add ${item.albumName} by ${item.artistName} to the ${listName}`;
       break;
     case "update":
-      list[item.devData.id.substring(1)] = item;
+      list[`${item.devData.id}`.substring(1)] = item;
       fullList[listName] = list;
       commitMessage = `Update ${item.albumName} by ${item.artistName} in the ${listName}`;
       break;

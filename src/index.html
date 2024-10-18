@@ -24,26 +24,12 @@
       </header>
       <div id="container">
         <!--DIALOGS-->
-        <!--SUBMISSION CONFIRMATION FOR WISHLIST-->
-        <dialog id="submitDialog">
-          <button class="popupCloseBtn" id="submitDialogClose" onclick="hideSubmitDialog()">x</button>
-          <p id="submissionStatus"></p>
-        </dialog>
-        <!--MOVE WISHLIST ITEM TO COLLECTION-->
-        <dialog id="addToColDialog">
-          <button class="popupCloseBtn addToColClose" onclick="hideAddToColDialog()">x</button>
-          <p id="addToColDialogText"></p>
-          <input type="submit" value="confirm" id="wishToColBtn">
-          <input type="button" value="deny" class="addToColClose" onclick="hideAddToColDialog()">
-        </dialog>
-        <!--PROVIDE AUTH TOKEN FOR SUBMISSIONS-->
-        <dialog id="authDialog">
-          <button class="popupCloseBtn" id="authDialogClose" onclick="hideAuthDialog()">x</button>
-          <p>In order to make changes to the wishlist you need to provide a valid Github Auth Token.</p>
-          <label for="authToken">Github Auth Token: </label>
-          <input type="text" name="authToken" id="authToken"></input>
-          <input type="submit" id="authDialogSubmit" onclick="event.preventDefault();getAuthToken(event);"></input>
-          <input type="button" id="authDialogClear" onclick="localStorage.removeItem('authToken');" value="Clear"></input>
+        <!-- CONCEPT FOR SHARED DIALOG -->
+        <dialog id="sharedDialog">
+          <button class="popupCloseBtn" id="dialogClose">x</button>
+          <div id="dialogHeader"></div>
+          <div id="dialogContent"></div>
+          <div id="dialogBtns"></div>
         </dialog>
         <div id="carousel" hidden>
           <button id="lBtn" href="#">&lt;</button>
@@ -124,14 +110,20 @@
             <input type="text" name="imageurl" id="imageurl"></input>
             <label for="musicurl">Music URL:</label>
             <input type="text" name="musicurl" id="musicurl"></input>
-            <span id="tracklistList"></span>
+            <span id="tracklistList">
+              <label for="tracknum1" id="tracknum1Lbl" class="formTrack">Track 1:</label>
+              <input type="text" name="tracknum1" id="tracknum1" class="formTrack"></input>
+              <label for="tracknum2" id="tracknum2Lbl" class="formTrack">Track 2:</label>
+              <input type="text" name="tracknum2" id="tracknum2" class="formTrack"></input>
+              <label for="tracknum3" id="tracknum3Lbl" class="formTrack">Track 3:</label>
+              <input type="text" name="tracknum3" id="tracknum3" class="formTrack"></input>
+            </span>
             <span class="trackBtns">
               <button id="formAddBtn">+</button>
               <button id="formSubBtn">-</button>
             </span>
             <span id="formBtns">
               <input type="submit" id="submit" data-list="wishlist" target="#">
-              <!--<input type="submit" id="submit" onclick="if(document.forms['addForm'].reportValidity()){addToList(`wishlist`, parseFormData())}" target="#"> -->
               <input type="reset" id="rst">
             </span>
           </form>
