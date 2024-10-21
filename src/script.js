@@ -44,6 +44,7 @@ $(document).on('click', '#cancelUpdate', () => pivotToggle(0))
 // WISHLIST
 $(document).on('click', '#lBtn', () => renderWishlist(false));
 $(document).on('click', '#rBtn', () => renderWishlist(true));
+$(document).on('click', '#expandImgBtn', () => workflowOpenExpandVinyl($('.vinylImage')));
 $(document).on('click', '.editExistingBtn', (e) => workflowOpenExistingVinyl($(e.target).attr('data-itemId'))); //Used by collection edit buttons as well
 $(document).on('click', '#wishlistRefresh', () => {
   getData();
@@ -149,7 +150,7 @@ function workflowAddToList(listName, pivotTo){
   const formData = parseFormData(listName, null, status);
   const updatedList = modifyList(listName, formData, "add");
   const requestBody = createRequestBody(updatedList);
-  pushToRepo(requestBody, formData, "add");
+  //pushToRepo(requestBody, formData, "add");
   if(pivotTo){
     pivotToggle(pivotTo);
   }
@@ -183,8 +184,15 @@ function workflowUpdateExistingVinyl(itemId, pivotTo) {
 function workflowTransferExistingVinyl(itemId, newListName, pivotTo) {
   const item = getItem(itemId); //Get the item being moved
   const list = getList(itemId); //Get the current list the item belongs too
-  const addedToList = modifyList(newListName, item, "add"); //Add the item to the new list location
-  const removedFromList = modifyList(list.listName, item, "remove");
+
+  const date = new Date();
+  date.setHours(test.getHours() - 5); //Adjust time to US/Chicago timezone
+  const testId = `${newListName.charAt(0)}${date.toISOString()}`; //create new id for the new list
+
+  const addedToList = modifyList(newListName, {...item, devData: {...devData, id: testId}}, "add"); //Add the item to the new list location with an updated id
+  localStorage.setItem("fullList", JSON.stringify(addedToList[0], null, 2)); //Apply the change to the locally stored object
+
+  const removedFromList = modifyList(list.listName, item, "remove"); //Remove the item from it's previous location
   const requestBody = createRequestBody(removedFromList); //create a request with both changes now made
   pushToRepo(requestBody, item, "transfer", newListName);
   if(pivotTo){
@@ -206,6 +214,15 @@ function workflowRemoveVinyl(itemId, pivotTo) {
 
 
 // #region Workflow Dialogs
+function workflowOpenExpandVinyl(img){
+  // TODO - Add an X at the top via the header?
+  // $('#dialogHeader').html(`<button id="expandVinylCloseBtn">X</button>`);
+  $('#dialogContent').html(`<img src="${$(wishImg).attr('src')}"/>`);
+  //Later on this should construct a div that mimics the appearance of a vinyl
+  document.getElementById('sharedDialog').showModal();
+};
+
+
 function workflowOpenAuthDialog(){
   $('#dialogHeader').html(`<h2>Provide Github Authorization Token</h2>`);
   $('#dialogContent').html(`<p>In order to make changes to the wishlist you need to provide a valid Github Auth Token</p>`);
@@ -382,12 +399,15 @@ function renderWishlist(increment){
     <p class="titleText" id="wishTitle">${wishlist[incrementVar].albumName}</p>
     <p class="subTitleText" id="wishArtist">${wishlist[incrementVar].artistName}</p>
     <p class="releaseText" id="releaseDate">${wishlist[incrementVar].releaseDate}</p>
-    <img 
-      class="vinylImage" 
-      src="${wishlist[incrementVar].imageurl}" 
-      alt="The vinyl for ${wishlist[incrementVar].albumName} by ${wishlist[incrementVar].artistName}" 
-      id="wishImg">
-    </img>
+    <span id="wishlistImgContainer">
+      <img 
+        class="vinylImage" 
+        src="${wishlist[incrementVar].imageurl}" 
+        alt="The vinyl for ${wishlist[incrementVar].albumName} by ${wishlist[incrementVar].artistName}" 
+        id="wishImg">
+      </img>
+      <button id="expandImgBtn">🔎</button>
+    </span>
     <p id="wishDesc">${wishlist[incrementVar].description}</p>
     <ul id="wishTracklist">${tracklist}</ul>
     <p id="shopLinkLbl" class="wishLinkLbl">Buy Here: </p>
@@ -467,11 +487,14 @@ function parseFormData(listName, item, status) {
     })
   };
 
+  const date = new Date();
+  date.setHours(date.getHours() - 5);
+
   if(item === null){
     newListItem.devData = {
       id: listName.substring(0, 1) + JSON.parse(localStorage.getItem(listName)).length,
       status: status,
-      modifiedDate: new Date(),
+      modifiedDate: date.toISOString(),
     }
   } else {
     newListItem.devData = item.devData;
@@ -625,6 +648,9 @@ function modifyList(listName, item, modType){
   let fullList = JSON.parse(localStorage.getItem("fullList"));
   let list = JSON.parse(localStorage.getItem(listName));
   let commitMessage = "";
+  const date = new Date();
+  date.setHours(date.getHours() - 5);
+  item.devData.modifiedDate = date.toISOString();
 
   switch(modType){
     case "add":
@@ -632,8 +658,8 @@ function modifyList(listName, item, modType){
         throw `[script.js - modifyList] - Cannot "Add" to removed list, set modType to "removed" to remove an item.`;
       }
 
-      listName === "wishlist" ? item.devData.wishlistedDate = new Date() : null;
-      listName === "collection" ? item.devData.collectedDate = new Date() : null;
+      listName === "wishlist" ? item.devData.wishlistedDate = date.toISOString() : null;
+      listName === "collection" ? item.devData.collectedDate = date.toISOString() : null;
 
       list[list.length] = item;
       fullList[listName] = list;
@@ -645,10 +671,8 @@ function modifyList(listName, item, modType){
       commitMessage = `Update ${item.albumName} by ${item.artistName} in the ${listName}`;
       break;
     case "remove":
-      item.devData.removedDate = new Date();
-
+      item.devData.removedDate = date.toISOString();
       fullList[listName] = fullList[listName].filter((listObj) => listObj.devData.id !== item.devData.id);
-      // TODO - Need to loop through the array with the removal and update each devData.id, otherwise all logic using that id will need to change
       commitMessage = `Remove ${item.albumName} by ${item.artistName} from the ${listName}`;
       break;
     default:

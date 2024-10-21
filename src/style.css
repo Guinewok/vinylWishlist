@@ -60,6 +60,10 @@ footer {
   text-align: center;
 }
 
+dialog#sharedDialog::backdrop {
+  background-color: #9d9d9d7d;
+}
+
 
 
 /*PAGE: WISHLIST*/
@@ -82,7 +86,7 @@ img.vinylImage {
 
 #container {
   margin: 0 auto;
-  width: 50vw;
+  width: 52vw;
   height: 100%;
   display: flex;
   align-items: center;
@@ -141,6 +145,17 @@ img.vinylImage {
 .wishLinkLbl {
   margin-bottom: 0;
   font-weight: bold;
+}
+
+#wishlistImgContainer {
+  position: relative;
+}
+
+/* TODO - find a better way to align this */
+#expandImgBtn {
+  position: absolute;
+  right: -52vw;
+  bottom: 0;
 }
 
 
@@ -246,8 +261,13 @@ input[type="text"].formTrack {
 /*PAGE: COLLECTION*/
 #display, #collection {
   flex-grow: 10;
-  min-width: 50vw;
+  min-width: 52vw;
   width: 100%;
+}
+
+#collectionList {
+  display: flex;
+  justify-content: space-around;
 }
 
 #colHeader {
