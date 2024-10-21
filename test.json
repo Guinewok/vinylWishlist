@@ -467,40 +467,6 @@
     {
       "albumName": "None",
       "artistName": "None",
-      "description": "None",
-      "design": {
-        "color": "None",
-        "colorSec": "None",
-        "vinylStyle": "None"
-      },
-      "price": "None",
-      "releaseDate": "None",
-      "shopurl": "None",
-      "imageurl": "None",
-      "musicurl": "None",
-      "tracklist": [
-        {
-          "trackName": "",
-          "trackNum": 1
-        },
-        {
-          "trackName": "",
-          "trackNum": 2
-        },
-        {
-          "trackName": "",
-          "trackNum": 3
-        }
-      ],
-      "devData": {
-        "id": "w8",
-        "status": "TESTING",
-        "wishlistedDate": "2024-08-28T16:44:20.513Z"
-      }
-    },
-    {
-      "albumName": "None",
-      "artistName": "None",
       "description": "NOne",
       "design": {
         "color": "None",
@@ -763,6 +729,42 @@
         "id": "w9",
         "status": "TESTING",
         "wishlistedDate": "2024-08-28T16:49:25.104Z"
+      }
+    },
+    {
+      "albumName": "None",
+      "artistName": "None",
+      "description": "None",
+      "design": {
+        "color": "None",
+        "colorSec": "None",
+        "vinylStyle": "None"
+      },
+      "price": "None",
+      "releaseDate": "None",
+      "shopurl": "None",
+      "imageurl": "None",
+      "musicurl": "None",
+      "tracklist": [
+        {
+          "trackName": "",
+          "trackNum": 1
+        },
+        {
+          "trackName": "",
+          "trackNum": 2
+        },
+        {
+          "trackName": "",
+          "trackNum": 3
+        }
+      ],
+      "devData": {
+        "id": "w8",
+        "status": "TESTING",
+        "wishlistedDate": "2024-08-28T16:44:20.513Z",
+        "modifiedDate": "2024-10-21T18:42:55.341Z",
+        "collectedDate": "2024-10-21T18:42:55.341Z"
       }
     }
   ],
