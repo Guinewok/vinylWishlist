@@ -56,6 +56,14 @@ $(document).on('click', '#colorHex', () =>  $('#color').val($('#colorHex').val()
 $(document).on('click', '#colorSecHex', () => $('#colorSec').val($('#colorSecHex').val()));
 $(document).on('click', '#formAddBtn', () => addTrack());
 $(document).on('click', '#formSubBtn', () => removeTrack());
+$(document).on('click', '#removeVinyl', (e) => workflowOpenRemovalDialog($(e.target).attr('data-itemId')));
+$(document).on('click', '#removeConfirmBtn', (e) => {
+  workflowRemoveVinyl($(e.target).attr('data-itemId'));
+  getData();
+  renderWishlist();
+  pivotToggle(0);
+});
+$(document).on('click', '#removeDenyBtn', () => document.getElementById('sharedDialog').close());
 $(document).on('click', '#submitAdd', (e) => {
   //TODO - Add validity check to parse form or as it's own function thats called in parse form
   if(document.forms['addForm'].reportValidity()){
@@ -185,6 +193,18 @@ function workflowTransferExistingVinyl(itemId, newListName, pivotTo) {
 };
 
 
+function workflowRemoveVinyl(itemId, pivotTo) {
+  const item = getItem(itemId);
+  const list = getList(itemId);
+  const removeFromList = modifyList(list.listName, item, "remove");
+  const requestBody = createRequestBody(removeFromList);
+  pushToRepo(requestBody, item, "remove");
+  if(pivotTo){
+    pivotToggle(pivotTo);
+  }
+};
+
+
 // #region Workflow Dialogs
 function workflowOpenAuthDialog(){
   $('#dialogHeader').html(`<h2>Provide Github Authorization Token</h2>`);
@@ -205,6 +225,19 @@ function workflowOpenMarkAsOwnedDialog(itemId){
   $('#dialogBtns').html(`
     <input type="button" id="markAsOwnedConfirmBtn" data-itemId="${item.devData.id}" value="Confirm"/>
     <input type="button" id="markAsOwnedDenyBtn" value="Deny"/>
+  `);
+  document.getElementById('sharedDialog').showModal();
+};
+
+
+function workflowOpenRemovalDialog(itemId){
+  const item = getItem(itemId);
+  const list = getList(itemId);
+  $('#dialogHeader').html(`<h2>Remove Vinyl</h2>`);
+  $('#dialogContent').html(`<p>Remove ${item.albumName} by ${item.artistName} from the ${list.listName}?</p>`);
+  $('#dialogBtns').html(`
+    <input type="button" id="removeConfirmBtn" data-itemId="${item.devData.id}" value="Remove"/>
+    <input type="button" id="removeDenyBtn" value="Cancel"/>
   `);
   document.getElementById('sharedDialog').showModal();
 };
@@ -375,6 +408,9 @@ function renderFormFooter(listName, item, formType) {
       $('#formBtns').html(`
         <input type="submit" id="submitUpdate" data-itemid="${item.devData.id}" target="#" value="Save"/>
         <input type="button" id="cancelUpdate" value="Cancel"/>
+        <div id="removeBtnContainer">
+          <input type="button" id="removeVinyl" data-itemid="${item.devData.id}" value="Remove Vinyl"/>
+        </div>
       `);
       break;
     default:
@@ -610,6 +646,8 @@ function modifyList(listName, item, modType){
       break;
     case "remove":
       item.devData.removedDate = new Date();
+
+      fullList[listName] = fullList[listName].filter((listObj) => listObj.devData.id !== item.devData.id);
       // TODO - Need to loop through the array with the removal and update each devData.id, otherwise all logic using that id will need to change
       commitMessage = `Remove ${item.albumName} by ${item.artistName} from the ${listName}`;
       break;
