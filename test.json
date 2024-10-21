@@ -527,40 +527,6 @@
         }
       ],
       "devData": {
-        "id": "w10",
-        "status": "TESTING",
-        "wishlistedDate": "2024-10-17T17:29:49.771Z"
-      }
-    },
-    {
-      "albumName": "None",
-      "artistName": "None",
-      "description": "None",
-      "design": {
-        "color": "None",
-        "colorSec": "None",
-        "vinylStyle": "None"
-      },
-      "price": "None",
-      "releaseDate": "None",
-      "shopurl": "None",
-      "imageurl": "None",
-      "musicurl": "None",
-      "tracklist": [
-        {
-          "trackName": "",
-          "trackNum": 1
-        },
-        {
-          "trackName": "",
-          "trackNum": 2
-        },
-        {
-          "trackName": "",
-          "trackNum": 3
-        }
-      ],
-      "devData": {
         "id": "w11",
         "status": "TESTING",
         "modifiedDate": "2024-10-17T17:48:18.955Z",
