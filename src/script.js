@@ -1,6 +1,6 @@
 var incrementVar = 0;
 //TODO implement a way to exclude devData with this value.  Currently only works with the collection
-var devData = 1;
+var devData = 0;
 var trackCount = 3;
 var dialogHidden = true;
 const status = 'TESTING';
@@ -29,7 +29,13 @@ $(document).on('click', '#authDialogClear', () => {
   document.getElementById('sharedDialog').close();
 });
 
-$(document).on('click', '#markAsOwnedConfirmBtn', (e) => workflowUpdateExistingVinyl($(e.target).attr('data-itemId')));
+// $(document).on('click', '#markAsOwnedConfirmBtn', (e) => workflowUpdateExistingVinyl($(e.target).attr('data-itemId')));
+$(document).on('click', '#markAsOwnedConfirmBtn', (e) => {
+  workflowTransferExistingVinyl($(e.target).attr('data-itemId'), "collection");
+  document.getElementById('sharedDialog').close();
+  getData();
+  renderWishlist();
+});
 $(document).on('click', '#markAsOwnedDenyBtn', () => document.getElementById('sharedDialog').close());
 $(document).on('click', '#markAsOwned', (e) => workflowOpenMarkAsOwnedDialog($(e.target).attr('data-itemId')));
 $(document).on('click', '#submitUpdate', (e) => workflowUpdateExistingVinyl($(e.target).attr('data-itemId')));
@@ -134,7 +140,7 @@ Need the following functions to be created/rebuilt:
 function workflowAddToList(listName, pivotTo){
   const formData = parseFormData(listName, null, status);
   const updatedList = modifyList(listName, formData, "add");
-  const requestBody = createRequestBody(listName, updatedList);
+  const requestBody = createRequestBody(updatedList);
   pushToRepo(requestBody, formData, "add");
   if(pivotTo){
     pivotToggle(pivotTo);
@@ -157,8 +163,22 @@ function workflowUpdateExistingVinyl(itemId, pivotTo) {
   const list = getList(itemId);
   const formData = parseFormData(list.listName, item, status);
   const updatedList = modifyList(list.listName, formData, "update");
-  const requestBody = createRequestBody(list.listName, updatedList);
+  const requestBody = createRequestBody(updatedList);
   pushToRepo(requestBody, formData, "update");
+  if(pivotTo){
+    pivotToggle(pivotTo);
+  }
+};
+
+
+// TODO - concept for workflowTransferExistingVinyl
+function workflowTransferExistingVinyl(itemId, newListName, pivotTo) {
+  const item = getItem(itemId); //Get the item being moved
+  const list = getList(itemId); //Get the current list the item belongs too
+  const addedToList = modifyList(newListName, item, "add"); //Add the item to the new list location
+  const removedFromList = modifyList(list.listName, item, "remove");
+  const requestBody = createRequestBody(removedFromList); //create a request with both changes now made
+  pushToRepo(requestBody, item, "transfer", newListName);
   if(pivotTo){
     pivotToggle(pivotTo);
   }
@@ -190,7 +210,7 @@ function workflowOpenMarkAsOwnedDialog(itemId){
 };
 
 
-function workflowOpenSubmitDialog(item, submissionStatus, submissionType) {
+function workflowOpenSubmitDialog(item, submissionStatus, submissionType, secondaryList) {
   const list = getList(item.devData.id);
   $('#dialogBtns').html(``);
   switch(submissionType) {
@@ -213,6 +233,13 @@ function workflowOpenSubmitDialog(item, submissionStatus, submissionType) {
       $('#dialogContent').html(`<p>${submissionStatus ? 
         `Sucessfully removed ${item.albumName} by ${item.artistName} from the ${list.listName}` : 
         `Failed to remove ${item.albumName} by ${item.artistName} from the ${list.listName}`
+      }</p>`);
+      break;
+    case "transfer":
+      $('#dialogHeader').html(`<h2>Transfer ${submissionStatus ? "Success" : "Failure"}</h2>`);
+      $('#dialogContent').html(`<p>${submissionStatus ? 
+        `Sucessfully transferred ${item.albumName} by ${item.artistName} from the ${list.listName} to the ${secondaryList}` : 
+        `Failed to transfer ${item.albumName} by ${item.artistName} from the ${list.listName} to the ${secondaryList}`
       }</p>`);
       break;
     default:
@@ -346,7 +373,7 @@ function renderFormFooter(listName, item, formType) {
     case "update":
       $('#formTitle').html(`Update ${item.albumName} by ${item.artistName}`);
       $('#formBtns').html(`
-        <input type="submit" id="submitUpdate" data-itemid="${item.devData.id}" data-list="${listName}" target="#" value="Save"/>
+        <input type="submit" id="submitUpdate" data-itemid="${item.devData.id}" target="#" value="Save"/>
         <input type="button" id="cancelUpdate" value="Cancel"/>
       `);
       break;
@@ -453,7 +480,7 @@ function addToList(listName, item){
 
 // #region createRequestBody
 /**Creates a "request body" object able to be used by the Github API to change files */
-function createRequestBody(listName, item) {
+function createRequestBody(item) {
   const commitMessage = item[1];
   const obj = item[0];
   const base64Content = btoa(JSON.stringify(obj, null, 2));
@@ -469,9 +496,12 @@ function createRequestBody(listName, item) {
 // #region getItem
 /**Returns an items full details given it's ID */
 function getItem (devId) {
-  const firstChar = devId.toString().charAt(0);
+  // const firstChar = devId.toString().charAt(0);
   const list = getList(devId);
-  return list.list[devId.replace(firstChar, "")];
+  // const test = list.list.find((listItem) => listItem.devData.id === devId);
+  // console.log("test: ", test);
+  // return list.list[devId.replace(firstChar, "")];
+  return list.list.find((listItem) => listItem.devData.id === devId);
 };
 
 
@@ -504,7 +534,7 @@ function getList(devId) {
 
 // #region pushToRepo
 /**Takes a "request body" object and pushes it to the Github repo. */
-function pushToRepo(promiseRequestBody, item, submissionType) {
+function pushToRepo(promiseRequestBody, item, submissionType, secondaryList) {
   const authToken = localStorage.getItem("authToken");
   //Check for Auth Token
   if(!authToken || authToken.length === 0) {
@@ -521,10 +551,10 @@ function pushToRepo(promiseRequestBody, item, submissionType) {
     .then((response) => {
       console.log(response);
       if(response.ok) {
-        workflowOpenSubmitDialog(item, true, submissionType);
+        workflowOpenSubmitDialog(item, true, submissionType, secondaryList);
       } else {
         console.log(`[script.js - pushToRepo] - Failed to push to Github, status: ${response.status}`)
-        workflowOpenSubmitDialog(item, false, submissionType);
+        workflowOpenSubmitDialog(item, false, submissionType, secondaryList);
       }
     });
   };
