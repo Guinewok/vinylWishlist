@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="style.css">
-        <script type="text/javascript" src="script.js" async></script>
-        <script type="text/javascript" src="features/youtube.js" async></script>
-        <script type="text/javascript" src="features/deezer.js" async></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+      <link rel="stylesheet" href="style.css">
+      <script type="text/javascript" src="script.js" async></script>
+      <script type="text/javascript" src="features/youtube.js" async></script>
+      <script type="text/javascript" src="features/deezer.js" async></script>
     </head>
     <body>
       <header>
         <h1 id="test">Site Title</h1>
         <nav>
           <ul>
-            <!-- TODO - This is bad practice, change these to buttons instead of a -->
             <li><button class="navBtn" data-pageId="0">Wishlist</button></li>
-            <!--RENAME TO "Update List" when edit/remove functionality has been added-->
+            <!--TODO - Reconsider how the Add Form is used.  Should there be a link to it? or should it be something you are brought to via icon/button.-->
             <li><button class="navBtn" data-pageId="1">Add Form</button></li>
             <li><button class="navBtn" data-pageId="2">Collection</button></li>
             <li><button class="navBtn" data-pageId="3">Dev Data</button></li>
@@ -23,8 +22,6 @@
         </nav>
       </header>
       <div id="container">
-        <!--DIALOGS-->
-        <!-- CONCEPT FOR SHARED DIALOG -->
         <dialog id="sharedDialog">
           <button class="popupCloseBtn" id="dialogClose">x</button>
           <div id="dialogHeader"></div>
@@ -60,7 +57,7 @@
           </div>
           <div id="addFormTokenBtnContainer">
             <p id="formTitle">Add an album to the wishlist</p>
-            <a href="#" id="setAuthTokenBtn">⚙</a>
+            <button href="#" id="setAuthTokenBtn">⚙</button>
           </div>
           <form onsubmit="return false" id="addForm">
             <label for="albumName">Album Name:</label>
