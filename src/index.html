@@ -16,10 +16,15 @@
             <!--TODO - Reconsider how the Add Form is used.  Should there be a link to it? or should it be something you are brought to via icon/button.-->
             <li><button class="navBtn" data-pageId="1">Add Form</button></li>
             <li><button class="navBtn" data-pageId="2">Collection</button></li>
-            <li><button class="navBtn" data-pageId="3">Dev Data</button></li>
-            <li><button class="navBtn" data-pageId="4">WIP</button></li>
+            <li class="devFeature"><button class="navBtn" data-pageId="3">Dev Data</button></li>
+            <li class="devFeature"><button class="navBtn" data-pageId="4">WIP</button></li>
           </ul>
         </nav>
+        <label class="toggle">
+          <input type="checkbox" id="devToggle">
+          <span class="slider"></span>
+          <span class="labels" data-on="PROD" data-off="DEV"></span>
+        </label>
       </header>
       <div id="container">
         <dialog id="sharedDialog">

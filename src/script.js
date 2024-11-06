@@ -1,16 +1,15 @@
 var incrementVar = 0;
-//TODO implement a way to exclude devData with this value.  Currently only works with the collection
-var devData = 0;
 var trackCount = 3;
 var dialogHidden = true;
-const status = 'TESTING';
-const viewMode = 'TEST';
-const apiUrl = viewMode === 'PROD' ? 
-  `https://api.github.com/repos/Guinewok/vinylWishlist/contents/vinylWishlist.json` : 
-  `https://api.github.com/repos/Guinewok/vinylWishlist/contents/test.json`;
+var devMode = true;
+var apiUrl = `https://api.github.com/repos/Guinewok/vinylWishlist/contents/test.json`;
 var searchResultsArr = [];
 
 // NAVIGATION
+$(document).on('click', '#devToggle', () => {
+  $('#devToggle').attr('checked', !$('#devToggle').attr('checked'));
+  toggleDev(this);
+});
 $(document).on('click', '.navBtn', (e) => pivotToggle($(e.target).attr('data-pageId')));
 $(document).on('click', '.navBtn[data-pageId="2"]', () => renderCollection());
 $(document).on('click', '.navBtn[data-pageId="1"]', () => {
@@ -74,7 +73,7 @@ $(document).on('click', '#submitAdd', (e) => {
 
 
 window.addEventListener("load", () => {
-  getData()
+  getData();
   renderWishlist();
   pivotToggle(0);
   populateGenres();
@@ -147,7 +146,7 @@ Need the following functions to be created/rebuilt:
 **********************************/
 // #region Workflow Functions
 function workflowAddToList(listName, pivotTo){
-  const formData = parseFormData(listName, null, status);
+  const formData = parseFormData(listName, null);
   const updatedList = modifyList(listName, formData, "add");
   const requestBody = createRequestBody(updatedList);
   //pushToRepo(requestBody, formData, "add");
@@ -170,7 +169,7 @@ function workflowOpenExistingVinyl(itemId) {
 function workflowUpdateExistingVinyl(itemId, pivotTo) {
   const item = getItem(itemId);
   const list = getList(itemId);
-  const formData = parseFormData(list.listName, item, status);
+  const formData = parseFormData(list.listName, item);
   const updatedList = modifyList(list.listName, formData, "update");
   const requestBody = createRequestBody(updatedList);
   pushToRepo(requestBody, formData, "update");
@@ -446,7 +445,7 @@ function renderFormFooter(listName, item, formType) {
 
 // #region parseFormData
 /**Returns the value entered in the form as a JSON object */
-function parseFormData(listName, item, status) {
+function parseFormData(listName, item) {
   var myFormData = new FormData(document.querySelector('form'));
   const formDataObj = {};
   myFormData.forEach((value, key) => (formDataObj[key] = value));
@@ -493,7 +492,6 @@ function parseFormData(listName, item, status) {
   if(item === null){
     newListItem.devData = {
       id: listName.substring(0, 1) + JSON.parse(localStorage.getItem(listName)).length,
-      status: status,
       modifiedDate: date.toISOString(),
     }
   } else {
@@ -624,21 +622,22 @@ function pushToRepo(promiseRequestBody, item, submissionType, secondaryList) {
 /**Maps the collection list JSON object to the collection page UI */
 function renderCollection(){
   const collection = JSON.parse(localStorage.getItem("collection"));
+  let testColItem = '';
 
   while($(collectionList).children().length > 0){
     $(collectionList).children().remove();
   }
 
-  for(i = devData; i < collection.length; i++){
-    const testColItem = `
+  collection.forEach((item) => {
+    testColItem += `
       <div class="colItem">
-        <a href="#" class="colEditBtn editExistingBtn" data-itemId="${collection[i].devData.id}">edit</a>
-        <p>${collection[i].albumName}</p>
-        <img src="${collection[i].imageurl}" class="colVinylImage"></img>
+        <a href="#" class="colEditBtn editExistingBtn" data-itemId="${item.devData.id}">edit</a>
+        <p>${item.albumName}</p>
+        <img src="${item.imageurl}" class="colVinylImage"></img>
       </div>
     `;
-    $('#collectionList').append(testColItem);
-  }
+  });
+  $('#collectionList').html(testColItem);
 };
 
 
@@ -719,6 +718,21 @@ function mapExistingToForm(item) {
 
 
 // #region Dev Functions
+async function toggleDev(test) {
+  devMode = !devMode;
+  if($('#devToggle').attr('checked')) {
+    apiUrl = `https://api.github.com/repos/Guinewok/vinylWishlist/contents/vinylWishlist.json`;
+    $('.devFeature').hide();
+  } else {
+    apiUrl = `https://api.github.com/repos/Guinewok/vinylWishlist/contents/test.json`;
+    $('.devFeature').show();
+  };
+  incrementVar = 0;
+  await getData();
+  renderWishlist();
+  renderCollection();
+};
+
 async function updateCount(){
   const test = document.getElementById('test');
   test.innerHTML = `value: ${incrementVar}`;
