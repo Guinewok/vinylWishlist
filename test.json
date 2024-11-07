@@ -3,8 +3,12 @@
     {
       "albumName": "testAlbum",
       "artistName": "Guinewok",
-      "color": "A little bit of everything",
       "description": "All I wanted was a Pepsi, just a Pepsi, and she wouldn't give it to me.",
+      "design": {
+        "color": "A little bit of everything",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
       "price": "0.00",
       "releaseDate": "03/07/2024",
       "shopurl": "https://wunder.world",
@@ -131,8 +135,12 @@
     {
       "albumName": "Replica",
       "artistName": "Dayseeker",
-      "color": "Purple Galaxy",
       "description": "N/A",
+      "design": {
+        "color": "Purple Galaxy",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
       "price": "N/A",
       "releaseDate": "04/18/2024",
       "shopurl": "N/A",
@@ -157,8 +165,12 @@
     {
       "albumName": "This Place Will Become Your Tomb",
       "artistName": "Sleep Token",
-      "color": "N/A",
       "description": "N/A",
+      "design": {
+        "color": "N/A",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
       "price": "N/A",
       "releaseDate": "09/24/2021",
       "shopurl": "N/A",
@@ -223,8 +235,12 @@
     {
       "albumName": "Phobia",
       "artistName": "Breaking Benjamin",
-      "color": "N/A",
       "description": "N/A",
+      "design": {
+        "color": "N/A",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
       "price": "N/A",
       "releaseDate": "08/08/2006",
       "shopurl": "N/A",
@@ -293,8 +309,12 @@
     {
       "albumName": "Fallen Embers",
       "artistName": "Illenium",
-      "color": "N/A",
       "description": "N/A",
+      "design": {
+        "color": "N/A",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
       "price": "N/A",
       "releaseDate": "07/15/2021",
       "shopurl": "N/A",
@@ -367,8 +387,12 @@
     {
       "albumName": "Change of Scenery II",
       "artistName": "Quinn XCII",
-      "color": "N/A",
       "description": "N/A",
+      "design": {
+        "color": "N/A",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
       "price": "N/A",
       "releaseDate": "03/05/2021",
       "shopurl": "N/A",
@@ -543,8 +567,12 @@
     {
       "albumName": "colAlbum",
       "artistName": "Guinewok",
-      "color": "A little bit of everything",
       "description": "All I wanted was a Pepsi, just a Pepsi, and she wouldn't give it to me.",
+      "design": {
+        "color": "A little bit of everything",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
       "price": "0.00",
       "releaseDate": "03/07/2024",
       "shopurl": "https://wunder.world",
@@ -578,8 +606,12 @@
     {
       "albumName": "Never Had To Leave",
       "artistName": "Matt Maeson",
-      "color": "Red",
       "description": "N/A",
+      "design": {
+        "color": "Red",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
       "price": "0.00",
       "releaseDate": "08/26/2022",
       "shopurl": "N/A",
@@ -641,8 +673,12 @@
     {
       "albumName": "Sleeptalk",
       "artistName": "Dayseeker",
-      "color": "IDR",
       "description": "N/A",
+      "design": {
+        "color": "IDR",
+        "colorSec": "None",
+        "vinylStyle": "Matte"
+      },
       "price": "0.00",
       "releaseDate": "09/27/2019",
       "shopurl": "N/A",
