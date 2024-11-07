@@ -17,9 +17,13 @@
 }
 
 header {
-  align-items: start;
   display: flex;
   margin-bottom: 40px;
+  align-content: stretch;
+}
+
+header nav > *, header nav ul li, header nav ul li button{
+  height: 100%;
 }
 
 .toggle {
@@ -135,6 +139,10 @@ nav ul {
 
 nav ul li {
   display: inline-block;
+}
+
+nav ul li, nav ul li button {
+  width: 75px;
 }
 
 img {
@@ -279,6 +287,25 @@ input[type="submit"], input[type="reset"], input[type="button"], button {
 
 #addForm *:not([type="color"], #colorSec, #color, #colorList, #colorSecLis) {
   flex: 0 0 100%;
+}
+
+#designSection {
+  display: flex;
+  width: 100%
+}
+
+#designSection div#vinylStylePreview {
+  height: 100px;
+  width: 100px;
+  background-color: black;
+  display: inline;
+  flex: 0 0 auto;
+  margin: 15px;
+}
+
+#designSection label#vinylStyle {
+  display: inline;
+  flex: auto;
 }
 
 #colorSec, #color, #colorList, #colorSecList {

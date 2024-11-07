@@ -14,6 +14,7 @@ $(document).on('click', '.navBtn', (e) => pivotToggle($(e.target).attr('data-pag
 $(document).on('click', '.navBtn[data-pageId="2"]', () => renderCollection());
 $(document).on('click', '.navBtn[data-pageId="1"]', () => {
   document.forms[0].reset();
+  renderForm();
   renderFormFooter();
 });
 
@@ -52,6 +53,7 @@ $(document).on('click', '#wishlistRefresh', () => {
 
 // ADD TO WISHLIST
 $(document).on('click', '.addFormListBtn', () => addListItem($(this).attr('data-listType')));
+$(document).on('change', '#vinylStyleList', (e) => renderStyleSection(VinylStyle.filter(item => item.id === Number(e.target.value))[0]));
 $(document).on('click', '#colorHex', () =>  $('#color').val($('#colorHex').val()));
 $(document).on('click', '#colorSecHex', () => $('#colorSec').val($('#colorSecHex').val()));
 $(document).on('click', '#formAddBtn', () => addTrack());
@@ -418,6 +420,79 @@ function renderWishlist(increment){
 };
 
 
+const VinylStyle = [
+  {id: 0, name: "Other", colors: null, desc: "A style not listed here."},
+  {id: 1, name: "Color-in-Clear", colors: 2, desc: "A clear base with a solid color in the center, creating a striking contrast."},
+  {id: 2, name: "Color-in-Color", colors: 2, desc: "One color inside another, often creating a bullseye effect."},
+  {id: 3, name: "Galaxy", colors: 3, desc: "A mix of colors that mimic the appearance of a galaxy."},
+  {id: 4, name: "Glow-in-the-Dark", colors: 1, desc: "Vinyl that glows in the dark, adding a fun element to your collection."},
+  {id: 5, name: "Marble", colors: 3, desc: "A swirling mix of colors that resemble marble patterns."},
+  {id: 6, name: "Metallic", colors: 1, desc: "Colors with a metallic sheen, such as metallic gold or silver."},
+  {id: 7, name: "Opaque", colors: 1, desc: "Solid Colors"},
+  {id: 8, name: "Picture", colors: null, desc: "Records with images or artwork embedded in them."},
+  {id: 9, name: "Pinwheel", colors: 2, desc: "Multiple colors arranged in a pinwheel pattern, giving a dynamic look when spinning."},
+  {id: 10, name: "Quad-Color", colors: 4, desc: "Four colors combined, creating a vibrant and complex pattern."},
+  {id: 11, name: "Side A/Side B", colors: 2, desc: "Different colors on each side of the record."},
+  {id: 12, name: "Smoke", colors: 2, desc: "A smoky, wispy effect created by blending colors in a way that mimics smoke."},
+  {id: 13, name: "Splatter", colors: 3, desc: "A base color with splatters of other colors, creating a striking effect."},
+  {id: 14, name: "Sunburst", colors: 2, desc: "A gradient effect that radiates from the center to the edge, resembling a sunburst."},
+  {id: 15, name: "Translucent", colors: 1, desc: "Clear and see-through colors such as translucent blue, pink, and red."},
+  {id: 16, name: "Tri-Color", colors: 3, desc: "Three distinct colors pressed together, often in a pie-slice pattern."},
+  {id: 17, name: "Two-Tone", colors: 2, desc: "Two colors split down the middle, creating a half-and-half effect."}
+];
+
+//TODO - renderForm function
+// #region renderForm
+// needs to render header, footer, and dropdown options.
+function renderForm(listName, item, formType) {
+  //Handle Body here
+  //TODO - treat styles as a seperate section, render a different number of fields (maybe labels too?) depending on style type chosen, move styles above colors
+  VinylStyle.forEach((option) => {
+    const styleOption = `<option value="${option.id}">${option.name}</option>`;
+    $("#vinylStyleList").append(styleOption);
+  });
+
+  //Handle conditions here
+  switch(formType) {
+    case "update":
+      $('#formTitle').html(`Update ${item.albumName} by ${item.artistName}`);
+      $('#formBtns').html(`
+        <input type="submit" id="submitUpdate" data-itemid="${item.devData.id}" target="#" value="Save"/>
+        <input type="button" id="cancelUpdate" value="Cancel"/>
+        <div id="removeBtnContainer">
+          <input type="button" id="removeVinyl" data-itemid="${item.devData.id}" value="Remove Vinyl"/>
+        </div>
+      `);
+      break;
+    default:
+      $('#formTitle').html(`Add an album to the wishlist`);
+      $('#formBtns').html(`
+        <input type="submit" id="submitAdd" data-itemid="w" data-list="wishlist" target="#"/>
+        <input type="reset" id="rst"/>
+      `);
+      break;
+  }
+};
+
+// #region renderStyleSection
+//Needs to be called everytime the style dropdown changes
+function renderStyleSection(item) {
+  let elem = '';
+  for(let i = 0; i < item.colors; i++) {
+    const curr = i + 1;
+    elem += `
+      <li>
+        <label for="color">${item.name} Color ${curr}:
+          <input list="colorsList" name="color" id="colors${curr}">
+          <datalist id="colorsList${curr}">
+        </label>
+        <input type="color" class="colorHex" id="colorHex${curr}"></input>
+      </li>
+    `;
+  }
+  $('#designSectionColors').html(elem);
+}
+
 // #region renderFormFooter
 /**Renders the buttons on form based on the type of changes being made */
 function renderFormFooter(listName, item, formType) {
@@ -442,7 +517,6 @@ function renderFormFooter(listName, item, formType) {
   }
 };
 
-
 // #region parseFormData
 /**Returns the value entered in the form as a JSON object */
 function parseFormData(listName, item) {
@@ -455,6 +529,14 @@ function parseFormData(listName, item) {
     }
   }
  
+  //TODO - Look into updating the design object color property to use one property (remove colorSec) and instead store an array similar to tracklist
+  //TODO - create a type declaration for VinylStyle with a list of options that will later populate a style dropdown.
+  /*
+    design: {
+      colors: ["#FFFFFF", "#000000", "#asdW3d"]
+      style: VinylStyle.Marble
+    }
+  */
   const newListItem = {
     albumName: formDataObj.albumName,
     artistName: formDataObj.artistName,

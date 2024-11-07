@@ -73,38 +73,14 @@
             <label for="artistName">Artist Name:</label>
             <input type="text" name="artistName" id="artistName" required>
             <label for="description">Description:</label>
-            <input type="text" name="description" id="description">
-            <label for="color">Vinyl Color:</label>
-            <input list="colorsList" name="color" id="color">
-            <datalist id="colorsList">
-              <option value="Black">
-              <option value="Red">
-              <option value="Orange">
-              <option value="Yellow">
-              <option value="Green">
-              <option value="Blue">
-              <option value="Purple">
-              <option value="Pink">
-              <option value="White">
-              <option value="Grey">
-              <option value="Silver">
-              <option value="Gold">
-              <option value="Other">
-            </datalist>
-            <input type="color" id="colorHex"></input>
-            <label for="colorSec">Vinyl Secondary Color:</label>
-            <input list="colorsList" name="colorSec" id="colorSec">
-            <input type="color" id="colorSecHex"></input>
-            <label for="vinylStyle">Vinyl Style:</label>
-            <input list="vinylStyleList" name="vinylStyle" id="vinylStyle">
-              <datalist id="vinylStyleList">
-                <option value="Matte">
-                <option value="Marble">
-                <option value="Galaxy">
-                <option value="Two-Tone">
-                <option value="Splatter">
-                <option value="Other">
-              </datalist>
+            <input type="text" name="description" id="description">      
+            <div id="designSection" class="devFeature">
+              <div id="vinylStylePreview"></div>
+              <label for="vinylStyle" id="vinylStyle">Vinyl Style:
+                <select name="vinylStyle" id="vinylStyleList"></select>
+                <ul id="designSectionColors"></ul>
+              </label>
+            </div>
             <label for="shopurl">Purchase Link:</label>
             <input type="url" name="shopurl" id="shopurl">
             <label for="price">Price:</label>
