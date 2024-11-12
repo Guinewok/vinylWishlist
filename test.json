@@ -5,9 +5,25 @@
       "artistName": "Guinewok",
       "description": "All I wanted was a Pepsi, just a Pepsi, and she wouldn't give it to me.",
       "design": {
-        "color": "A little bit of everything",
-        "colorSec": "None",
-        "vinylStyle": "Matte"
+        "colors": [
+          {
+            "id": 1,
+            "value": "A little bit of everything"
+          },
+          {
+            "id": 2,
+            "value": "Something Here"
+          },
+          {
+            "id": 3,
+            "value": "Something There"
+          },
+          {
+            "id": 4,
+            "value": "And a Pinch here"
+          }
+        ],
+        "vinylStyle": 10
       },
       "price": "0.00",
       "releaseDate": "03/07/2024",
@@ -43,9 +59,13 @@
       "artistName": "Post Malone",
       "description": "N/A",
       "design": {
-        "color": "Black",
-        "colorSec": "None",
-        "vinylStyle": "Matte"
+        "colors": [
+          {
+            "id": 1,
+            "value": "Black"
+          },
+        ],
+        "vinylStyle": 7
       },
       "price": "N/A",
       "releaseDate": "04/27/2018",
@@ -137,9 +157,13 @@
       "artistName": "Dayseeker",
       "description": "N/A",
       "design": {
-        "color": "Purple Galaxy",
-        "colorSec": "None",
-        "vinylStyle": "Matte"
+        "colors": [
+          {
+            "id": 1,
+            "value": "Purple"
+          },
+        ],
+        "vinylStyle": 7
       },
       "price": "N/A",
       "releaseDate": "04/18/2024",
@@ -167,9 +191,13 @@
       "artistName": "Sleep Token",
       "description": "N/A",
       "design": {
-        "color": "N/A",
-        "colorSec": "None",
-        "vinylStyle": "Matte"
+        "colors": [
+          {
+            "id": 1,
+            "value": "Black"
+          },
+        ],
+        "vinylStyle": 7
       },
       "price": "N/A",
       "releaseDate": "09/24/2021",
@@ -237,9 +265,13 @@
       "artistName": "Breaking Benjamin",
       "description": "N/A",
       "design": {
-        "color": "N/A",
-        "colorSec": "None",
-        "vinylStyle": "Matte"
+        "colors": [
+          {
+            "id": 1,
+            "value": "Black"
+          },
+        ],
+        "vinylStyle": 7
       },
       "price": "N/A",
       "releaseDate": "08/08/2006",
@@ -311,9 +343,13 @@
       "artistName": "Illenium",
       "description": "N/A",
       "design": {
-        "color": "N/A",
-        "colorSec": "None",
-        "vinylStyle": "Matte"
+        "colors": [
+          {
+            "id": 1,
+            "value": "Black"
+          },
+        ],
+        "vinylStyle": 7
       },
       "price": "N/A",
       "releaseDate": "07/15/2021",
@@ -389,9 +425,13 @@
       "artistName": "Quinn XCII",
       "description": "N/A",
       "design": {
-        "color": "N/A",
-        "colorSec": "None",
-        "vinylStyle": "Matte"
+        "colors": [
+          {
+            "id": 1,
+            "value": "Black"
+          },
+        ],
+        "vinylStyle": 7
       },
       "price": "N/A",
       "releaseDate": "03/05/2021",
@@ -459,9 +499,13 @@
       "artistName": "Sleep Token",
       "description": "N/A",
       "design": {
-        "color": "Black",
-        "colorSec": "None",
-        "vinylStyle": "None"
+        "colors": [
+          {
+            "id": 1,
+            "value": "Black"
+          },
+        ],
+        "vinylStyle": 7
       },
       "price": "30.00",
       "releaseDate": "2023",
@@ -493,9 +537,13 @@
       "artistName": "None",
       "description": "NOne",
       "design": {
-        "color": "None",
-        "colorSec": "None",
-        "vinylStyle": "None"
+        "colors": [
+          {
+            "id": 1,
+            "value": "Black"
+          },
+        ],
+        "vinylStyle": 7
       },
       "price": "None",
       "releaseDate": "None",
@@ -530,9 +578,13 @@
       "artistName": "None",
       "description": "None",
       "design": {
-        "color": "None",
-        "colorSec": "None",
-        "vinylStyle": "None"
+        "colors": [
+          {
+            "id": 1,
+            "value": "Black"
+          },
+        ],
+        "vinylStyle": 7
       },
       "price": "None",
       "releaseDate": "None",
@@ -569,9 +621,13 @@
       "artistName": "Guinewok",
       "description": "All I wanted was a Pepsi, just a Pepsi, and she wouldn't give it to me.",
       "design": {
-        "color": "A little bit of everything",
-        "colorSec": "None",
-        "vinylStyle": "Matte"
+        "colors": [
+          {
+            "id": 1,
+            "value": "A little bit of everything"
+          },
+        ],
+        "vinylStyle": 7
       },
       "price": "0.00",
       "releaseDate": "03/07/2024",
@@ -608,9 +664,13 @@
       "artistName": "Matt Maeson",
       "description": "N/A",
       "design": {
-        "color": "Red",
-        "colorSec": "None",
-        "vinylStyle": "Matte"
+        "colors": [
+          {
+            "id": 1,
+            "value": "Red"
+          },
+        ],
+        "vinylStyle": 7
       },
       "price": "0.00",
       "releaseDate": "08/26/2022",
@@ -675,9 +735,13 @@
       "artistName": "Dayseeker",
       "description": "N/A",
       "design": {
-        "color": "IDR",
-        "colorSec": "None",
-        "vinylStyle": "Matte"
+        "colors": [
+          {
+            "id": 1,
+            "value": "IDR"
+          },
+        ],
+        "vinylStyle": 7
       },
       "price": "0.00",
       "releaseDate": "09/27/2019",
@@ -738,9 +802,13 @@
       "artistName": "None",
       "description": "None",
       "design": {
-        "color": "None",
-        "colorSec": "None",
-        "vinylStyle": "None"
+        "colors": [
+          {
+            "id": 1,
+            "value": "Black"
+          },
+        ],
+        "vinylStyle": 7
       },
       "price": "None",
       "releaseDate": "None",
@@ -772,9 +840,13 @@
       "artistName": "None",
       "description": "None",
       "design": {
-        "color": "None",
-        "colorSec": "None",
-        "vinylStyle": "None"
+        "colors": [
+          {
+            "id": 1,
+            "value": "Black"
+          },
+        ],
+        "vinylStyle": 7
       },
       "price": "None",
       "releaseDate": "None",
