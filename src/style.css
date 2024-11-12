@@ -308,17 +308,8 @@ input[type="submit"], input[type="reset"], input[type="button"], button {
   flex: auto;
 }
 
-#colorSec, #color, #colorList, #colorSecList {
-  flex: 8;
-}
-
-#colorHex, #colorSecHex {
-  flex: 1;
-}
 
 input[type="text"], input[type="url"], input[list="colorsList"], input[list="colorsSecList"], input[list="vinylStyleList"] {
-  
-  /*width: 98%;*/
   border: 1px solid black;
   margin-bottom: 10px;
 }
@@ -338,7 +329,7 @@ input[type="text"].formTrack {
   width: 88%;
 }
 
-#formBtns, .trackBtns {
+#formBtns, .trackBtns, .styleColorsBtns {
   margin-top: 20px;
   display: block;
   text-align: center;

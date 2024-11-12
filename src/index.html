@@ -79,6 +79,7 @@
               <label for="vinylStyle" id="vinylStyle">Vinyl Style:
                 <select name="vinylStyle" id="vinylStyleList"></select>
                 <ul id="designSectionColors"></ul>
+                <span class="styleColorsBtns" id="styleColorsBtns"></span>
               </label>
             </div>
             <label for="shopurl">Purchase Link:</label>
@@ -100,8 +101,8 @@
               <input type="text" name="tracknum3" id="tracknum3" class="formTrack"></input>
             </span>
             <span class="trackBtns">
-              <button id="formAddBtn">+</button>
-              <button id="formSubBtn">-</button>
+              <button type="button" id="formAddBtn">+</button>
+              <button type="button" id="formSubBtn">-</button>
             </span>
             <span id="formBtns">
               <input type="submit" id="submit" data-list="wishlist" target="#">
@@ -134,7 +135,7 @@
         </div>
         <!--WIP PAGE-->
         <div id="wip" hidden>
-          <div id="wipApiKey">
+          <!-- <div id="wipApiKey">
             <label for="apiKey">API Key:</label>
             <input type="text" name="apiKey" id="apiKey">
             <button type="button" onclick="getYoutubeAPIKey()">Submit</button>
@@ -152,6 +153,19 @@
           <div id="resultNavBtns">
             <button type="button" onclick="" id="wipPrev">&lt; Prev</button>
             <button type="button" onclick="" id="wipNext">Next &gt;</button>
+          </div> -->
+          <div id="deezerAPI">
+            <h3>Deezer Approach WIP</h3>
+            <span>
+              <label>Artist Name: 
+                <input type="text" name="deezerArtist" id="deezerArtist"/>
+              </label>
+              <label>Album Name: 
+                <input type="text" name="deezerAlbum" id="deezerAlbum"/>
+              </label>
+              <input type="button" value="Enter" id="deezerSubmit"/>
+              <div id="deezerResults"></div>
+            </span>
           </div>
         </div>
       </div>
