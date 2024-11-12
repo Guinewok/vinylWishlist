@@ -1,5 +1,6 @@
 var incrementVar = 0;
 var trackCount = 3;
+var colorsCount = 0;
 var dialogHidden = true;
 var devMode = true;
 var apiUrl = `https://api.github.com/repos/Guinewok/vinylWishlist/contents/test.json`;
@@ -16,6 +17,7 @@ $(document).on('click', '.navBtn[data-pageId="1"]', () => {
   document.forms[0].reset();
   renderForm();
   renderFormFooter();
+  renderStyleSection();
 });
 
 // DIALOGS
@@ -29,7 +31,6 @@ $(document).on('click', '#authDialogClear', () => {
   document.getElementById('sharedDialog').close();
 });
 
-// $(document).on('click', '#markAsOwnedConfirmBtn', (e) => workflowUpdateExistingVinyl($(e.target).attr('data-itemId')));
 $(document).on('click', '#markAsOwnedConfirmBtn', (e) => {
   workflowTransferExistingVinyl($(e.target).attr('data-itemId'), "collection");
   document.getElementById('sharedDialog').close();
@@ -54,8 +55,8 @@ $(document).on('click', '#wishlistRefresh', () => {
 // ADD TO WISHLIST
 $(document).on('click', '.addFormListBtn', () => addListItem($(this).attr('data-listType')));
 $(document).on('change', '#vinylStyleList', (e) => renderStyleSection(VinylStyle.filter(item => item.id === Number(e.target.value))[0]));
-$(document).on('click', '#colorHex', () =>  $('#color').val($('#colorHex').val()));
-$(document).on('click', '#colorSecHex', () => $('#colorSec').val($('#colorSecHex').val()));
+$(document).on('click', '#styleColorsAdd', () => addStylesColor());
+$(document).on('click', '#styleColorsSub', () => removeStylesColor());
 $(document).on('click', '#formAddBtn', () => addTrack());
 $(document).on('click', '#formSubBtn', () => removeTrack());
 $(document).on('click', '#removeVinyl', (e) => workflowOpenRemovalDialog($(e.target).attr('data-itemId')));
@@ -78,7 +79,7 @@ window.addEventListener("load", () => {
   getData();
   renderWishlist();
   pivotToggle(0);
-  populateGenres();
+  // populateGenres();
   localStorage.removeItem("pageToken");
 });
 
@@ -216,7 +217,6 @@ function workflowRemoveVinyl(itemId, pivotTo) {
 
 // #region Workflow Dialogs
 function workflowOpenExpandVinyl(img){
-  // TODO - Add an X at the top via the header?
   // $('#dialogHeader').html(`<button id="expandVinylCloseBtn">X</button>`);
   $('#dialogContent').html(`<img src="${$(wishImg).attr('src')}"/>`);
   //Later on this should construct a div that mimics the appearance of a vinyl
@@ -310,6 +310,7 @@ function addTrack() {
     </label>
     <input type="text" name="tracknum${trackCount}" id="tracknum${trackCount}" class="formTrack"></input>
   `);
+  $('#formSubBtn').removeAttr('disabled'); 
 };
 
 
@@ -421,7 +422,7 @@ function renderWishlist(increment){
 
 
 const VinylStyle = [
-  {id: 0, name: "Other", colors: null, desc: "A style not listed here."},
+  {id: 0, name: "Other", colors: 0, desc: "A style not listed here."},
   {id: 1, name: "Color-in-Clear", colors: 2, desc: "A clear base with a solid color in the center, creating a striking contrast."},
   {id: 2, name: "Color-in-Color", colors: 2, desc: "One color inside another, often creating a bullseye effect."},
   {id: 3, name: "Galaxy", colors: 3, desc: "A mix of colors that mimic the appearance of a galaxy."},
@@ -429,7 +430,7 @@ const VinylStyle = [
   {id: 5, name: "Marble", colors: 3, desc: "A swirling mix of colors that resemble marble patterns."},
   {id: 6, name: "Metallic", colors: 1, desc: "Colors with a metallic sheen, such as metallic gold or silver."},
   {id: 7, name: "Opaque", colors: 1, desc: "Solid Colors"},
-  {id: 8, name: "Picture", colors: null, desc: "Records with images or artwork embedded in them."},
+  {id: 8, name: "Picture", colors: 0, desc: "Records with images or artwork embedded in them."},
   {id: 9, name: "Pinwheel", colors: 2, desc: "Multiple colors arranged in a pinwheel pattern, giving a dynamic look when spinning."},
   {id: 10, name: "Quad-Color", colors: 4, desc: "Four colors combined, creating a vibrant and complex pattern."},
   {id: 11, name: "Side A/Side B", colors: 2, desc: "Different colors on each side of the record."},
@@ -477,12 +478,17 @@ function renderForm(listName, item, formType) {
 // #region renderStyleSection
 //Needs to be called everytime the style dropdown changes
 function renderStyleSection(item) {
+  if(item) { 
+  localStorage.setItem("styleItem", JSON.stringify(item));
   let elem = '';
-  for(let i = 0; i < item.colors; i++) {
-    const curr = i + 1;
+  let curr = 0;
+  colorsCount = item.colors;
+  console.log(colorsCount);
+  for(let i = 0; i < colorsCount; i++) {
+    curr = i + 1;
     elem += `
-      <li>
-        <label for="color">${item.name} Color ${curr}:
+      <li id="colorItem${curr}">
+        <label for="color">${item.name} Color ${i + 1}:
           <input list="colorsList" name="color" id="colors${curr}">
           <datalist id="colorsList${curr}">
         </label>
@@ -491,7 +497,47 @@ function renderStyleSection(item) {
     `;
   }
   $('#designSectionColors').html(elem);
-}
+  $('#styleColorsBtns').html(`
+    <button type="button" id="styleColorsAdd">+</button>
+    <button type="button" id="styleColorsSub" ${colorsCount === 0 ? "disabled" : ""}>-</button>
+  `);
+  } else {
+    $('#designSectionColors').html('');
+    $('#styleColorsBtns').html('');
+  }
+};
+
+
+// #region addStylesColor
+/**Used to add another color input to the styles section*/
+function addStylesColor() {
+  item = JSON.parse(localStorage.getItem("styleItem"));
+  colorsCount += 1;
+  $('#designSectionColors').append(`
+    <li id="colorItem${colorsCount}">
+      <label for="color${colorsCount}">${item.name} Color ${colorsCount}:
+        <input list="colorsList" name="color${colorsCount}" id="colors${colorsCount}">
+        <datalist id="colorsList${colorsCount}">
+      </label>
+      <input type="color" class="colorHex" id="colorHex${colorsCount}"></input>
+    </li>
+  `);
+  $('#styleColorsSub').removeAttr('disabled');
+};
+
+
+// #region removeStylesColor
+/**Used to remove color input from the styles section*/
+function removeStylesColor() {
+  if(colorsCount > 0) { 
+    $(`#colorItem${colorsCount}`).remove();
+    colorsCount--;
+    if(colorsCount === 0){ 
+      $('#styleColorsSub').attr('disabled', 'disabled'); 
+    }
+  }
+};
+
 
 // #region renderFormFooter
 /**Renders the buttons on form based on the type of changes being made */
@@ -522,7 +568,11 @@ function renderFormFooter(listName, item, formType) {
 function parseFormData(listName, item) {
   var myFormData = new FormData(document.querySelector('form'));
   const formDataObj = {};
+  const date = new Date();
+  date.setHours(date.getHours() - 6);
+
   myFormData.forEach((value, key) => (formDataObj[key] = value));
+
   for(var i in formDataObj){
     if(formDataObj[i].length < 1){
       formDataObj[i] = "None";
@@ -531,20 +581,13 @@ function parseFormData(listName, item) {
  
   //TODO - Look into updating the design object color property to use one property (remove colorSec) and instead store an array similar to tracklist
   //TODO - create a type declaration for VinylStyle with a list of options that will later populate a style dropdown.
-  /*
-    design: {
-      colors: ["#FFFFFF", "#000000", "#asdW3d"]
-      style: VinylStyle.Marble
-    }
-  */
   const newListItem = {
     albumName: formDataObj.albumName,
     artistName: formDataObj.artistName,
     description: formDataObj.description,
     design: {
-      color: formDataObj.color,
-      colorSec: formDataObj.colorSec,
-      vinylStyle: formDataObj.vinylStyle
+      colors: [],
+      vinylStyle: Number(formDataObj.vinylStyle)
     },
     price: formDataObj.price,
     releaseDate: formDataObj.releaseDate,
@@ -561,6 +604,13 @@ function parseFormData(listName, item) {
     */
   };
 
+  for(i = 0; i < colorsCount; i++){
+    newListItem.design.colors.push({
+      id: i + 1,
+      value: $(`#colors${i + 1}`).val(),
+    });
+  };
+
   for(var i = 0; i < trackCount; i++) {
     newListItem.tracklist.push({
       trackName: $(`#tracknum${i + 1}`).val(),
@@ -568,12 +618,9 @@ function parseFormData(listName, item) {
     })
   };
 
-  const date = new Date();
-  date.setHours(date.getHours() - 5);
-
   if(item === null){
     newListItem.devData = {
-      id: listName.substring(0, 1) + JSON.parse(localStorage.getItem(listName)).length,
+      id: listName.substring(0, 1) + date.toISOString(),
       modifiedDate: date.toISOString(),
     }
   } else {
@@ -593,25 +640,25 @@ function addToList(listName, item){
   let commitMessage = "";
 
   switch(listName) {
-      case 'wishlist': {
-        fullObj.wishlist = list;
-        commitMessage = `Add ${item.albumName} by ${item.artistName} to the ${listName}`;
-        break;
-      }
-      case 'collection': {
-        fullObj.collection = list;
-        commitMessage = `Add ${item.albumName} by ${item.artistName} to the ${listName}`;
-        break;
-      }
-      case 'removed': {
-        fullObj.removed = list;
-        commitMessage = `Remove ${item.albumName} by ${item.artistName}`;
-        break;
-      }
-      default: {
-        console.error("[script.js - testAddToList] - Failed to update list, no listName was provided.");
-      }
-    };
+    case 'wishlist': {
+      fullObj.wishlist = list;
+      commitMessage = `Add ${item.albumName} by ${item.artistName} to the ${listName}`;
+      break;
+    }
+    case 'collection': {
+      fullObj.collection = list;
+      commitMessage = `Add ${item.albumName} by ${item.artistName} to the ${listName}`;
+      break;
+    }
+    case 'removed': {
+      fullObj.removed = list;
+      commitMessage = `Remove ${item.albumName} by ${item.artistName}`;
+      break;
+    }
+    default: {
+      console.error("[script.js - testAddToList] - Failed to update list, no listName was provided.");
+    }
+  };
 
   return [fullObj, commitMessage];
 };
@@ -636,11 +683,11 @@ function createRequestBody(item) {
 /**Returns an items full details given it's ID */
 function getItem (devId) {
   // const firstChar = devId.toString().charAt(0);
-  const list = getList(devId);
+  const listObj = getList(devId);
   // const test = list.list.find((listItem) => listItem.devData.id === devId);
   // console.log("test: ", test);
   // return list.list[devId.replace(firstChar, "")];
-  return list.list.find((listItem) => listItem.devData.id === devId);
+  return listObj.list.find((listItem) => listItem.devData.id === devId);
 };
 
 
@@ -704,22 +751,20 @@ function pushToRepo(promiseRequestBody, item, submissionType, secondaryList) {
 /**Maps the collection list JSON object to the collection page UI */
 function renderCollection(){
   const collection = JSON.parse(localStorage.getItem("collection"));
-  let testColItem = '';
 
   while($(collectionList).children().length > 0){
     $(collectionList).children().remove();
   }
 
   collection.forEach((item) => {
-    testColItem += `
+    $('#collectionList').append(`
       <div class="colItem">
         <a href="#" class="colEditBtn editExistingBtn" data-itemId="${item.devData.id}">edit</a>
         <p>${item.albumName}</p>
         <img src="${item.imageurl}" class="colVinylImage"></img>
       </div>
-    `;
+    `);
   });
-  $('#collectionList').html(testColItem);
 };
 
 
