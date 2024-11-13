@@ -15,8 +15,8 @@ $(document).on('click', '.navBtn', (e) => pivotToggle($(e.target).attr('data-pag
 $(document).on('click', '.navBtn[data-pageId="2"]', () => renderCollection());
 $(document).on('click', '.navBtn[data-pageId="1"]', () => {
   document.forms[0].reset();
+  trackCount = 3;
   renderForm();
-  renderFormFooter();
   renderStyleSection();
 });
 
@@ -161,9 +161,9 @@ function workflowAddToList(listName, pivotTo){
 
 function workflowOpenExistingVinyl(itemId) {
   const item = getItem(itemId);
-  const list = getList(itemId);
+  const listObj = getList(itemId);
+  renderForm(listObj.listName, item, "update");
   mapExistingToForm(item);
-  renderFormFooter(list, item, "update");
   pivotToggle(1);
 };
 
@@ -446,12 +446,25 @@ const VinylStyle = [
 // #region renderForm
 // needs to render header, footer, and dropdown options.
 function renderForm(listName, item, formType) {
-  //Handle Body here
-  //TODO - treat styles as a seperate section, render a different number of fields (maybe labels too?) depending on style type chosen, move styles above colors
   VinylStyle.forEach((option) => {
     const styleOption = `<option value="${option.id}">${option.name}</option>`;
     $("#vinylStyleList").append(styleOption);
   });
+
+  while($('#tracklistList').children().length > 0){
+    $('#tracklistList').children().remove();
+  }
+
+  const count = item ? item.tracklist.length : trackCount;
+
+  for(let i = 0; i < count; i++){
+    console.log("i: ", i);
+    const curr = i + 1;
+    $('#tracklistList').append(`
+      <label for="tracknum${curr}" id="tracknum${curr}Lbl" class="formTrack">Track ${curr}:</label>
+      <input type="text" name="tracknum${curr}" id="tracknum${curr}" class="formTrack"></input>
+    `);
+  }
 
   //Handle conditions here
   switch(formType) {
@@ -473,34 +486,35 @@ function renderForm(listName, item, formType) {
       `);
       break;
   }
+  $(`#vinylStyleList option[value=0]`).attr('selected', 'selected');
 };
 
 // #region renderStyleSection
 //Needs to be called everytime the style dropdown changes
 function renderStyleSection(item) {
   if(item) { 
-  localStorage.setItem("styleItem", JSON.stringify(item));
-  let elem = '';
-  let curr = 0;
-  colorsCount = item.colors;
-  console.log(colorsCount);
-  for(let i = 0; i < colorsCount; i++) {
-    curr = i + 1;
-    elem += `
-      <li id="colorItem${curr}">
-        <label for="color">${item.name} Color ${i + 1}:
-          <input list="colorsList" name="color" id="colors${curr}">
-          <datalist id="colorsList${curr}">
-        </label>
-        <input type="color" class="colorHex" id="colorHex${curr}"></input>
-      </li>
-    `;
-  }
-  $('#designSectionColors').html(elem);
-  $('#styleColorsBtns').html(`
-    <button type="button" id="styleColorsAdd">+</button>
-    <button type="button" id="styleColorsSub" ${colorsCount === 0 ? "disabled" : ""}>-</button>
-  `);
+    localStorage.setItem("styleItem", JSON.stringify(item));
+    let elem = '';
+    let curr = 0;
+    colorsCount = item.colors;
+    console.log(colorsCount);
+    for(let i = 0; i < colorsCount; i++) {
+      curr = i + 1;
+      elem += `
+        <li id="colorItem${curr}">
+          <label for="color">${item.name} Color ${i + 1}:
+            <input list="colorsList" name="color" id="colors${curr}">
+            <datalist id="colorsList${curr}">
+          </label>
+          <input type="color" class="colorHex" id="colorHex${curr}"></input>
+        </li>
+      `;
+    }
+    $('#designSectionColors').html(elem);
+    $('#styleColorsBtns').html(`
+      <button type="button" id="styleColorsAdd">+</button>
+      <button type="button" id="styleColorsSub" ${colorsCount === 0 ? "disabled" : ""}>-</button>
+    `);
   } else {
     $('#designSectionColors').html('');
     $('#styleColorsBtns').html('');
@@ -538,30 +552,6 @@ function removeStylesColor() {
   }
 };
 
-
-// #region renderFormFooter
-/**Renders the buttons on form based on the type of changes being made */
-function renderFormFooter(listName, item, formType) {
-  switch(formType) {
-    case "update":
-      $('#formTitle').html(`Update ${item.albumName} by ${item.artistName}`);
-      $('#formBtns').html(`
-        <input type="submit" id="submitUpdate" data-itemid="${item.devData.id}" target="#" value="Save"/>
-        <input type="button" id="cancelUpdate" value="Cancel"/>
-        <div id="removeBtnContainer">
-          <input type="button" id="removeVinyl" data-itemid="${item.devData.id}" value="Remove Vinyl"/>
-        </div>
-      `);
-      break;
-    default:
-      $('#formTitle').html(`Add an album to the wishlist`);
-      $('#formBtns').html(`
-        <input type="submit" id="submitAdd" data-itemid="w" data-list="wishlist" target="#"/>
-        <input type="reset" id="rst"/>
-      `);
-      break;
-  }
-};
 
 // #region parseFormData
 /**Returns the value entered in the form as a JSON object */
@@ -812,28 +802,28 @@ function modifyList(listName, item, modType){
 // #region mapExistingToForm
 /**Maps an existing vinyl object to the form */
 function mapExistingToForm(item) {
-  $('#tracklistList').html("<label>Tracklist:</label><br>");
   for(var key in item){
     switch(key) {
       case "devData":
         break;
       case "design":
+        const itemId = item[key].vinylStyle;
+        //TODO - set this logic to use find instead of filter
+        renderStyleSection(VinylStyle.filter(item => item.id === itemId)[0]);
         for(var value in item[key]){
-          $(value).val(item[key][value]);
-          //TODO - colors do not map correctly
-          // var field = document.getElementById(d);
-          // field.value = item[i][d];
+          if(value === "colors"){
+            item[key][value].forEach((color) => {
+              $(`#colors${color.id}`).val(color.value);
+            });
+          } else { //value = vinylStyle
+            $(`#vinylStyleList option[value=${item[key][value]}]`).attr('selected', 'selected');
+          }
         }
         break;
       case "tracklist":
         for(let i = 0; i < item[key].length; i++){
-          let curr = i + 1;
-          $('#tracklistList').append(`
-            <label for="tracknum${curr}" id="tracknum${curr}Lbl" class="formTrack">
-              Track ${curr}:
-            </label>
-            <input type="text" name="tracknum${curr}" id="tracknum${curr}" class="formTrack" value="${item[key][i].trackName}"></input>
-          `)
+          trackCount = item[key].length;
+          $(`#tracknum${i + 1}`).val(item[key][i].trackName);
         }
         break;
       default:

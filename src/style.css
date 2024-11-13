@@ -321,6 +321,10 @@ input[type="text"], input[type="url"], input[list="colorsList"], input[list="col
   margin-left: 10px;
 }*/
 
+#tracklistList {
+  margin-top: 10px;
+}
+
 .formTrack {
   margin-left: 40px;
 }
