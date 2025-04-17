@@ -630,7 +630,7 @@
         "vinylStyle": 7
       },
       "price": "0.00",
-      "releaseDate": "03/07/2024",
+      "releaseDate": "None",
       "shopurl": "https://wunder.world",
       "imageurl": "thisImageDoesNotExist.png",
       "musicurl": "https://youtube.com/greatestAlbumOfAllTime",
@@ -648,7 +648,7 @@
           "trackNum": 3
         },
         {
-          "trackName": "You're on drugs",
+          "trackName": "You're on drugs 2",
           "trackNum": 4
         }
       ],
@@ -656,7 +656,8 @@
         "id": "c0",
         "status": "Owned",
         "wishlistedDate": "03/07/2024",
-        "collectedDate": ""
+        "collectedDate": "",
+        "modifiedDate": "2025-04-17T09:37:27.255Z"
       }
     },
     {
